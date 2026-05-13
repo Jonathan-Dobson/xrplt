@@ -1,8 +1,8 @@
 # xrplt
 
-Transaction builder for XRPL
+ XRPL Transaction Builder with a premium developer experience.
 
-`xrplt` is designed to provide a premium developer experience for constructing, validating, and manipulating XRPL transaction data. It replaces the xrpl legacy union-of-interfaces pattern with a robust class hierarchy, enabling inherited properties, logical grouping, and strict runtime validation.
+ Construct, validate, and manipulate `xrpl` transaction data safely and easily. It replaces the xrpl legacy union-of-interfaces pattern with a robust class hierarchy, enabling inherited properties, logical grouping, and strict runtime validation.
 
 [![NPM Version](https://img.shields.io/npm/v/xrplt.svg)](https://www.npmjs.com/package/xrplt)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,13 +13,13 @@ For a comprehensive guide to all 70+ transaction types and advanced usage patter
 
 ## Features
 
-- **🚀 Zero Dependencies:** No reliance on `xrpl.js`, `ripple-binary-codec`, or any other runtime libraries.
-- **🏗️ Class-Based API:** 71+ transaction types implemented as concrete classes.
+- **🤝 XRPL.js Compatible:** `toJSON()` output matches the exact shape required by `xrpl.js` and the XRPL ledger.
 - **🛡️ Strict Type Safety:** Built from the ground up for TypeScript, supporting `exactOptionalPropertyTypes`.
 - **🧪 Built-in Validation:** Every transaction class includes a `validate()` method for ledger-compliant checks.
+- **🚀 Zero Dependencies:** No reliance on `xrpl.js`, `ripple-binary-codec`, or any other runtime libraries.
+- **🏗️ Class-Based API:** 71+ transaction types implemented as concrete classes.
 - **💎 Immutable Updates:** Use the `.with()` pattern to create modified copies of transactions without side effects.
 - **🔌 Registry Pattern:** Easily instantiate transactions from JSON using the central registry or factory methods.
-- **🤝 XRPL.js Compatible:** `toJSON()` output matches the exact shape required by `xrpl.js` and the XRPL ledger.
 - **🎯 Reliability Gold Standard:** 100% property discovery through explicit initialization, ensuring safe serialization in any environment (Node, Browser, Cloudflare Workers).
 
 ## Installation
