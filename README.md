@@ -1,8 +1,8 @@
 # xrplt
 
-A standalone, zero-dependency, class-based transaction builder for the XRP Ledger.
+Transaction builder for XRPL
 
-`xrplt` is designed to provide a premium developer experience for constructing, validating, and manipulating XRPL transactions. It replaces the legacy union-of-interfaces pattern with a robust class hierarchy, enabling inherited properties, logical grouping, and strict runtime validation.
+`xrplt` is designed to provide a premium developer experience for constructing, validating, and manipulating XRPL transaction data. It replaces the xrpl legacy union-of-interfaces pattern with a robust class hierarchy, enabling inherited properties, logical grouping, and strict runtime validation.
 
 [![NPM Version](https://img.shields.io/npm/v/xrplt.svg)](https://www.npmjs.com/package/xrplt)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
