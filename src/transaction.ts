@@ -31,28 +31,7 @@ export function _setRegistry(registry: RegistryRef): void {
   _syncRegistry = registry;
 }
 
-/**
- * @internal Helper to assign only defined properties onto a target.
- * This avoids assigning `undefined` which violates `exactOptionalPropertyTypes`.
- */
-export function assignDefined<T extends object>(
-  target: T,
-  source: Record<string, unknown>,
-  keys: string[],
-): void {
-  for (const key of keys) {
-    if (source[key] !== undefined) {
-      (target as Record<string, unknown>)[key] = source[key];
-    }
-  }
-}
 
-/** Base transaction optional field names (used by assignDefined). */
-const BASE_OPTIONAL_FIELDS = [
-  'Fee', 'Sequence', 'AccountTxnID', 'Flags', 'LastLedgerSequence',
-  'Memos', 'Signers', 'SourceTag', 'SigningPubKey', 'TicketSequence',
-  'TxnSignature', 'NetworkID', 'Delegate',
-] as const;
 
 /**
  * Abstract base class for all XRPL transactions.
@@ -77,43 +56,43 @@ export abstract class Transaction {
   readonly TransactionType!: TransactionType;
 
   /** XRP in drops to destroy as a network fee. */
-  readonly Fee?: string;
+  readonly Fee?: string | undefined;
 
   /** The sequence number of the sending account. */
-  readonly Sequence?: number;
+  readonly Sequence?: number | undefined;
 
   /** Hash of a previous transaction for ordering. */
-  readonly AccountTxnID?: string;
+  readonly AccountTxnID?: string | undefined;
 
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | GlobalFlagsInterface;
+  readonly Flags?: number | GlobalFlagsInterface | undefined;
 
   /** Maximum ledger index for this transaction. */
-  readonly LastLedgerSequence?: number;
+  readonly LastLedgerSequence?: number | undefined;
 
   /** Additional arbitrary memo data. */
-  readonly Memos?: Memo[];
+  readonly Memos?: Memo[] | undefined;
 
   /** Multi-signature entries. */
-  readonly Signers?: Signer[];
+  readonly Signers?: Signer[] | undefined;
 
   /** Source tag for identifying the sender. */
-  readonly SourceTag?: number;
+  readonly SourceTag?: number | undefined;
 
   /** Public key of the signer. */
-  readonly SigningPubKey?: string;
+  readonly SigningPubKey?: string | undefined;
 
   /** Ticket sequence number (alternative to Sequence). */
-  readonly TicketSequence?: number;
+  readonly TicketSequence?: number | undefined;
 
   /** Transaction signature. */
-  readonly TxnSignature?: string;
+  readonly TxnSignature?: string | undefined;
 
   /** Network ID. */
-  readonly NetworkID?: number;
+  readonly NetworkID?: number | undefined;
 
   /** Delegate account. */
-  readonly Delegate?: string;
+  readonly Delegate?: string | undefined;
 
   /**
    * Protected constructor — concrete subclasses call this via `super()`.
@@ -121,10 +100,21 @@ export abstract class Transaction {
    * which satisfies `exactOptionalPropertyTypes`.
    */
   protected constructor(props: BaseTransactionFields) {
-    const p = props as Record<string, unknown>;
     this.Account = props.Account;
     this.TransactionType = props.TransactionType;
-    assignDefined(this, p, BASE_OPTIONAL_FIELDS as unknown as string[]);
+    this.Fee = props.Fee;
+    this.Sequence = props.Sequence;
+    this.AccountTxnID = props.AccountTxnID;
+    this.Flags = props.Flags;
+    this.LastLedgerSequence = props.LastLedgerSequence;
+    this.Memos = props.Memos;
+    this.Signers = props.Signers;
+    this.SourceTag = props.SourceTag;
+    this.SigningPubKey = props.SigningPubKey;
+    this.TicketSequence = props.TicketSequence;
+    this.TxnSignature = props.TxnSignature;
+    this.NetworkID = props.NetworkID;
+    this.Delegate = props.Delegate;
   }
 
   // ─── Validation ──────────────────────────────────────────────────

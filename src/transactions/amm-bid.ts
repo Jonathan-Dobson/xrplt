@@ -6,7 +6,7 @@
 import type { BaseTransactionFields } from '../types/base.js';
 import type { IssuedCurrencyAmount } from '../types/amounts.js';
 import { AMMTransaction } from '../groups/amm.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isRecord, isAmount } from '../validation/helpers.js';
 
@@ -15,11 +15,11 @@ export interface AMMBidTxFields extends BaseTransactionFields {
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
   /** Max amount of LP tokens to spend. */
-  readonly BidMax?: IssuedCurrencyAmount;
+  readonly BidMax?: IssuedCurrencyAmount | undefined;
   /** Fixed amount of LP tokens to spend. */
-  readonly BidMin?: IssuedCurrencyAmount;
+  readonly BidMin?: IssuedCurrencyAmount | undefined;
   /** Accounts allowed to use the fee discount. */
-  readonly AuthAccounts?: Record<string, string>[];
+  readonly AuthAccounts?: Record<string, string>[] | undefined;
 }
 
 export class AMMBidTx extends AMMTransaction {
@@ -27,15 +27,17 @@ export class AMMBidTx extends AMMTransaction {
 
   readonly Asset: Record<string, unknown> = undefined as any;
   readonly Asset2: Record<string, unknown> = undefined as any;
-  readonly BidMax?: IssuedCurrencyAmount = undefined;
-  readonly BidMin?: IssuedCurrencyAmount = undefined;
-  readonly AuthAccounts?: Record<string, string>[] = undefined;
+  readonly BidMax?: IssuedCurrencyAmount | undefined = undefined;
+  readonly BidMin?: IssuedCurrencyAmount | undefined = undefined;
+  readonly AuthAccounts?: Record<string, string>[] | undefined = undefined;
 
-  constructor(props: AMMBidTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AMMBid' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as Record<string, unknown>;
-    assignDefined(this, p, ['Asset2', 'BidMax', 'BidMin', 'AuthAccounts']);
+  constructor(props: AMMBidTxFields) {
+    super({ ...props, TransactionType: 'AMMBid' } );
+    this.Asset = props.Asset as Record<string, unknown>;
+        this.Asset2 = props.Asset2 as any;
+    this.BidMax = props.BidMax as any;
+    this.BidMin = props.BidMin as any;
+    this.AuthAccounts = props.AuthAccounts as any;
   }
 
   override validate(): void {

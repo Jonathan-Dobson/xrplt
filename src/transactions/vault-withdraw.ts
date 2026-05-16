@@ -19,10 +19,9 @@ export class VaultWithdrawTx extends Transaction {
   /** The amount to withdraw. */
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: VaultWithdrawTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'VaultWithdraw' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: VaultWithdrawTxFields) {
+    super({ ...props, TransactionType: 'VaultWithdraw' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

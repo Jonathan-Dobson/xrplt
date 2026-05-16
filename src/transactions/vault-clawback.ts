@@ -19,10 +19,9 @@ export class VaultClawbackTx extends Transaction {
   /** The amount to claw back. */
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: VaultClawbackTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'VaultClawback' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: VaultClawbackTxFields) {
+    super({ ...props, TransactionType: 'VaultClawback' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

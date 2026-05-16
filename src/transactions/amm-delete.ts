@@ -20,11 +20,10 @@ export class AMMDeleteTx extends AMMTransaction {
   readonly Asset: Record<string, unknown> = undefined as any;
   readonly Asset2: Record<string, unknown> = undefined as any;
 
-  constructor(props: AMMDeleteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AMMDelete' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as Record<string, unknown>;
-    this.Asset2 = p['Asset2'] as Record<string, unknown>;
+  constructor(props: AMMDeleteTxFields) {
+    super({ ...props, TransactionType: 'AMMDelete' } );
+    this.Asset = props.Asset as Record<string, unknown>;
+    this.Asset2 = props.Asset2 as Record<string, unknown>;
   }
 
   override validate(): void {

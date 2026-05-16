@@ -6,7 +6,7 @@
 import type { BaseTransactionFields } from '../types/base.js';
 import type { MPTokenAuthorizeFlagsInterface } from '../types/flags.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
@@ -15,9 +15,9 @@ export interface MPTokenAuthorizeTxFields extends BaseTransactionFields {
   /** The unique identifier of the MPT issuance. */
   readonly MPTokenIssuanceID: string;
   /** The account of the holder to authorize. */
-  readonly Holder?: string;
+  readonly Holder?: string | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | MPTokenAuthorizeFlagsInterface;
+  readonly Flags?: number | MPTokenAuthorizeFlagsInterface | undefined;
 }
 
 export class MPTokenAuthorizeTx extends TokenTransaction {
@@ -27,14 +27,14 @@ export class MPTokenAuthorizeTx extends TokenTransaction {
   readonly MPTokenIssuanceID: string = undefined as any;
 
   /** The account of the holder to authorize. */
-  readonly Holder?: string = undefined;
-  declare readonly Flags?: number | MPTokenAuthorizeFlagsInterface;
+  readonly Holder?: string | undefined = undefined;
+  declare readonly Flags?: number | MPTokenAuthorizeFlagsInterface | undefined;
 
-  constructor(props: MPTokenAuthorizeTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'MPTokenAuthorize' } as BaseTransactionFields);
-    this.MPTokenIssuanceID = p['MPTokenIssuanceID'] as string;
-    assignDefined(this, p, ['Holder', 'Flags']);
+  constructor(props: MPTokenAuthorizeTxFields) {
+    super({ ...props, TransactionType: 'MPTokenAuthorize' } );
+    this.MPTokenIssuanceID = props.MPTokenIssuanceID as string;
+        this.Holder = props.Holder as any;
+    this.Flags = props.Flags as any;
   }
 
   override affectsTokenBalance(): boolean { return true; }

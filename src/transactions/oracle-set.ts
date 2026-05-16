@@ -4,7 +4,7 @@
  * @see https://xrpl.org/oracleset.html
  */
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isNumber, isArray } from '../validation/helpers.js';
 
@@ -17,13 +17,13 @@ export interface OracleSetTxFields extends BaseTransactionFields {
   /** The data series provided by the oracle. */
   readonly PriceDataSeries: Record<string, unknown>[];
   /** Source of the oracle data. */
-  readonly Provider?: string;
+  readonly Provider?: string | undefined;
   /** Description of the oracle. */
-  readonly URI?: string;
+  readonly URI?: string | undefined;
   /** Identifier for the asset base. */
-  readonly AssetBase?: string;
+  readonly AssetBase?: string | undefined;
   /** Identifier for the asset quote. */
-  readonly AssetQuote?: string;
+  readonly AssetQuote?: string | undefined;
 }
 
 export class OracleSetTx extends Transaction {
@@ -32,18 +32,20 @@ export class OracleSetTx extends Transaction {
   readonly OracleDocumentID: number = undefined as any;
   readonly LastUpdateTime: number = undefined as any;
   readonly PriceDataSeries: Record<string, unknown>[] = undefined as any;
-  readonly Provider?: string = undefined;
-  readonly URI?: string = undefined;
-  readonly AssetBase?: string = undefined;
-  readonly AssetQuote?: string = undefined;
+  readonly Provider?: string | undefined = undefined;
+  readonly URI?: string | undefined = undefined;
+  readonly AssetBase?: string | undefined = undefined;
+  readonly AssetQuote?: string | undefined = undefined;
 
-  constructor(props: OracleSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'OracleSet' } as BaseTransactionFields);
-    this.OracleDocumentID = p['OracleDocumentID'] as number;
-    this.LastUpdateTime = p['LastUpdateTime'] as number;
-    this.PriceDataSeries = p['PriceDataSeries'] as Record<string, unknown>[];
-    assignDefined(this, p, ['Provider', 'URI', 'AssetBase', 'AssetQuote']);
+  constructor(props: OracleSetTxFields) {
+    super({ ...props, TransactionType: 'OracleSet' } );
+    this.OracleDocumentID = props.OracleDocumentID as number;
+    this.LastUpdateTime = props.LastUpdateTime as number;
+    this.PriceDataSeries = props.PriceDataSeries as Record<string, unknown>[];
+        this.Provider = props.Provider as any;
+    this.URI = props.URI as any;
+    this.AssetBase = props.AssetBase as any;
+    this.AssetQuote = props.AssetQuote as any;
   }
 
   override validate(): void {

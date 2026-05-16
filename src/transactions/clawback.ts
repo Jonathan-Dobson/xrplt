@@ -21,10 +21,9 @@ export class ClawbackTx extends TokenTransaction {
   /** The amount to claw back. */
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: ClawbackTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'Clawback' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: ClawbackTxFields) {
+    super({ ...props, TransactionType: 'Clawback' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override affectsTokenBalance(): boolean { return true; }

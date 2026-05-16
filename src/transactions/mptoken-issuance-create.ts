@@ -5,34 +5,36 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString, isNumber } from '../validation/helpers.js';
 
 export interface MPTokenIssuanceCreateTxFields extends BaseTransactionFields {
   readonly TransactionType: 'MPTokenIssuanceCreate';
   /** The maximum amount of tokens that can be issued. */
-  readonly MaximumAmount?: string;
+  readonly MaximumAmount?: string | undefined;
   /** The asset scale for the token (0-15). */
-  readonly AssetScale?: number;
+  readonly AssetScale?: number | undefined;
   /** The transfer fee for the token (0-50,000 basis points). */
-  readonly TransferFee?: number;
+  readonly TransferFee?: number | undefined;
   /** Arbitrary metadata for the issuance. */
-  readonly MPTokenMetadata?: string;
+  readonly MPTokenMetadata?: string | undefined;
 }
 
 export class MPTokenIssuanceCreateTx extends TokenTransaction {
   override readonly TransactionType = 'MPTokenIssuanceCreate' as const;
 
-  readonly MaximumAmount?: string = undefined;
-  readonly AssetScale?: number = undefined;
-  readonly TransferFee?: number = undefined;
-  readonly MPTokenMetadata?: string = undefined;
+  readonly MaximumAmount?: string | undefined = undefined;
+  readonly AssetScale?: number | undefined = undefined;
+  readonly TransferFee?: number | undefined = undefined;
+  readonly MPTokenMetadata?: string | undefined = undefined;
 
-  constructor(props: MPTokenIssuanceCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'MPTokenIssuanceCreate' } as BaseTransactionFields);
-    assignDefined(this, p, ['MaximumAmount', 'AssetScale', 'TransferFee', 'MPTokenMetadata']);
+  constructor(props: MPTokenIssuanceCreateTxFields) {
+    super({ ...props, TransactionType: 'MPTokenIssuanceCreate' } );
+        this.MaximumAmount = props.MaximumAmount as any;
+    this.AssetScale = props.AssetScale as any;
+    this.TransferFee = props.TransferFee as any;
+    this.MPTokenMetadata = props.MPTokenMetadata as any;
   }
 
   override affectsTokenBalance(): boolean { return false; }

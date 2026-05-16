@@ -18,10 +18,9 @@ export class LoanBrokerCoverDepositTx extends Transaction {
 
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: LoanBrokerCoverDepositTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanBrokerCoverDeposit' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: LoanBrokerCoverDepositTxFields) {
+    super({ ...props, TransactionType: 'LoanBrokerCoverDeposit' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

@@ -18,10 +18,9 @@ export class LoanBrokerCoverWithdrawTx extends Transaction {
 
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: LoanBrokerCoverWithdrawTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanBrokerCoverWithdraw' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: LoanBrokerCoverWithdrawTxFields) {
+    super({ ...props, TransactionType: 'LoanBrokerCoverWithdraw' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

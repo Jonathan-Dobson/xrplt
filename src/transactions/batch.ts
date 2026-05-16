@@ -20,10 +20,9 @@ export class BatchTx extends Transaction {
   /** Array of transactions to execute. */
   readonly Transactions: any[] = undefined as any;
 
-  constructor(props: BatchTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'Batch' } as BaseTransactionFields);
-    this.Transactions = p['Transactions'] as any[];
+  constructor(props: BatchTxFields) {
+    super({ ...props, TransactionType: 'Batch' } );
+    this.Transactions = props.Transactions as any[];
   }
 
   override validate(): void {

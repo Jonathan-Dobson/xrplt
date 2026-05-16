@@ -6,7 +6,7 @@
 import type { Amount } from '../types/amounts.js';
 import type { BaseTransactionFields } from '../types/base.js';
 import { XChainTransaction } from '../groups/xchain.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAmount, isRecord, isNumber } from '../validation/helpers.js';
 
@@ -19,7 +19,7 @@ export interface XChainCommitTxFields extends BaseTransactionFields {
   /** The amount to commit. */
   readonly Amount: Amount;
   /** The destination account on the destination chain. */
-  readonly OtherChainDestination?: string;
+  readonly OtherChainDestination?: string | undefined;
 }
 
 export class XChainCommitTx extends XChainTransaction {
@@ -35,15 +35,14 @@ export class XChainCommitTx extends XChainTransaction {
   readonly Amount: Amount = undefined as any;
 
   /** The destination account on the destination chain. */
-  readonly OtherChainDestination?: string = undefined;
+  readonly OtherChainDestination?: string | undefined = undefined;
 
-  constructor(props: XChainCommitTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainCommit' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.XChainClaimID = p['XChainClaimID'] as number;
-    this.Amount = p['Amount'] as Amount;
-    assignDefined(this, p, ['OtherChainDestination']);
+  constructor(props: XChainCommitTxFields) {
+    super({ ...props, TransactionType: 'XChainCommit' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.XChainClaimID = props.XChainClaimID as number;
+    this.Amount = props.Amount as Amount;
+        this.OtherChainDestination = props.OtherChainDestination as any;
   }
 
   override validate(): void {

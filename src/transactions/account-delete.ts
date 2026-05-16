@@ -13,7 +13,7 @@ export interface AccountDeleteTxFields extends BaseTransactionFields {
   /** The address to receive any remaining XRP from the deleted account. */
   readonly Destination: string;
   /** Arbitrary destination tag for the recipient. */
-  readonly DestinationTag?: number;
+  readonly DestinationTag?: number | undefined;
 }
 
 export class AccountDeleteTx extends AccountTransaction {
@@ -23,13 +23,12 @@ export class AccountDeleteTx extends AccountTransaction {
   readonly Destination: string = undefined as any;
 
   /** Arbitrary destination tag for the recipient. */
-  readonly DestinationTag?: number = undefined;
+  readonly DestinationTag?: number | undefined = undefined;
 
-  constructor(props: AccountDeleteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AccountDelete' } as BaseTransactionFields);
-    this.Destination = p['Destination'] as string;
-    this.DestinationTag = p['DestinationTag'] as number;
+  constructor(props: AccountDeleteTxFields) {
+    super({ ...props, TransactionType: 'AccountDelete' } );
+    this.Destination = props.Destination as string;
+    this.DestinationTag = props.DestinationTag as number;
   }
 
   override validate(): void {

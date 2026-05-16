@@ -3,7 +3,7 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
@@ -12,9 +12,9 @@ export interface NFTokenModifyTxFields extends BaseTransactionFields {
   /** The unique identifier of the NFToken. */
   readonly NFTokenID: string;
   /** The new URI for the token. */
-  readonly URI?: string;
+  readonly URI?: string | undefined;
   /** The account that currently owns the token (if not the sender). */
-  readonly Owner?: string;
+  readonly Owner?: string | undefined;
 }
 
 export class NFTokenModifyTx extends TokenTransaction {
@@ -24,16 +24,16 @@ export class NFTokenModifyTx extends TokenTransaction {
   readonly NFTokenID: string = undefined as any;
 
   /** The new URI for the token. */
-  readonly URI?: string = undefined;
+  readonly URI?: string | undefined = undefined;
 
   /** The account that currently owns the token (if not the sender). */
-  readonly Owner?: string = undefined;
+  readonly Owner?: string | undefined = undefined;
 
-  constructor(props: NFTokenModifyTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'NFTokenModify' } as BaseTransactionFields);
-    this.NFTokenID = p['NFTokenID'] as string;
-    assignDefined(this, p, ['URI', 'Owner']);
+  constructor(props: NFTokenModifyTxFields) {
+    super({ ...props, TransactionType: 'NFTokenModify' } );
+    this.NFTokenID = props.NFTokenID as string;
+        this.URI = props.URI as any;
+    this.Owner = props.Owner as any;
   }
 
   override affectsTokenBalance(): boolean { return false; }

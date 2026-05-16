@@ -31,12 +31,11 @@ export class AMMCreateTx extends AMMTransaction {
   /** The trading fee for this AMM (0-1000). */
   readonly TradingFee: number = undefined as any;
 
-  constructor(props: AMMCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AMMCreate' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
-    this.Amount2 = p['Amount2'] as Amount;
-    this.TradingFee = p['TradingFee'] as number;
+  constructor(props: AMMCreateTxFields) {
+    super({ ...props, TransactionType: 'AMMCreate' } );
+    this.Amount = props.Amount as Amount;
+    this.Amount2 = props.Amount2 as Amount;
+    this.TradingFee = props.TradingFee as number;
   }
 
   override validate(): void {

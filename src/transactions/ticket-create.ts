@@ -20,10 +20,9 @@ export class TicketCreateTx extends Transaction {
   /** How many tickets to create. */
   readonly TicketCount: number = undefined as any;
 
-  constructor(props: TicketCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'TicketCreate' } as BaseTransactionFields);
-    this.TicketCount = p['TicketCount'] as number;
+  constructor(props: TicketCreateTxFields) {
+    super({ ...props, TransactionType: 'TicketCreate' } );
+    this.TicketCount = props.TicketCount as number;
   }
 
   override validate(): void {

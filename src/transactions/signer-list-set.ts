@@ -6,7 +6,7 @@
 import type { BaseTransactionFields } from '../types/base.js';
 import type { SignerEntry } from '../types/common.js';
 import { AccountTransaction } from '../groups/account.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isNumber, isRecord, isString, isArray } from '../validation/helpers.js';
 
@@ -15,7 +15,7 @@ export interface SignerListSetTxFields extends BaseTransactionFields {
   /** The target number of weights required to authorize a transaction (0 to delete). */
   readonly SignerQuorum: number;
   /** Up to 32 signer entries. */
-  readonly SignerEntries?: SignerEntry[];
+  readonly SignerEntries?: SignerEntry[] | undefined;
 }
 
 function isSignerEntry(value: unknown): value is SignerEntry {
@@ -32,13 +32,12 @@ export class SignerListSetTx extends AccountTransaction {
   readonly SignerQuorum: number = undefined as any;
 
   /** Up to 32 signer entries. */
-  readonly SignerEntries?: SignerEntry[] = undefined;
+  readonly SignerEntries?: SignerEntry[] | undefined = undefined;
 
-  constructor(props: SignerListSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'SignerListSet' } as BaseTransactionFields);
-    this.SignerQuorum = p['SignerQuorum'] as number;
-    assignDefined(this, p, ['SignerEntries']);
+  constructor(props: SignerListSetTxFields) {
+    super({ ...props, TransactionType: 'SignerListSet' } );
+    this.SignerQuorum = props.SignerQuorum as number;
+        this.SignerEntries = props.SignerEntries as any;
   }
 
   override validate(): void {

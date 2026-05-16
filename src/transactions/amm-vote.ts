@@ -23,12 +23,11 @@ export class AMMVoteTx extends AMMTransaction {
   readonly Asset2: Record<string, unknown> = undefined as any;
   readonly TradingFee: number = undefined as any;
 
-  constructor(props: AMMVoteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AMMVote' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as Record<string, unknown>;
-    this.Asset2 = p['Asset2'] as Record<string, unknown>;
-    this.TradingFee = p['TradingFee'] as number;
+  constructor(props: AMMVoteTxFields) {
+    super({ ...props, TransactionType: 'AMMVote' } );
+    this.Asset = props.Asset as Record<string, unknown>;
+    this.Asset2 = props.Asset2 as Record<string, unknown>;
+    this.TradingFee = props.TradingFee as number;
   }
 
   override validate(): void {

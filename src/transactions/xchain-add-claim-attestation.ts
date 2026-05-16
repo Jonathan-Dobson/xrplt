@@ -15,7 +15,7 @@ export interface XChainAddClaimAttestationTxFields extends BaseTransactionFields
   /** The amount being claimed. */
   readonly Amount: string;
   /** The destination account. */
-  readonly Destination?: string;
+  readonly Destination?: string | undefined;
   /** The source account on the other chain. */
   readonly OtherChainSource: string;
   /** Public key of the attesting server. */
@@ -32,23 +32,22 @@ export class XChainAddClaimAttestationTx extends XChainTransaction {
   readonly XChainBridge: Record<string, unknown> = undefined as any;
   readonly XChainClaimID: number = undefined as any;
   readonly Amount: string = undefined as any;
-  readonly Destination?: string = undefined;
+  readonly Destination?: string | undefined = undefined;
   readonly OtherChainSource: string = undefined as any;
   readonly PublicKey: string = undefined as any;
   readonly Signature: string = undefined as any;
   readonly XChainAttestationSequence: number = undefined as any;
 
-  constructor(props: XChainAddClaimAttestationTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainAddClaimAttestation' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.XChainClaimID = p['XChainClaimID'] as number;
-    this.Amount = p['Amount'] as string;
-    this.Destination = p['Destination'] as string;
-    this.OtherChainSource = p['OtherChainSource'] as string;
-    this.PublicKey = p['PublicKey'] as string;
-    this.Signature = p['Signature'] as string;
-    this.XChainAttestationSequence = p['XChainAttestationSequence'] as number;
+  constructor(props: XChainAddClaimAttestationTxFields) {
+    super({ ...props, TransactionType: 'XChainAddClaimAttestation' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.XChainClaimID = props.XChainClaimID as number;
+    this.Amount = props.Amount as string;
+    this.Destination = props.Destination as string;
+    this.OtherChainSource = props.OtherChainSource as string;
+    this.PublicKey = props.PublicKey as string;
+    this.Signature = props.Signature as string;
+    this.XChainAttestationSequence = props.XChainAttestationSequence as number;
   }
 
   override validate(): void {

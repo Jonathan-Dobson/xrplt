@@ -11,9 +11,8 @@ export interface PermissionedDomainDeleteTxFields extends BaseTransactionFields 
 export class PermissionedDomainDeleteTx extends Transaction {
   override readonly TransactionType = 'PermissionedDomainDelete' as const;
 
-  constructor(props: PermissionedDomainDeleteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'PermissionedDomainDelete' } as BaseTransactionFields);
+  constructor(props: PermissionedDomainDeleteTxFields) {
+    super({ ...props, TransactionType: 'PermissionedDomainDelete' } );
   }
 
   override validate(): void {

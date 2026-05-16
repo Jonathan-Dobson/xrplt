@@ -28,12 +28,11 @@ export class XChainCreateClaimIDTx extends XChainTransaction {
   /** The destination account for the future claim. */
   readonly OtherChainSource: string = undefined as any;
 
-  constructor(props: XChainCreateClaimIDTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainCreateClaimID' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.SignatureReward = p['SignatureReward'] as string;
-    this.OtherChainSource = p['OtherChainSource'] as string;
+  constructor(props: XChainCreateClaimIDTxFields) {
+    super({ ...props, TransactionType: 'XChainCreateClaimID' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.SignatureReward = props.SignatureReward as string;
+    this.OtherChainSource = props.OtherChainSource as string;
   }
 
   override validate(): void {

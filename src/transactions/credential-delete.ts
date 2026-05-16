@@ -23,12 +23,11 @@ export class CredentialDeleteTx extends Transaction {
   readonly Issuer: string = undefined as any;
   readonly CredentialType: string = undefined as any;
 
-  constructor(props: CredentialDeleteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'CredentialDelete' } as BaseTransactionFields);
-    this.Subject = p['Subject'] as string;
-    this.Issuer = p['Issuer'] as string;
-    this.CredentialType = p['CredentialType'] as string;
+  constructor(props: CredentialDeleteTxFields) {
+    super({ ...props, TransactionType: 'CredentialDelete' } );
+    this.Subject = props.Subject as string;
+    this.Issuer = props.Issuer as string;
+    this.CredentialType = props.CredentialType as string;
   }
 
   override validate(): void {

@@ -4,7 +4,7 @@
  * @see https://xrpl.org/escrowfinish.html
  */
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAccount, isNumber } from '../validation/helpers.js';
 
@@ -15,9 +15,9 @@ export interface EscrowFinishTxFields extends BaseTransactionFields {
   /** The sequence number of the EscrowCreate transaction. */
   readonly OfferSequence: number;
   /** The cryptographic condition fulfillment. */
-  readonly Fulfillment?: string;
+  readonly Fulfillment?: string | undefined;
   /** The cryptographic condition (must match creation). */
-  readonly Condition?: string;
+  readonly Condition?: string | undefined;
 }
 
 export class EscrowFinishTx extends Transaction {
@@ -29,15 +29,15 @@ export class EscrowFinishTx extends Transaction {
   /** Sequence number of EscrowCreate. */
   readonly OfferSequence: number = undefined as any;
 
-  readonly Fulfillment?: string = undefined;
-  readonly Condition?: string = undefined;
+  readonly Fulfillment?: string | undefined = undefined;
+  readonly Condition?: string | undefined = undefined;
 
-  constructor(props: EscrowFinishTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'EscrowFinish' } as BaseTransactionFields);
-    this.Owner = p['Owner'] as string;
-    this.OfferSequence = p['OfferSequence'] as number;
-    assignDefined(this, p, ['Fulfillment', 'Condition']);
+  constructor(props: EscrowFinishTxFields) {
+    super({ ...props, TransactionType: 'EscrowFinish' } );
+    this.Owner = props.Owner as string;
+    this.OfferSequence = props.OfferSequence as number;
+        this.Fulfillment = props.Fulfillment as any;
+    this.Condition = props.Condition as any;
   }
 
   override validate(): void {

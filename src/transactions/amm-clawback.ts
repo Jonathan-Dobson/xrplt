@@ -5,7 +5,7 @@ import type { BaseTransactionFields } from '../types/base.js';
 import type { Amount } from '../types/amounts.js';
 import type { ClawbackFlagsInterface } from '../types/flags.js';
 import { AMMTransaction } from '../groups/amm.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAmount, isAccount } from '../validation/helpers.js';
 
@@ -14,8 +14,8 @@ export interface AMMClawbackTxFields extends BaseTransactionFields {
   readonly Asset: { currency: string; issuer?: string };
   readonly Asset2: { currency: string; issuer?: string };
   readonly Holder: string;
-  readonly Amount?: Amount;
-  readonly Flags?: number | ClawbackFlagsInterface;
+  readonly Amount?: Amount | undefined;
+  readonly Flags?: number | ClawbackFlagsInterface | undefined;
 }
 
 export class AMMClawbackTx extends AMMTransaction {
@@ -23,16 +23,16 @@ export class AMMClawbackTx extends AMMTransaction {
   readonly Asset!: { currency: string; issuer?: string };
   readonly Asset2!: { currency: string; issuer?: string };
   readonly Holder!: string;
-  readonly Amount?: Amount;
-  declare readonly Flags?: number | ClawbackFlagsInterface;
+  readonly Amount?: Amount | undefined;
+  declare readonly Flags?: number | ClawbackFlagsInterface | undefined;
 
-  constructor(props: AMMClawbackTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AMMClawback' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as { currency: string; issuer?: string };
-    this.Asset2 = p['Asset2'] as { currency: string; issuer?: string };
-    this.Holder = p['Holder'] as string;
-    assignDefined(this, p, ['Amount', 'Flags']);
+  constructor(props: AMMClawbackTxFields) {
+    super({ ...props, TransactionType: 'AMMClawback' } );
+    this.Asset = props.Asset as { currency: string; issuer?: string };
+    this.Asset2 = props.Asset2 as { currency: string; issuer?: string };
+    this.Holder = props.Holder as string;
+        this.Amount = props.Amount as any;
+    this.Flags = props.Flags as any;
   }
 
   override validate(): void {

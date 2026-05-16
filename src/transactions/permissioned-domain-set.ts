@@ -4,28 +4,28 @@
  * @see https://xrpl.org/permissioneddomainset.html
  */
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isArray } from '../validation/helpers.js';
 
 export interface PermissionedDomainSetTxFields extends BaseTransactionFields {
   readonly TransactionType: 'PermissionedDomainSet';
   /** Accounts permitted within this domain. */
-  readonly AcceptedAccounts?: string[];
+  readonly AcceptedAccounts?: string[] | undefined;
   /** Credentials required for this domain. */
-  readonly AcceptedCredentials?: any[];
+  readonly AcceptedCredentials?: any[] | undefined;
 }
 
 export class PermissionedDomainSetTx extends Transaction {
   override readonly TransactionType = 'PermissionedDomainSet' as const;
 
-  readonly AcceptedAccounts?: string[] = undefined;
-  readonly AcceptedCredentials?: any[] = undefined;
+  readonly AcceptedAccounts?: string[] | undefined = undefined;
+  readonly AcceptedCredentials?: any[] | undefined = undefined;
 
-  constructor(props: PermissionedDomainSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'PermissionedDomainSet' } as BaseTransactionFields);
-    assignDefined(this, p, ['AcceptedAccounts', 'AcceptedCredentials']);
+  constructor(props: PermissionedDomainSetTxFields) {
+    super({ ...props, TransactionType: 'PermissionedDomainSet' } );
+        this.AcceptedAccounts = props.AcceptedAccounts as any;
+    this.AcceptedCredentials = props.AcceptedCredentials as any;
   }
 
   override validate(): void {

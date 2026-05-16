@@ -4,7 +4,7 @@
  * @see https://xrpl.org/credentialcreate.html
  */
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAccount, isString, isNumber } from '../validation/helpers.js';
 
@@ -17,9 +17,9 @@ export interface CredentialCreateTxFields extends BaseTransactionFields {
   /** Sequence number for the credential. */
   readonly CredentialSequence: number;
   /** Optional expiration. */
-  readonly Expiration?: number;
+  readonly Expiration?: number | undefined;
   /** Optional metadata URI. */
-  readonly URI?: string;
+  readonly URI?: string | undefined;
 }
 
 export class CredentialCreateTx extends Transaction {
@@ -28,16 +28,16 @@ export class CredentialCreateTx extends Transaction {
   readonly Subject: string = undefined as any;
   readonly CredentialType: string = undefined as any;
   readonly CredentialSequence: number = undefined as any;
-  readonly Expiration?: number = undefined;
-  readonly URI?: string = undefined;
+  readonly Expiration?: number | undefined = undefined;
+  readonly URI?: string | undefined = undefined;
 
-  constructor(props: CredentialCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'CredentialCreate' } as BaseTransactionFields);
-    this.Subject = p['Subject'] as string;
-    this.CredentialType = p['CredentialType'] as string;
-    this.CredentialSequence = p['CredentialSequence'] as number;
-    assignDefined(this, p, ['Expiration', 'URI']);
+  constructor(props: CredentialCreateTxFields) {
+    super({ ...props, TransactionType: 'CredentialCreate' } );
+    this.Subject = props.Subject as string;
+    this.CredentialType = props.CredentialType as string;
+    this.CredentialSequence = props.CredentialSequence as number;
+        this.Expiration = props.Expiration as any;
+    this.URI = props.URI as any;
   }
 
   override validate(): void {

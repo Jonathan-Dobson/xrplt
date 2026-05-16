@@ -5,7 +5,7 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
@@ -14,7 +14,7 @@ export interface NFTokenBurnTxFields extends BaseTransactionFields {
   /** The unique identifier of the NFToken to burn. */
   readonly NFTokenID: string;
   /** The account that currently owns the token (if not the sender). */
-  readonly Owner?: string;
+  readonly Owner?: string | undefined;
 }
 
 export class NFTokenBurnTx extends TokenTransaction {
@@ -24,13 +24,12 @@ export class NFTokenBurnTx extends TokenTransaction {
   readonly NFTokenID: string = undefined as any;
 
   /** The account that currently owns the token (if not the sender). */
-  readonly Owner?: string = undefined;
+  readonly Owner?: string | undefined = undefined;
 
-  constructor(props: NFTokenBurnTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'NFTokenBurn' } as BaseTransactionFields);
-    this.NFTokenID = p['NFTokenID'] as string;
-    assignDefined(this, p, ['Owner']);
+  constructor(props: NFTokenBurnTxFields) {
+    super({ ...props, TransactionType: 'NFTokenBurn' } );
+    this.NFTokenID = props.NFTokenID as string;
+        this.Owner = props.Owner as any;
   }
 
   override affectsTokenBalance(): boolean { return true; }

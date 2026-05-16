@@ -4,7 +4,7 @@
  * @see https://xrpl.org/paymentchannelcreate.html
  */
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAccount, isAmount, isNumber } from '../validation/helpers.js';
 
@@ -19,9 +19,9 @@ export interface PaymentChannelCreateTxFields extends BaseTransactionFields {
   /** The public key the destination must use to sign claims. */
   readonly PublicKey: string;
   /** Time after which the channel expires. */
-  readonly CancelAfter?: number;
+  readonly CancelAfter?: number | undefined;
   /** Arbitrary destination tag for the recipient. */
-  readonly DestinationTag?: number;
+  readonly DestinationTag?: number | undefined;
 }
 
 export class PaymentChannelCreateTx extends Transaction {
@@ -39,17 +39,17 @@ export class PaymentChannelCreateTx extends Transaction {
   /** The public key for signing claims. */
   readonly PublicKey: string = undefined as any;
 
-  readonly CancelAfter?: number = undefined;
-  readonly DestinationTag?: number = undefined;
+  readonly CancelAfter?: number | undefined = undefined;
+  readonly DestinationTag?: number | undefined = undefined;
 
-  constructor(props: PaymentChannelCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'PaymentChannelCreate' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as string;
-    this.Destination = p['Destination'] as string;
-    this.SettleDelay = p['SettleDelay'] as number;
-    this.PublicKey = p['PublicKey'] as string;
-    assignDefined(this, p, ['CancelAfter', 'DestinationTag']);
+  constructor(props: PaymentChannelCreateTxFields) {
+    super({ ...props, TransactionType: 'PaymentChannelCreate' } );
+    this.Amount = props.Amount as string;
+    this.Destination = props.Destination as string;
+    this.SettleDelay = props.SettleDelay as number;
+    this.PublicKey = props.PublicKey as string;
+        this.CancelAfter = props.CancelAfter as any;
+    this.DestinationTag = props.DestinationTag as any;
   }
 
   override validate(): void {

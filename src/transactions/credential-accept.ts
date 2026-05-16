@@ -20,11 +20,10 @@ export class CredentialAcceptTx extends Transaction {
   readonly Issuer: string = undefined as any;
   readonly CredentialType: string = undefined as any;
 
-  constructor(props: CredentialAcceptTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'CredentialAccept' } as BaseTransactionFields);
-    this.Issuer = p['Issuer'] as string;
-    this.CredentialType = p['CredentialType'] as string;
+  constructor(props: CredentialAcceptTxFields) {
+    super({ ...props, TransactionType: 'CredentialAccept' } );
+    this.Issuer = props.Issuer as string;
+    this.CredentialType = props.CredentialType as string;
   }
 
   override validate(): void {

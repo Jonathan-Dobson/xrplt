@@ -6,52 +6,57 @@
 import type { BaseTransactionFields } from '../types/base.js';
 import type { AccountSetFlagsInterface } from '../types/flags.js';
 import { AccountTransaction } from '../groups/account.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isNumber, isString } from '../validation/helpers.js';
 
 export interface AccountSetTxFields extends BaseTransactionFields {
   readonly TransactionType: 'AccountSet';
   /** Hash of a certificate to use for some external validation. */
-  readonly ClearFlag?: number;
+  readonly ClearFlag?: number | undefined;
   /** Domain name associated with this account (hex encoded). */
-  readonly Domain?: string;
+  readonly Domain?: string | undefined;
   /** Email hash (e.g. for Gravatar). */
-  readonly EmailHash?: string;
+  readonly EmailHash?: string | undefined;
   /** Message key for encrypted messaging. */
-  readonly MessageKey?: string;
+  readonly MessageKey?: string | undefined;
   /** NFT collection fee (0-50,000). */
-  readonly NFTokenBrokerFee?: number;
+  readonly NFTokenBrokerFee?: number | undefined;
   /** Flag to enable on the account. */
-  readonly SetFlag?: number;
+  readonly SetFlag?: number | undefined;
   /** Transfer rate for issued currencies (drops per billion). */
-  readonly TransferRate?: number;
+  readonly TransferRate?: number | undefined;
   /** Tick size for offer matching (3-15 or 0 to disable). */
-  readonly TickSize?: number;
+  readonly TickSize?: number | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | AccountSetFlagsInterface;
+  readonly Flags?: number | AccountSetFlagsInterface | undefined;
 }
 
 export class AccountSetTx extends AccountTransaction {
   override readonly TransactionType = 'AccountSet' as const;
 
-  readonly ClearFlag?: number = undefined;
-  readonly Domain?: string = undefined;
-  readonly EmailHash?: string = undefined;
-  readonly MessageKey?: string = undefined;
-  readonly NFTokenBrokerFee?: number = undefined;
-  readonly SetFlag?: number = undefined;
-  readonly TransferRate?: number = undefined;
-  readonly TickSize?: number = undefined;
-  declare readonly Flags?: number | AccountSetFlagsInterface;
+  readonly ClearFlag?: number | undefined = undefined;
+  readonly Domain?: string | undefined = undefined;
+  readonly EmailHash?: string | undefined = undefined;
+  readonly MessageKey?: string | undefined = undefined;
+  readonly NFTokenBrokerFee?: number | undefined = undefined;
+  readonly SetFlag?: number | undefined = undefined;
+  readonly TransferRate?: number | undefined = undefined;
+  readonly TickSize?: number | undefined = undefined;
+  declare readonly Flags?: number | AccountSetFlagsInterface | undefined;
 
-  constructor(props: AccountSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'AccountSet' } as BaseTransactionFields);
-    assignDefined(this, p, [
-      'ClearFlag', 'Domain', 'EmailHash', 'MessageKey',
-      'NFTokenBrokerFee', 'SetFlag', 'TransferRate', 'TickSize', 'Flags',
-    ]);
+  constructor(props: AccountSetTxFields) {
+    super({ ...props, TransactionType: 'AccountSet' } );
+        this.ClearFlag = props.ClearFlag as any;
+    this.Domain = props.Domain as any;
+    this.EmailHash = props.EmailHash as any;
+    this.MessageKey = props.MessageKey as any;
+    this.NFTokenBrokerFee = props.NFTokenBrokerFee as any;
+    this.SetFlag = props.SetFlag as any;
+    this.TransferRate = props.TransferRate as any;
+    this.TickSize = props.TickSize as any;
+    this.Flags = props.Flags as any;
+    this. = props. as any;
   }
 
   override validate(): void {

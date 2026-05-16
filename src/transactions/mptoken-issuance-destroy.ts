@@ -18,10 +18,9 @@ export class MPTokenIssuanceDestroyTx extends TokenTransaction {
   /** The unique identifier of the MPT issuance. */
   readonly MPTokenIssuanceID: string = undefined as any;
 
-  constructor(props: MPTokenIssuanceDestroyTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'MPTokenIssuanceDestroy' } as BaseTransactionFields);
-    this.MPTokenIssuanceID = p['MPTokenIssuanceID'] as string;
+  constructor(props: MPTokenIssuanceDestroyTxFields) {
+    super({ ...props, TransactionType: 'MPTokenIssuanceDestroy' } );
+    this.MPTokenIssuanceID = props.MPTokenIssuanceID as string;
   }
 
   override affectsTokenBalance(): boolean { return false; }

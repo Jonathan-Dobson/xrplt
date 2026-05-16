@@ -6,7 +6,7 @@
 import type { BaseTransactionFields } from '../types/base.js';
 import type { NFTokenMintFlagsInterface } from '../types/flags.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isNumber, isString, isAccount } from '../validation/helpers.js';
 
@@ -15,13 +15,13 @@ export interface NFTokenMintTxFields extends BaseTransactionFields {
   /** The taxon associated with this NFToken. */
   readonly NFTokenTaxon: number;
   /** The address of the entity that created the token (if not the sender). */
-  readonly Issuer?: string;
+  readonly Issuer?: string | undefined;
   /** The fee (in basis points) charged on secondary sales (0-50,000). */
-  readonly TransferFee?: number;
+  readonly TransferFee?: number | undefined;
   /** Arbitrary data for the token (e.g. IPFS link). */
-  readonly URI?: string;
+  readonly URI?: string | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | NFTokenMintFlagsInterface;
+  readonly Flags?: number | NFTokenMintFlagsInterface | undefined;
 }
 
 export class NFTokenMintTx extends TokenTransaction {
@@ -30,16 +30,18 @@ export class NFTokenMintTx extends TokenTransaction {
   /** The taxon associated with this NFToken. */
   readonly NFTokenTaxon: number = undefined as any;
 
-  readonly Issuer?: string = undefined;
-  readonly TransferFee?: number = undefined;
-  readonly URI?: string = undefined;
-  declare readonly Flags?: number | NFTokenMintFlagsInterface;
+  readonly Issuer?: string | undefined = undefined;
+  readonly TransferFee?: number | undefined = undefined;
+  readonly URI?: string | undefined = undefined;
+  declare readonly Flags?: number | NFTokenMintFlagsInterface | undefined;
 
-  constructor(props: NFTokenMintTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'NFTokenMint' } as BaseTransactionFields);
-    this.NFTokenTaxon = p['NFTokenTaxon'] as number;
-    assignDefined(this, p, ['Issuer', 'TransferFee', 'URI', 'Flags']);
+  constructor(props: NFTokenMintTxFields) {
+    super({ ...props, TransactionType: 'NFTokenMint' } );
+    this.NFTokenTaxon = props.NFTokenTaxon as number;
+        this.Issuer = props.Issuer as any;
+    this.TransferFee = props.TransferFee as any;
+    this.URI = props.URI as any;
+    this.Flags = props.Flags as any;
   }
 
   override affectsTokenBalance(): boolean { return true; }

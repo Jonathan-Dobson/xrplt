@@ -7,7 +7,7 @@ import type { Amount } from '../types/amounts.js';
 import type { BaseTransactionFields } from '../types/base.js';
 import type { NFTokenCreateOfferFlagsInterface } from '../types/flags.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString, isAmount, isAccount, isNumber } from '../validation/helpers.js';
 
@@ -18,13 +18,13 @@ export interface NFTokenCreateOfferTxFields extends BaseTransactionFields {
   /** The price for the token. */
   readonly Amount: Amount;
   /** The account that currently owns the token (required for Buy offers). */
-  readonly Owner?: string;
+  readonly Owner?: string | undefined;
   /** Time after which the offer is no longer valid. */
-  readonly Expiration?: number;
+  readonly Expiration?: number | undefined;
   /** The specific account allowed to accept this offer. */
-  readonly Destination?: string;
+  readonly Destination?: string | undefined;
   /** Bit-flags for this transaction (e.g. tfSellNFToken). */
-  readonly Flags?: number | NFTokenCreateOfferFlagsInterface;
+  readonly Flags?: number | NFTokenCreateOfferFlagsInterface | undefined;
 }
 
 export class NFTokenCreateOfferTx extends TokenTransaction {
@@ -36,17 +36,19 @@ export class NFTokenCreateOfferTx extends TokenTransaction {
   /** The price for the token. */
   readonly Amount: Amount = undefined as any;
 
-  readonly Owner?: string = undefined;
-  readonly Expiration?: number = undefined;
-  readonly Destination?: string = undefined;
-  declare readonly Flags?: number | NFTokenCreateOfferFlagsInterface;
+  readonly Owner?: string | undefined = undefined;
+  readonly Expiration?: number | undefined = undefined;
+  readonly Destination?: string | undefined = undefined;
+  declare readonly Flags?: number | NFTokenCreateOfferFlagsInterface | undefined;
 
-  constructor(props: NFTokenCreateOfferTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'NFTokenCreateOffer' } as BaseTransactionFields);
-    this.NFTokenID = p['NFTokenID'] as string;
-    this.Amount = p['Amount'] as Amount;
-    assignDefined(this, p, ['Owner', 'Expiration', 'Destination', 'Flags']);
+  constructor(props: NFTokenCreateOfferTxFields) {
+    super({ ...props, TransactionType: 'NFTokenCreateOffer' } );
+    this.NFTokenID = props.NFTokenID as string;
+    this.Amount = props.Amount as Amount;
+        this.Owner = props.Owner as any;
+    this.Expiration = props.Expiration as any;
+    this.Destination = props.Destination as any;
+    this.Flags = props.Flags as any;
   }
 
   override affectsTokenBalance(): boolean { return false; }

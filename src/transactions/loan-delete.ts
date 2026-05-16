@@ -17,10 +17,9 @@ export class LoanDeleteTx extends Transaction {
 
   readonly Asset: string = undefined as any;
 
-  constructor(props: LoanDeleteTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanDelete' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as string;
+  constructor(props: LoanDeleteTxFields) {
+    super({ ...props, TransactionType: 'LoanDelete' } );
+    this.Asset = props.Asset as string;
   }
 
   override validate(): void {

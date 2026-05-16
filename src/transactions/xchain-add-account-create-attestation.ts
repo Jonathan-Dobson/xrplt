@@ -32,17 +32,16 @@ export class XChainAddAccountCreateAttestationTx extends Transaction {
   readonly AttestationRewardAccount: string = undefined as any;
   readonly WasLockingChainSend: number = undefined as any;
 
-  constructor(props: XChainAddAccountCreateAttestationTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainAddAccountCreateAttestation' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.XChainAccountCreateCount = p['XChainAccountCreateCount'] as number;
-    this.Destination = p['Destination'] as string;
-    this.Signature = p['Signature'] as string;
-    this.PublicKey = p['PublicKey'] as string;
-    this.Amount = p['Amount'] as string;
-    this.AttestationRewardAccount = p['AttestationRewardAccount'] as string;
-    this.WasLockingChainSend = p['WasLockingChainSend'] as number;
+  constructor(props: XChainAddAccountCreateAttestationTxFields) {
+    super({ ...props, TransactionType: 'XChainAddAccountCreateAttestation' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.XChainAccountCreateCount = props.XChainAccountCreateCount as number;
+    this.Destination = props.Destination as string;
+    this.Signature = props.Signature as string;
+    this.PublicKey = props.PublicKey as string;
+    this.Amount = props.Amount as string;
+    this.AttestationRewardAccount = props.AttestationRewardAccount as string;
+    this.WasLockingChainSend = props.WasLockingChainSend as number;
   }
 
   override validate(): void {

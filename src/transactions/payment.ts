@@ -8,7 +8,6 @@ import type { Amount } from '../types/amounts.js';
 import type { PathStep } from '../types/common.js';
 import type { PaymentFlagsInterface } from '../types/flags.js';
 import { PaymentTransaction } from '../groups/payment.js';
-import { assignDefined } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAccount, isAmount } from '../validation/helpers.js';
 
@@ -19,17 +18,17 @@ export interface PaymentTxFields extends BaseTransactionFields {
   /** The address to receive the funds. */
   readonly Destination: string;
   /** Arbitrary destination tag for the recipient. */
-  readonly DestinationTag?: number;
+  readonly DestinationTag?: number | undefined;
   /** Hash of a check or other condition for the payment. */
-  readonly InvoiceID?: string;
+  readonly InvoiceID?: string | undefined;
   /** Minimum amount to deliver (requires tfPartialPayment). */
-  readonly DeliverMin?: Amount;
+  readonly DeliverMin?: Amount | undefined;
   /** Payment paths for cross-currency transfers. */
-  readonly Paths?: PathStep[][];
+  readonly Paths?: PathStep[][] | undefined;
   /** Maximum amount to spend including fees/slippage. */
-  readonly SendMax?: Amount;
+  readonly SendMax?: Amount | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | PaymentFlagsInterface;
+  readonly Flags?: number | PaymentFlagsInterface | undefined;
 }
 
 export class PaymentTx extends PaymentTransaction {
@@ -41,19 +40,23 @@ export class PaymentTx extends PaymentTransaction {
   /** The address to receive the funds. */
   readonly Destination: string = undefined as any;
 
-  readonly DestinationTag?: number = undefined;
-  readonly InvoiceID?: string = undefined;
-  readonly DeliverMin?: Amount = undefined;
-  readonly Paths?: PathStep[][] = undefined;
-  readonly SendMax?: Amount = undefined;
-  declare readonly Flags?: number | PaymentFlagsInterface;
+  readonly DestinationTag?: number | undefined = undefined;
+  readonly InvoiceID?: string | undefined = undefined;
+  readonly DeliverMin?: Amount | undefined = undefined;
+  readonly Paths?: PathStep[][] | undefined = undefined;
+  readonly SendMax?: Amount | undefined = undefined;
+  declare readonly Flags?: number | PaymentFlagsInterface | undefined;
 
-  constructor(props: PaymentTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'Payment' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
-    this.Destination = p['Destination'] as string;
-    assignDefined(this, p, ['DestinationTag', 'InvoiceID', 'DeliverMin', 'Paths', 'SendMax', 'Flags']);
+  constructor(props: PaymentTxFields) {
+    super({ ...props, TransactionType: 'Payment' });
+    this.Amount = props.Amount;
+    this.Destination = props.Destination;
+    this.DestinationTag = props.DestinationTag;
+    this.InvoiceID = props.InvoiceID;
+    this.DeliverMin = props.DeliverMin;
+    this.Paths = props.Paths;
+    this.SendMax = props.SendMax;
+    this.Flags = props.Flags;
   }
 
   override getAmount(): Amount {

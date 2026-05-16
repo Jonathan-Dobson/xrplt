@@ -5,28 +5,28 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { AccountTransaction } from '../groups/account.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAccount } from '../validation/helpers.js';
 
 export interface DepositPreauthTxFields extends BaseTransactionFields {
   readonly TransactionType: 'DepositPreauth';
   /** Account to authorize. */
-  readonly Authorize?: string;
+  readonly Authorize?: string | undefined;
   /** Account to unauthorize. */
-  readonly Unauthorize?: string;
+  readonly Unauthorize?: string | undefined;
 }
 
 export class DepositPreauthTx extends AccountTransaction {
   override readonly TransactionType = 'DepositPreauth' as const;
 
-  readonly Authorize?: string = undefined;
-  readonly Unauthorize?: string = undefined;
+  readonly Authorize?: string | undefined = undefined;
+  readonly Unauthorize?: string | undefined = undefined;
 
-  constructor(props: DepositPreauthTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'DepositPreauth' } as BaseTransactionFields);
-    assignDefined(this, p, ['Authorize', 'Unauthorize']);
+  constructor(props: DepositPreauthTxFields) {
+    super({ ...props, TransactionType: 'DepositPreauth' } );
+        this.Authorize = props.Authorize as any;
+    this.Unauthorize = props.Unauthorize as any;
   }
 
   override validate(): void {

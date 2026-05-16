@@ -7,7 +7,7 @@ import type { BaseTransactionFields } from '../types/base.js';
 import type { IssuedCurrencyAmount } from '../types/amounts.js';
 import type { TrustSetFlagsInterface } from '../types/flags.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAmount } from '../validation/helpers.js';
 
@@ -16,11 +16,11 @@ export interface TrustSetTxFields extends BaseTransactionFields {
   /** The limit and currency for the trust line. */
   readonly LimitAmount: IssuedCurrencyAmount;
   /** Quality of incoming liquidity (default 0 = 100%). */
-  readonly QualityIn?: number;
+  readonly QualityIn?: number | undefined;
   /** Quality of outgoing liquidity (default 0 = 100%). */
-  readonly QualityOut?: number;
+  readonly QualityOut?: number | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | TrustSetFlagsInterface;
+  readonly Flags?: number | TrustSetFlagsInterface | undefined;
 }
 
 export class TrustSetTx extends TokenTransaction {
@@ -29,15 +29,16 @@ export class TrustSetTx extends TokenTransaction {
   /** The limit and currency for the trust line. */
   readonly LimitAmount: IssuedCurrencyAmount = undefined as any;
 
-  readonly QualityIn?: number = undefined;
-  readonly QualityOut?: number = undefined;
-  declare readonly Flags?: number | TrustSetFlagsInterface;
+  readonly QualityIn?: number | undefined = undefined;
+  readonly QualityOut?: number | undefined = undefined;
+  declare readonly Flags?: number | TrustSetFlagsInterface | undefined;
 
-  constructor(props: TrustSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'TrustSet' } as BaseTransactionFields);
-    this.LimitAmount = p['LimitAmount'] as IssuedCurrencyAmount;
-    assignDefined(this, p, ['QualityIn', 'QualityOut', 'Flags']);
+  constructor(props: TrustSetTxFields) {
+    super({ ...props, TransactionType: 'TrustSet' } );
+    this.LimitAmount = props.LimitAmount as IssuedCurrencyAmount;
+        this.QualityIn = props.QualityIn as any;
+    this.QualityOut = props.QualityOut as any;
+    this.Flags = props.Flags as any;
   }
 
   override affectsTokenBalance(): boolean { return false; }

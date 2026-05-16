@@ -33,13 +33,12 @@ export class XChainAccountCreateCommitTx extends XChainTransaction {
   /** The signature reward for the account creation. */
   readonly SignatureReward: string = undefined as any;
 
-  constructor(props: XChainAccountCreateCommitTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainAccountCreateCommit' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.Destination = p['Destination'] as string;
-    this.Amount = p['Amount'] as string;
-    this.SignatureReward = p['SignatureReward'] as string;
+  constructor(props: XChainAccountCreateCommitTxFields) {
+    super({ ...props, TransactionType: 'XChainAccountCreateCommit' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.Destination = props.Destination as string;
+    this.Amount = props.Amount as string;
+    this.SignatureReward = props.SignatureReward as string;
   }
 
   override validate(): void {

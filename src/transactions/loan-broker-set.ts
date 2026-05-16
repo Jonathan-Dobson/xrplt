@@ -11,9 +11,8 @@ export interface LoanBrokerSetTxFields extends BaseTransactionFields {
 export class LoanBrokerSetTx extends Transaction {
   override readonly TransactionType = 'LoanBrokerSet' as const;
 
-  constructor(props: LoanBrokerSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanBrokerSet' } as BaseTransactionFields);
+  constructor(props: LoanBrokerSetTxFields) {
+    super({ ...props, TransactionType: 'LoanBrokerSet' } );
   }
 
   override validate(): void {

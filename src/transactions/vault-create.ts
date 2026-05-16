@@ -11,9 +11,8 @@ export interface VaultCreateTxFields extends BaseTransactionFields {
 export class VaultCreateTx extends Transaction {
   override readonly TransactionType = 'VaultCreate' as const;
 
-  constructor(props: VaultCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'VaultCreate' } as BaseTransactionFields);
+  constructor(props: VaultCreateTxFields) {
+    super({ ...props, TransactionType: 'VaultCreate' } );
   }
 
   override validate(): void {

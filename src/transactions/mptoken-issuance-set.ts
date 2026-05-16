@@ -3,7 +3,7 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { TokenTransaction } from '../groups/token.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
@@ -12,7 +12,7 @@ export interface MPTokenIssuanceSetTxFields extends BaseTransactionFields {
   /** The unique identifier of the MPT issuance. */
   readonly MPTokenIssuanceID: string;
   /** The account of the holder to update (for specific flags). */
-  readonly Holder?: string;
+  readonly Holder?: string | undefined;
 }
 
 export class MPTokenIssuanceSetTx extends TokenTransaction {
@@ -22,13 +22,12 @@ export class MPTokenIssuanceSetTx extends TokenTransaction {
   readonly MPTokenIssuanceID: string = undefined as any;
 
   /** The account of the holder to update (for specific flags). */
-  readonly Holder?: string = undefined;
+  readonly Holder?: string | undefined = undefined;
 
-  constructor(props: MPTokenIssuanceSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'MPTokenIssuanceSet' } as BaseTransactionFields);
-    this.MPTokenIssuanceID = p['MPTokenIssuanceID'] as string;
-    assignDefined(this, p, ['Holder']);
+  constructor(props: MPTokenIssuanceSetTxFields) {
+    super({ ...props, TransactionType: 'MPTokenIssuanceSet' } );
+    this.MPTokenIssuanceID = props.MPTokenIssuanceID as string;
+        this.Holder = props.Holder as any;
   }
 
   override affectsTokenBalance(): boolean { return false; }

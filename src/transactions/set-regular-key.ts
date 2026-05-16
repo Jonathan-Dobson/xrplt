@@ -5,26 +5,25 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { AccountTransaction } from '../groups/account.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAccount } from '../validation/helpers.js';
 
 export interface SetRegularKeyTxFields extends BaseTransactionFields {
   readonly TransactionType: 'SetRegularKey';
   /** The address of the new regular key (leave empty to remove). */
-  readonly RegularKey?: string;
+  readonly RegularKey?: string | undefined;
 }
 
 export class SetRegularKeyTx extends AccountTransaction {
   override readonly TransactionType = 'SetRegularKey' as const;
 
   /** The address of the new regular key. */
-  readonly RegularKey?: string = undefined;
+  readonly RegularKey?: string | undefined = undefined;
 
-  constructor(props: SetRegularKeyTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'SetRegularKey' } as BaseTransactionFields);
-    assignDefined(this, p, ['RegularKey']);
+  constructor(props: SetRegularKeyTxFields) {
+    super({ ...props, TransactionType: 'SetRegularKey' } );
+        this.RegularKey = props.RegularKey as any;
   }
 
   override validate(): void {

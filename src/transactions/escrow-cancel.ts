@@ -25,11 +25,10 @@ export class EscrowCancelTx extends Transaction {
   /** The sequence number of the EscrowCreate transaction. */
   readonly OfferSequence: number = undefined as any;
 
-  constructor(props: EscrowCancelTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'EscrowCancel' } as BaseTransactionFields);
-    this.Owner = p['Owner'] as string;
-    this.OfferSequence = p['OfferSequence'] as number;
+  constructor(props: EscrowCancelTxFields) {
+    super({ ...props, TransactionType: 'EscrowCancel' } );
+    this.Owner = props.Owner as string;
+    this.OfferSequence = props.OfferSequence as number;
   }
 
   override validate(): void {

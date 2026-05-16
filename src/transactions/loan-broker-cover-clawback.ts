@@ -18,10 +18,9 @@ export class LoanBrokerCoverClawbackTx extends Transaction {
 
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: LoanBrokerCoverClawbackTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanBrokerCoverClawback' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: LoanBrokerCoverClawbackTxFields) {
+    super({ ...props, TransactionType: 'LoanBrokerCoverClawback' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

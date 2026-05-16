@@ -7,7 +7,7 @@ import type { BaseTransactionFields } from '../types/base.js';
 import type { Amount } from '../types/amounts.js';
 import type { OfferCreateFlagsInterface } from '../types/flags.js';
 import { OfferTransaction } from '../groups/offer.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAmount, isString } from '../validation/helpers.js';
 
@@ -18,13 +18,13 @@ export interface OfferCreateTxFields extends BaseTransactionFields {
   /** The amount requested in exchange. */
   readonly TakerPays: Amount;
   /** Time after which the offer is no longer valid. */
-  readonly Expiration?: number;
+  readonly Expiration?: number | undefined;
   /** Offer sequence to cancel when placing this one. */
-  readonly OfferSequence?: number;
+  readonly OfferSequence?: number | undefined;
   /** Identifier for a domain (required for tfHybrid). */
-  readonly DomainID?: string;
+  readonly DomainID?: string | undefined;
   /** Bit-flags for this transaction. */
-  readonly Flags?: number | OfferCreateFlagsInterface;
+  readonly Flags?: number | OfferCreateFlagsInterface | undefined;
 }
 
 export class OfferCreateTx extends OfferTransaction {
@@ -36,17 +36,19 @@ export class OfferCreateTx extends OfferTransaction {
   /** The amount requested in exchange. */
   readonly TakerPays: Amount = undefined as any;
 
-  readonly Expiration?: number = undefined;
-  readonly OfferSequence?: number = undefined;
-  readonly DomainID?: string = undefined;
-  declare readonly Flags?: number | OfferCreateFlagsInterface;
+  readonly Expiration?: number | undefined = undefined;
+  readonly OfferSequence?: number | undefined = undefined;
+  readonly DomainID?: string | undefined = undefined;
+  declare readonly Flags?: number | OfferCreateFlagsInterface | undefined;
 
-  constructor(props: OfferCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'OfferCreate' } as BaseTransactionFields);
-    this.TakerGets = p['TakerGets'] as Amount;
-    this.TakerPays = p['TakerPays'] as Amount;
-    assignDefined(this, p, ['Expiration', 'OfferSequence', 'DomainID', 'Flags']);
+  constructor(props: OfferCreateTxFields) {
+    super({ ...props, TransactionType: 'OfferCreate' } );
+    this.TakerGets = props.TakerGets as Amount;
+    this.TakerPays = props.TakerPays as Amount;
+        this.Expiration = props.Expiration as any;
+    this.OfferSequence = props.OfferSequence as any;
+    this.DomainID = props.DomainID as any;
+    this.Flags = props.Flags as any;
   }
 
   override validate(): void {

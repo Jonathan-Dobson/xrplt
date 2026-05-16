@@ -26,12 +26,11 @@ export class LoanSetTx extends Transaction {
   readonly Amount: Amount = undefined as any;
   readonly InterestRate: number = undefined as any;
 
-  constructor(props: LoanSetTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'LoanSet' } as BaseTransactionFields);
-    this.Asset = p['Asset'] as Record<string, unknown>;
-    this.Amount = p['Amount'] as Amount;
-    this.InterestRate = p['InterestRate'] as number;
+  constructor(props: LoanSetTxFields) {
+    super({ ...props, TransactionType: 'LoanSet' } );
+    this.Asset = props.Asset as Record<string, unknown>;
+    this.Amount = props.Amount as Amount;
+    this.InterestRate = props.InterestRate as number;
   }
 
   override validate(): void {

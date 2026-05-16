@@ -5,7 +5,7 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import { PaymentTransaction } from '../groups/payment.js';
-import { assignDefined } from '../transaction.js';
+
 import { ValidationError } from '../errors.js';
 import { isAccount, isAmount, isString } from '../validation/helpers.js';
 import type { Amount } from '../types/amounts.js';
@@ -17,13 +17,13 @@ export interface EscrowCreateTxFields extends BaseTransactionFields {
   /** Address to receive the XRP when finished. */
   readonly Destination: string;
   /** Time after which the escrow is no longer valid. */
-  readonly CancelAfter?: number;
+  readonly CancelAfter?: number | undefined;
   /** Time after which the escrow can be finished. */
-  readonly FinishAfter?: number;
+  readonly FinishAfter?: number | undefined;
   /** Cryptographic condition that must be met to finish. */
-  readonly Condition?: string;
+  readonly Condition?: string | undefined;
   /** Destination tag for the recipient. */
-  readonly DestinationTag?: number;
+  readonly DestinationTag?: number | undefined;
 }
 
 export class EscrowCreateTx extends PaymentTransaction {
@@ -35,17 +35,19 @@ export class EscrowCreateTx extends PaymentTransaction {
   /** Destination address. */
   readonly Destination: string = undefined as any;
 
-  readonly CancelAfter?: number = undefined;
-  readonly FinishAfter?: number = undefined;
-  readonly Condition?: string = undefined;
-  readonly DestinationTag?: number = undefined;
+  readonly CancelAfter?: number | undefined = undefined;
+  readonly FinishAfter?: number | undefined = undefined;
+  readonly Condition?: string | undefined = undefined;
+  readonly DestinationTag?: number | undefined = undefined;
 
-  constructor(props: EscrowCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'EscrowCreate' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as string;
-    this.Destination = p['Destination'] as string;
-    assignDefined(this, p, ['CancelAfter', 'FinishAfter', 'Condition', 'DestinationTag']);
+  constructor(props: EscrowCreateTxFields) {
+    super({ ...props, TransactionType: 'EscrowCreate' } );
+    this.Amount = props.Amount as string;
+    this.Destination = props.Destination as string;
+        this.CancelAfter = props.CancelAfter as any;
+    this.FinishAfter = props.FinishAfter as any;
+    this.Condition = props.Condition as any;
+    this.DestinationTag = props.DestinationTag as any;
   }
 
   override getAmount(): Amount { return this.Amount; }

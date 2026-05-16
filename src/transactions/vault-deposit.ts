@@ -19,10 +19,9 @@ export class VaultDepositTx extends Transaction {
   /** The amount to deposit. */
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: VaultDepositTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'VaultDeposit' } as BaseTransactionFields);
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: VaultDepositTxFields) {
+    super({ ...props, TransactionType: 'VaultDeposit' } );
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

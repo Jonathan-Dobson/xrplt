@@ -11,9 +11,9 @@ export interface XChainModifyBridgeTxFields extends BaseTransactionFields {
   /** Definition of the bridge to modify. */
   readonly XChainBridge: Record<string, unknown>;
   /** New minimum account creation amount. */
-  readonly MinAccountCreateAmount?: string;
+  readonly MinAccountCreateAmount?: string | undefined;
   /** New signature reward. */
-  readonly SignatureReward?: string;
+  readonly SignatureReward?: string | undefined;
 }
 
 export class XChainModifyBridgeTx extends XChainTransaction {
@@ -22,15 +22,14 @@ export class XChainModifyBridgeTx extends XChainTransaction {
   /** Definition of the bridge to modify. */
   readonly XChainBridge: Record<string, unknown> = undefined as any;
 
-  readonly MinAccountCreateAmount?: string = undefined;
-  readonly SignatureReward?: string = undefined;
+  readonly MinAccountCreateAmount?: string | undefined = undefined;
+  readonly SignatureReward?: string | undefined = undefined;
 
-  constructor(props: XChainModifyBridgeTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainModifyBridge' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.MinAccountCreateAmount = p['MinAccountCreateAmount'] as string;
-    this.SignatureReward = p['SignatureReward'] as string;
+  constructor(props: XChainModifyBridgeTxFields) {
+    super({ ...props, TransactionType: 'XChainModifyBridge' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.MinAccountCreateAmount = props.MinAccountCreateAmount as string;
+    this.SignatureReward = props.SignatureReward as string;
   }
 
   override validate(): void {

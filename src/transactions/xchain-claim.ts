@@ -36,13 +36,12 @@ export class XChainClaimTx extends XChainTransaction {
   /** The amount to claim. */
   readonly Amount: Amount = undefined as any;
 
-  constructor(props: XChainClaimTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'XChainClaim' } as BaseTransactionFields);
-    this.XChainBridge = p['XChainBridge'] as Record<string, unknown>;
-    this.XChainClaimID = p['XChainClaimID'] as number;
-    this.Destination = p['Destination'] as string;
-    this.Amount = p['Amount'] as Amount;
+  constructor(props: XChainClaimTxFields) {
+    super({ ...props, TransactionType: 'XChainClaim' } );
+    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
+    this.XChainClaimID = props.XChainClaimID as number;
+    this.Destination = props.Destination as string;
+    this.Amount = props.Amount as Amount;
   }
 
   override validate(): void {

@@ -5,7 +5,7 @@
  */
 import type { Amount } from '../types/amounts.js';
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
@@ -14,9 +14,9 @@ export interface CheckCashTxFields extends BaseTransactionFields {
   /** The ID of the check to cash. */
   readonly CheckID: string;
   /** Fixed amount to cash for. */
-  readonly Amount?: Amount;
+  readonly Amount?: Amount | undefined;
   /** Minimum amount to cash for (slippage control). */
-  readonly DeliverMin?: Amount;
+  readonly DeliverMin?: Amount | undefined;
 }
 
 export class CheckCashTx extends Transaction {
@@ -25,14 +25,14 @@ export class CheckCashTx extends Transaction {
   /** The ID of the check to cash. */
   readonly CheckID: string = undefined as any;
 
-  readonly Amount?: Amount = undefined;
-  readonly DeliverMin?: Amount = undefined;
+  readonly Amount?: Amount | undefined = undefined;
+  readonly DeliverMin?: Amount | undefined = undefined;
 
-  constructor(props: CheckCashTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'CheckCash' } as BaseTransactionFields);
-    this.CheckID = p['CheckID'] as string;
-    assignDefined(this, p, ['Amount', 'DeliverMin']);
+  constructor(props: CheckCashTxFields) {
+    super({ ...props, TransactionType: 'CheckCash' } );
+    this.CheckID = props.CheckID as string;
+        this.Amount = props.Amount as any;
+    this.DeliverMin = props.DeliverMin as any;
   }
 
   override validate(): void {

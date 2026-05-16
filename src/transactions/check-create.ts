@@ -5,7 +5,7 @@
  */
 import type { Amount } from '../types/amounts.js';
 import type { BaseTransactionFields } from '../types/base.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAccount, isAmount, isNumber, isString } from '../validation/helpers.js';
 
@@ -16,11 +16,11 @@ export interface CheckCreateTxFields extends BaseTransactionFields {
   /** Maximum amount the check can be cashed for. */
   readonly SendMax: Amount;
   /** Arbitrary destination tag for the recipient. */
-  readonly DestinationTag?: number;
+  readonly DestinationTag?: number | undefined;
   /** Time after which the check is no longer valid. */
-  readonly Expiration?: number;
+  readonly Expiration?: number | undefined;
   /** Arbitrary identifier for the check. */
-  readonly InvoiceID?: string;
+  readonly InvoiceID?: string | undefined;
 }
 
 export class CheckCreateTx extends Transaction {
@@ -32,16 +32,17 @@ export class CheckCreateTx extends Transaction {
   /** Maximum amount the check can be cashed for. */
   readonly SendMax: Amount = undefined as any;
 
-  readonly DestinationTag?: number = undefined;
-  readonly Expiration?: number = undefined;
-  readonly InvoiceID?: string = undefined;
+  readonly DestinationTag?: number | undefined = undefined;
+  readonly Expiration?: number | undefined = undefined;
+  readonly InvoiceID?: string | undefined = undefined;
 
-  constructor(props: CheckCreateTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'CheckCreate' } as BaseTransactionFields);
-    this.Destination = p['Destination'] as string;
-    this.SendMax = p['SendMax'] as Amount;
-    assignDefined(this, p, ['DestinationTag', 'Expiration', 'InvoiceID']);
+  constructor(props: CheckCreateTxFields) {
+    super({ ...props, TransactionType: 'CheckCreate' } );
+    this.Destination = props.Destination as string;
+    this.SendMax = props.SendMax as Amount;
+        this.DestinationTag = props.DestinationTag as any;
+    this.Expiration = props.Expiration as any;
+    this.InvoiceID = props.InvoiceID as any;
   }
 
   override validate(): void {

@@ -5,7 +5,7 @@
  */
 import type { BaseTransactionFields } from '../types/base.js';
 import type { Amount } from '../types/amounts.js';
-import { Transaction, assignDefined } from '../transaction.js';
+import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 import { isAmount, isString } from '../validation/helpers.js';
 
@@ -16,7 +16,7 @@ export interface PaymentChannelFundTxFields extends BaseTransactionFields {
   /** Amount of XRP to add to the channel. */
   readonly Amount: Amount;
   /** New expiration time for the channel. */
-  readonly Expiration?: number;
+  readonly Expiration?: number | undefined;
 }
 
 export class PaymentChannelFundTx extends Transaction {
@@ -28,14 +28,13 @@ export class PaymentChannelFundTx extends Transaction {
   /** Amount of XRP to add. */
   readonly Amount: Amount = undefined as any;
 
-  readonly Expiration?: number = undefined;
+  readonly Expiration?: number | undefined = undefined;
 
-  constructor(props: PaymentChannelFundTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'PaymentChannelFund' } as BaseTransactionFields);
-    this.Channel = p['Channel'] as string;
-    this.Amount = p['Amount'] as Amount;
-    assignDefined(this, p, ['Expiration']);
+  constructor(props: PaymentChannelFundTxFields) {
+    super({ ...props, TransactionType: 'PaymentChannelFund' } );
+    this.Channel = props.Channel as string;
+    this.Amount = props.Amount as Amount;
+        this.Expiration = props.Expiration as any;
   }
 
   override validate(): void {

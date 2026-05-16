@@ -15,10 +15,9 @@ export class OfferCancelTx extends OfferTransaction {
   override readonly TransactionType = 'OfferCancel' as const;
   readonly OfferSequence: number = undefined as any;
 
-  constructor(props: OfferCancelTxFields | Record<string, unknown>) {
-    const p = props as Record<string, unknown>;
-    super({ ...p, TransactionType: 'OfferCancel' } as BaseTransactionFields);
-    this.OfferSequence = p['OfferSequence'] as number;
+  constructor(props: OfferCancelTxFields) {
+    super({ ...props, TransactionType: 'OfferCancel' } );
+    this.OfferSequence = props.OfferSequence as number;
   }
 
   override validate(): void {
