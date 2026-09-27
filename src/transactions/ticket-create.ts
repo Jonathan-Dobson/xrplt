@@ -26,7 +26,7 @@ export class TicketCreateTx extends Transaction {
   ] as const;
 
   constructor(props: TicketCreateTxFields) {
-    super({ ...props, TransactionType: 'TicketCreate' });
+    super({ ...props, TransactionType: TicketCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

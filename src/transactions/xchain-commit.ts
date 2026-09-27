@@ -43,7 +43,7 @@ export class XChainCommitTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainCommitTxFields) {
-    super({ ...props, TransactionType: 'XChainCommit' });
+    super({ ...props, TransactionType: XChainCommitTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

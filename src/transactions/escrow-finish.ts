@@ -38,7 +38,7 @@ export class EscrowFinishTx extends Transaction {
   ] as const;
 
   constructor(props: EscrowFinishTxFields) {
-    super({ ...props, TransactionType: 'EscrowFinish' });
+    super({ ...props, TransactionType: EscrowFinishTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

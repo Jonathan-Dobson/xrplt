@@ -15,7 +15,7 @@ export class PermissionedDomainDeleteTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: PermissionedDomainDeleteTxFields) {
-    super({ ...props, TransactionType: 'PermissionedDomainDelete' });
+    super({ ...props, TransactionType: PermissionedDomainDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

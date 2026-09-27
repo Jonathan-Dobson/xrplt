@@ -27,7 +27,7 @@ export class ClawbackTx extends TokenTransaction {
   ] as const;
 
   constructor(props: ClawbackTxFields) {
-    super({ ...props, TransactionType: 'Clawback' });
+    super({ ...props, TransactionType: ClawbackTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -31,7 +31,7 @@ export class AccountDeleteTx extends AccountTransaction {
   ] as const;
 
   constructor(props: AccountDeleteTxFields) {
-    super({ ...props, TransactionType: 'AccountDelete' });
+    super({ ...props, TransactionType: AccountDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -22,7 +22,7 @@ export class DelegateSetTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: DelegateSetTxFields) {
-    super({ ...props, TransactionType: 'DelegateSet' });
+    super({ ...props, TransactionType: DelegateSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

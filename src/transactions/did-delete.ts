@@ -15,7 +15,7 @@ export class DIDDeleteTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: DIDDeleteTxFields) {
-    super({ ...props, TransactionType: 'DIDDelete' });
+    super({ ...props, TransactionType: DIDDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

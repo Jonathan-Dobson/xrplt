@@ -26,7 +26,7 @@ export class BatchTx extends Transaction {
   ] as const;
 
   constructor(props: BatchTxFields) {
-    super({ ...props, TransactionType: 'Batch' });
+    super({ ...props, TransactionType: BatchTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

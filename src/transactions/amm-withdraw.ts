@@ -36,7 +36,7 @@ export class AMMWithdrawTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMWithdrawTxFields) {
-    super({ ...props, TransactionType: 'AMMWithdraw' });
+    super({ ...props, TransactionType: AMMWithdrawTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

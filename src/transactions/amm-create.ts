@@ -37,7 +37,7 @@ export class AMMCreateTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMCreateTxFields) {
-    super({ ...props, TransactionType: 'AMMCreate' });
+    super({ ...props, TransactionType: AMMCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

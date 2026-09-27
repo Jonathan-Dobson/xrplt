@@ -30,7 +30,7 @@ export class DIDSetTx extends Transaction {
   ] as const;
 
   constructor(props: DIDSetTxFields) {
-    super({ ...props, TransactionType: 'DIDSet' });
+    super({ ...props, TransactionType: DIDSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

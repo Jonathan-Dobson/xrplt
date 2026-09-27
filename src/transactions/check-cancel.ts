@@ -26,7 +26,7 @@ export class CheckCancelTx extends Transaction {
   ] as const;
 
   constructor(props: CheckCancelTxFields) {
-    super({ ...props, TransactionType: 'CheckCancel' });
+    super({ ...props, TransactionType: CheckCancelTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

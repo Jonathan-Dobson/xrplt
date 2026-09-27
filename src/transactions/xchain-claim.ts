@@ -42,7 +42,7 @@ export class XChainClaimTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainClaimTxFields) {
-    super({ ...props, TransactionType: 'XChainClaim' });
+    super({ ...props, TransactionType: XChainClaimTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

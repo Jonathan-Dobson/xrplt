@@ -26,7 +26,7 @@ export class AMMDeleteTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMDeleteTxFields) {
-    super({ ...props, TransactionType: 'AMMDelete' });
+    super({ ...props, TransactionType: AMMDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

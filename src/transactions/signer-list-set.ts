@@ -40,7 +40,7 @@ export class SignerListSetTx extends AccountTransaction {
   ] as const;
 
   constructor(props: SignerListSetTxFields) {
-    super({ ...props, TransactionType: 'SignerListSet' });
+    super({ ...props, TransactionType: SignerListSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

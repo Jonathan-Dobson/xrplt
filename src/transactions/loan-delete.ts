@@ -23,7 +23,7 @@ export class LoanDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: LoanDeleteTxFields) {
-    super({ ...props, TransactionType: 'LoanDelete' });
+    super({ ...props, TransactionType: LoanDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

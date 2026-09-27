@@ -36,7 +36,7 @@ export class MPTokenAuthorizeTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenAuthorizeTxFields) {
-    super({ ...props, TransactionType: 'MPTokenAuthorize' });
+    super({ ...props, TransactionType: MPTokenAuthorizeTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -15,7 +15,7 @@ export class VaultCreateTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: VaultCreateTxFields) {
-    super({ ...props, TransactionType: 'VaultCreate' });
+    super({ ...props, TransactionType: VaultCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

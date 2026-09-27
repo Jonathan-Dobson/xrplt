@@ -29,7 +29,7 @@ export class AMMVoteTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMVoteTxFields) {
-    super({ ...props, TransactionType: 'AMMVote' });
+    super({ ...props, TransactionType: AMMVoteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

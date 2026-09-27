@@ -46,7 +46,7 @@ export class EscrowCreateTx extends PaymentTransaction {
   ] as const;
 
   constructor(props: EscrowCreateTxFields) {
-    super({ ...props, TransactionType: 'EscrowCreate' });
+    super({ ...props, TransactionType: EscrowCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

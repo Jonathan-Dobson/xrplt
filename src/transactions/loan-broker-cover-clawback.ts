@@ -24,7 +24,7 @@ export class LoanBrokerCoverClawbackTx extends Transaction {
   ] as const;
 
   constructor(props: LoanBrokerCoverClawbackTxFields) {
-    super({ ...props, TransactionType: 'LoanBrokerCoverClawback' });
+    super({ ...props, TransactionType: LoanBrokerCoverClawbackTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

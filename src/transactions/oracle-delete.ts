@@ -23,7 +23,7 @@ export class OracleDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: OracleDeleteTxFields) {
-    super({ ...props, TransactionType: 'OracleDelete' });
+    super({ ...props, TransactionType: OracleDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

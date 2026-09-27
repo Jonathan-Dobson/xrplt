@@ -47,7 +47,7 @@ export class OfferCreateTx extends OfferTransaction {
   ] as const;
 
   constructor(props: OfferCreateTxFields) {
-    super({ ...props, TransactionType: 'OfferCreate' });
+    super({ ...props, TransactionType: OfferCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

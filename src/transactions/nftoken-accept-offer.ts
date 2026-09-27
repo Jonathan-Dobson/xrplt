@@ -33,7 +33,7 @@ export class NFTokenAcceptOfferTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenAcceptOfferTxFields) {
-    super({ ...props, TransactionType: 'NFTokenAcceptOffer' });
+    super({ ...props, TransactionType: NFTokenAcceptOfferTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

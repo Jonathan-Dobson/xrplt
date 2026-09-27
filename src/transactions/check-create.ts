@@ -42,7 +42,7 @@ export class CheckCreateTx extends Transaction {
   ] as const;
 
   constructor(props: CheckCreateTxFields) {
-    super({ ...props, TransactionType: 'CheckCreate' });
+    super({ ...props, TransactionType: CheckCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

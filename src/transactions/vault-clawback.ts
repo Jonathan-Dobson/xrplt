@@ -25,7 +25,7 @@ export class VaultClawbackTx extends Transaction {
   ] as const;
 
   constructor(props: VaultClawbackTxFields) {
-    super({ ...props, TransactionType: 'VaultClawback' });
+    super({ ...props, TransactionType: VaultClawbackTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

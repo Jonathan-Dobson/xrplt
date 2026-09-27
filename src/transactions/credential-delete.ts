@@ -29,7 +29,7 @@ export class CredentialDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: CredentialDeleteTxFields) {
-    super({ ...props, TransactionType: 'CredentialDelete' });
+    super({ ...props, TransactionType: CredentialDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

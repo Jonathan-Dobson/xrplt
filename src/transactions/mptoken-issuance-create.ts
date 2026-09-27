@@ -35,7 +35,7 @@ export class MPTokenIssuanceCreateTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenIssuanceCreateTxFields) {
-    super({ ...props, TransactionType: 'MPTokenIssuanceCreate' });
+    super({ ...props, TransactionType: MPTokenIssuanceCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

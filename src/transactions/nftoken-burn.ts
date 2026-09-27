@@ -32,7 +32,7 @@ export class NFTokenBurnTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenBurnTxFields) {
-    super({ ...props, TransactionType: 'NFTokenBurn' });
+    super({ ...props, TransactionType: NFTokenBurnTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

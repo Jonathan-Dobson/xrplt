@@ -40,7 +40,7 @@ export class PaymentChannelClaimTx extends Transaction {
   ] as const;
 
   constructor(props: PaymentChannelClaimTxFields) {
-    super({ ...props, TransactionType: 'PaymentChannelClaim' });
+    super({ ...props, TransactionType: PaymentChannelClaimTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

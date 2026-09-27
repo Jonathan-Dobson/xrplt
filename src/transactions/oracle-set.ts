@@ -43,7 +43,7 @@ export class OracleSetTx extends Transaction {
   ] as const;
 
   constructor(props: OracleSetTxFields) {
-    super({ ...props, TransactionType: 'OracleSet' });
+    super({ ...props, TransactionType: OracleSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

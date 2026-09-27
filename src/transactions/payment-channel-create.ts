@@ -48,7 +48,7 @@ export class PaymentChannelCreateTx extends Transaction {
   ] as const;
 
   constructor(props: PaymentChannelCreateTxFields) {
-    super({ ...props, TransactionType: 'PaymentChannelCreate' });
+    super({ ...props, TransactionType: PaymentChannelCreateTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

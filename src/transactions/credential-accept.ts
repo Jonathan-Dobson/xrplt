@@ -26,7 +26,7 @@ export class CredentialAcceptTx extends Transaction {
   ] as const;
 
   constructor(props: CredentialAcceptTxFields) {
-    super({ ...props, TransactionType: 'CredentialAccept' });
+    super({ ...props, TransactionType: CredentialAcceptTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

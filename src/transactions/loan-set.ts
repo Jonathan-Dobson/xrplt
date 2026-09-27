@@ -32,7 +32,7 @@ export class LoanSetTx extends Transaction {
   ] as const;
 
   constructor(props: LoanSetTxFields) {
-    super({ ...props, TransactionType: 'LoanSet' });
+    super({ ...props, TransactionType: LoanSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

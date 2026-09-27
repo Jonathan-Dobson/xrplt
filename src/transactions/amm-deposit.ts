@@ -36,7 +36,7 @@ export class AMMDepositTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMDepositTxFields) {
-    super({ ...props, TransactionType: 'AMMDeposit' });
+    super({ ...props, TransactionType: AMMDepositTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

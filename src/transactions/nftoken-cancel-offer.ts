@@ -26,7 +26,7 @@ export class NFTokenCancelOfferTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenCancelOfferTxFields) {
-    super({ ...props, TransactionType: 'NFTokenCancelOffer' });
+    super({ ...props, TransactionType: NFTokenCancelOfferTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

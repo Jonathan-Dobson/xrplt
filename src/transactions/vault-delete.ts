@@ -15,7 +15,7 @@ export class VaultDeleteTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: VaultDeleteTxFields) {
-    super({ ...props, TransactionType: 'VaultDelete' });
+    super({ ...props, TransactionType: VaultDeleteTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

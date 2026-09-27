@@ -29,7 +29,7 @@ export class DepositPreauthTx extends AccountTransaction {
   ] as const;
 
   constructor(props: DepositPreauthTxFields) {
-    super({ ...props, TransactionType: 'DepositPreauth' });
+    super({ ...props, TransactionType: DepositPreauthTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

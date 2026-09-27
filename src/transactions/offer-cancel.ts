@@ -21,7 +21,7 @@ export class OfferCancelTx extends OfferTransaction {
   ] as const;
 
   constructor(props: OfferCancelTxFields) {
-    super({ ...props, TransactionType: 'OfferCancel' });
+    super({ ...props, TransactionType: OfferCancelTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

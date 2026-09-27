@@ -25,7 +25,7 @@ export class VaultDepositTx extends Transaction {
   ] as const;
 
   constructor(props: VaultDepositTxFields) {
-    super({ ...props, TransactionType: 'VaultDeposit' });
+    super({ ...props, TransactionType: VaultDepositTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

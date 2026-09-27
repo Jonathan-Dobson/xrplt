@@ -32,7 +32,7 @@ export class AMMClawbackTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMClawbackTxFields) {
-    super({ ...props, TransactionType: 'AMMClawback' });
+    super({ ...props, TransactionType: AMMClawbackTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

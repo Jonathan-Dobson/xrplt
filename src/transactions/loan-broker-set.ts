@@ -15,7 +15,7 @@ export class LoanBrokerSetTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: LoanBrokerSetTxFields) {
-    super({ ...props, TransactionType: 'LoanBrokerSet' });
+    super({ ...props, TransactionType: LoanBrokerSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

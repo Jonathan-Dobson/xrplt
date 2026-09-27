@@ -41,7 +41,7 @@ export class NFTokenMintTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenMintTxFields) {
-    super({ ...props, TransactionType: 'NFTokenMint' });
+    super({ ...props, TransactionType: NFTokenMintTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

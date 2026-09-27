@@ -51,7 +51,7 @@ export class AccountSetTx extends AccountTransaction {
   ] as const;
 
   constructor(props: AccountSetTxFields) {
-    super({ ...props, TransactionType: 'AccountSet' });
+    super({ ...props, TransactionType: AccountSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

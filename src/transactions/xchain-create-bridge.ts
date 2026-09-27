@@ -35,7 +35,7 @@ export class XChainCreateBridgeTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainCreateBridgeTxFields) {
-    super({ ...props, TransactionType: 'XChainCreateBridge' });
+    super({ ...props, TransactionType: XChainCreateBridgeTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

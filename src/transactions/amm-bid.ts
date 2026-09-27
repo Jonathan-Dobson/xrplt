@@ -37,7 +37,7 @@ export class AMMBidTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMBidTxFields) {
-    super({ ...props, TransactionType: 'AMMBid' });
+    super({ ...props, TransactionType: AMMBidTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

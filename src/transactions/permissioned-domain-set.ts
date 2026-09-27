@@ -28,7 +28,7 @@ export class PermissionedDomainSetTx extends Transaction {
   ] as const;
 
   constructor(props: PermissionedDomainSetTxFields) {
-    super({ ...props, TransactionType: 'PermissionedDomainSet' });
+    super({ ...props, TransactionType: PermissionedDomainSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

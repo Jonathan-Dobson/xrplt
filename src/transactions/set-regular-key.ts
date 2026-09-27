@@ -27,7 +27,7 @@ export class SetRegularKeyTx extends AccountTransaction {
   ] as const;
 
   constructor(props: SetRegularKeyTxFields) {
-    super({ ...props, TransactionType: 'SetRegularKey' });
+    super({ ...props, TransactionType: SetRegularKeyTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

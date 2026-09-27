@@ -39,7 +39,7 @@ export class TrustSetTx extends TokenTransaction {
   ] as const;
 
   constructor(props: TrustSetTxFields) {
-    super({ ...props, TransactionType: 'TrustSet' });
+    super({ ...props, TransactionType: TrustSetTx.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
