@@ -156,6 +156,7 @@ export class MPTokenIssuanceSet
     'Holder',
     'ImmutableFlags',
     'IssuerEncryptionKey',
+    'MPTokenIssuanceID',
     'MPTokenMetadata',
     'TransferFee',
   ] as const;
