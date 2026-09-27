@@ -1,29 +1,29 @@
 import { describe, it, expect } from 'vitest';
 import {
   Transaction,
-  PaymentTx,
-  AccountSetTx,
-  TrustSetTx,
-  OfferCreateTx,
-  OfferCancelTx,
-  EscrowCreateTx,
-  EscrowFinishTx,
-  EscrowCancelTx,
-  CheckCreateTx,
-  CheckCashTx,
-  CheckCancelTx,
-  NFTokenMintTx,
-  NFTokenCreateOfferTx,
-  NFTokenAcceptOfferTx,
-  MPTokenIssuanceCreateTx,
-  MPTokenAuthorizeTx,
-  TicketCreateTx,
-  DepositPreauthTx,
-  ClawbackTx,
-  SetRegularKeyTx,
-  SignerListSetTx,
-  AccountDeleteTx,
-  DelegateSetTx,
+  Payment,
+  AccountSet,
+  TrustSet,
+  OfferCreate,
+  OfferCancel,
+  EscrowCreate,
+  EscrowFinish,
+  EscrowCancel,
+  CheckCreate,
+  CheckCash,
+  CheckCancel,
+  NFTokenMint,
+  NFTokenCreateOffer,
+  NFTokenAcceptOffer,
+  MPTokenIssuanceCreate,
+  MPTokenAuthorize,
+  TicketCreate,
+  DepositPreauth,
+  Clawback,
+  SetRegularKey,
+  SignerListSet,
+  AccountDelete,
+  DelegateSet,
   TransactionRegistry,
   ValidationError,
   TransactionError,
@@ -44,7 +44,7 @@ describe('Transaction.create()', () => {
       Amount: '1000000',
       Destination: BOB,
     });
-    expect(tx).toBeInstanceOf(PaymentTx);
+    expect(tx).toBeInstanceOf(Payment);
     expect(tx.TransactionType).toBe('Payment');
     expect(tx.Account).toBe(ALICE);
   });
@@ -65,15 +65,15 @@ describe('Transaction.payment()', () => {
       Amount: '1000000',
       Destination: BOB,
     });
-    expect(tx).toBeInstanceOf(PaymentTx);
+    expect(tx).toBeInstanceOf(Payment);
   });
 });
 
-// ─── PaymentTx ───────────────────────────────────────────────────────
+// ─── Payment ───────────────────────────────────────────────────────
 
-describe('PaymentTx', () => {
+describe('Payment', () => {
   const validPayment = () =>
-    new PaymentTx({
+    new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -92,7 +92,7 @@ describe('PaymentTx', () => {
   });
 
   it('validates with issued currency amount', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: { currency: 'USD', issuer: BOB, value: '10' },
@@ -102,7 +102,7 @@ describe('PaymentTx', () => {
   });
 
   it('throws on invalid Destination', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -112,7 +112,7 @@ describe('PaymentTx', () => {
   });
 
   it('throws when DeliverMin without tfPartialPayment', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -123,7 +123,7 @@ describe('PaymentTx', () => {
   });
 
   it('validates DeliverMin with tfPartialPayment flag', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -135,7 +135,7 @@ describe('PaymentTx', () => {
   });
 
   it('validates DeliverMin with boolean flag interface', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -161,7 +161,7 @@ describe('PaymentTx', () => {
 
 describe('Transaction.with()', () => {
   it('returns a new instance with overridden fields', () => {
-    const tx1 = new PaymentTx({
+    const tx1 = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -169,7 +169,7 @@ describe('Transaction.with()', () => {
     });
     const tx2 = tx1.with({ Fee: '12', Sequence: 42 });
 
-    expect(tx2).toBeInstanceOf(PaymentTx);
+    expect(tx2).toBeInstanceOf(Payment);
     expect(tx2.Fee).toBe('12');
     expect(tx2.Sequence).toBe(42);
     expect(tx2.Amount).toBe('1000000');
@@ -183,7 +183,7 @@ describe('Transaction.with()', () => {
 
 describe('toJSON()', () => {
   it('produces a plain object matching xrpl.js shape', () => {
-    const tx = new PaymentTx({
+    const tx = new Payment({
       Account: ALICE,
       TransactionType: 'Payment',
       Amount: '1000000',
@@ -205,11 +205,11 @@ describe('toJSON()', () => {
   });
 });
 
-// ─── AccountSetTx ────────────────────────────────────────────────────
+// ─── AccountSet ────────────────────────────────────────────────────
 
-describe('AccountSetTx', () => {
+describe('AccountSet', () => {
   it('constructs and validates', () => {
-    const tx = new AccountSetTx({
+    const tx = new AccountSet({
       Account: ALICE,
       TransactionType: 'AccountSet',
       SetFlag: AccountSetAsfFlags.asfRequireDest,
@@ -219,7 +219,7 @@ describe('AccountSetTx', () => {
   });
 
   it('rejects invalid TickSize', () => {
-    const tx = new AccountSetTx({
+    const tx = new AccountSet({
       Account: ALICE,
       TransactionType: 'AccountSet',
       TickSize: 2,
@@ -228,7 +228,7 @@ describe('AccountSetTx', () => {
   });
 
   it('accepts TickSize of 0 (disable)', () => {
-    const tx = new AccountSetTx({
+    const tx = new AccountSet({
       Account: ALICE,
       TransactionType: 'AccountSet',
       TickSize: 0,
@@ -237,11 +237,11 @@ describe('AccountSetTx', () => {
   });
 });
 
-// ─── TrustSetTx ──────────────────────────────────────────────────────
+// ─── TrustSet ──────────────────────────────────────────────────────
 
-describe('TrustSetTx', () => {
+describe('TrustSet', () => {
   it('validates with IssuedCurrencyAmount', () => {
-    const tx = new TrustSetTx({
+    const tx = new TrustSet({
       Account: ALICE,
       TransactionType: 'TrustSet',
       LimitAmount: { currency: 'USD', issuer: BOB, value: '1000' },
@@ -250,11 +250,11 @@ describe('TrustSetTx', () => {
   });
 });
 
-// ─── OfferCreateTx ───────────────────────────────────────────────────
+// ─── OfferCreate ───────────────────────────────────────────────────
 
-describe('OfferCreateTx', () => {
+describe('OfferCreate', () => {
   it('validates with XRP amounts', () => {
-    const tx = new OfferCreateTx({
+    const tx = new OfferCreate({
       Account: ALICE,
       TransactionType: 'OfferCreate',
       TakerGets: '500000',
@@ -264,7 +264,7 @@ describe('OfferCreateTx', () => {
   });
 
   it('rejects tfHybrid without DomainID', () => {
-    const tx = new OfferCreateTx({
+    const tx = new OfferCreate({
       Account: ALICE,
       TransactionType: 'OfferCreate',
       TakerGets: '500000',
@@ -275,11 +275,11 @@ describe('OfferCreateTx', () => {
   });
 });
 
-// ─── OfferCancelTx ───────────────────────────────────────────────────
+// ─── OfferCancel ───────────────────────────────────────────────────
 
-describe('OfferCancelTx', () => {
+describe('OfferCancel', () => {
   it('validates with valid OfferSequence', () => {
-    const tx = new OfferCancelTx({
+    const tx = new OfferCancel({
       Account: ALICE,
       TransactionType: 'OfferCancel',
       OfferSequence: 42,
@@ -288,11 +288,11 @@ describe('OfferCancelTx', () => {
   });
 });
 
-// ─── EscrowCreateTx ──────────────────────────────────────────────────
+// ─── EscrowCreate ──────────────────────────────────────────────────
 
-describe('EscrowCreateTx', () => {
+describe('EscrowCreate', () => {
   it('validates with FinishAfter', () => {
-    const tx = new EscrowCreateTx({
+    const tx = new EscrowCreate({
       Account: ALICE,
       TransactionType: 'EscrowCreate',
       Amount: '1000000',
@@ -303,7 +303,7 @@ describe('EscrowCreateTx', () => {
   });
 
   it('rejects missing CancelAfter and FinishAfter', () => {
-    const tx = new EscrowCreateTx({
+    const tx = new EscrowCreate({
       Account: ALICE,
       TransactionType: 'EscrowCreate',
       Amount: '1000000',
@@ -313,11 +313,11 @@ describe('EscrowCreateTx', () => {
   });
 });
 
-// ─── CheckCreateTx ───────────────────────────────────────────────────
+// ─── CheckCreate ───────────────────────────────────────────────────
 
-describe('CheckCreateTx', () => {
+describe('CheckCreate', () => {
   it('validates correctly', () => {
-    const tx = new CheckCreateTx({
+    const tx = new CheckCreate({
       Account: ALICE,
       TransactionType: 'CheckCreate',
       Destination: BOB,
@@ -327,11 +327,11 @@ describe('CheckCreateTx', () => {
   });
 });
 
-// ─── CheckCashTx ─────────────────────────────────────────────────────
+// ─── CheckCash ─────────────────────────────────────────────────────
 
-describe('CheckCashTx', () => {
+describe('CheckCash', () => {
   it('rejects both Amount and DeliverMin', () => {
-    const tx = new CheckCashTx({
+    const tx = new CheckCash({
       Account: ALICE,
       TransactionType: 'CheckCash',
       CheckID: 'abc123',
@@ -342,7 +342,7 @@ describe('CheckCashTx', () => {
   });
 
   it('rejects neither Amount nor DeliverMin', () => {
-    const tx = new CheckCashTx({
+    const tx = new CheckCash({
       Account: ALICE,
       TransactionType: 'CheckCash',
       CheckID: 'abc123',
@@ -351,11 +351,11 @@ describe('CheckCashTx', () => {
   });
 });
 
-// ─── NFTokenMintTx ───────────────────────────────────────────────────
+// ─── NFTokenMint ───────────────────────────────────────────────────
 
-describe('NFTokenMintTx', () => {
+describe('NFTokenMint', () => {
   it('validates with valid taxon', () => {
-    const tx = new NFTokenMintTx({
+    const tx = new NFTokenMint({
       Account: ALICE,
       TransactionType: 'NFTokenMint',
       NFTokenTaxon: 0,
@@ -364,7 +364,7 @@ describe('NFTokenMintTx', () => {
   });
 
   it('rejects TransferFee > 50000', () => {
-    const tx = new NFTokenMintTx({
+    const tx = new NFTokenMint({
       Account: ALICE,
       TransactionType: 'NFTokenMint',
       NFTokenTaxon: 0,
@@ -374,11 +374,11 @@ describe('NFTokenMintTx', () => {
   });
 });
 
-// ─── TicketCreateTx ──────────────────────────────────────────────────
+// ─── TicketCreate ──────────────────────────────────────────────────
 
-describe('TicketCreateTx', () => {
+describe('TicketCreate', () => {
   it('validates within bounds', () => {
-    const tx = new TicketCreateTx({
+    const tx = new TicketCreate({
       Account: ALICE,
       TransactionType: 'TicketCreate',
       TicketCount: 5,
@@ -387,7 +387,7 @@ describe('TicketCreateTx', () => {
   });
 
   it('rejects out of bounds', () => {
-    const tx = new TicketCreateTx({
+    const tx = new TicketCreate({
       Account: ALICE,
       TransactionType: 'TicketCreate',
       TicketCount: 251,
@@ -396,11 +396,11 @@ describe('TicketCreateTx', () => {
   });
 });
 
-// ─── DepositPreauthTx ────────────────────────────────────────────────
+// ─── DepositPreauth ────────────────────────────────────────────────
 
-describe('DepositPreauthTx', () => {
+describe('DepositPreauth', () => {
   it('validates with Authorize', () => {
-    const tx = new DepositPreauthTx({
+    const tx = new DepositPreauth({
       Account: ALICE,
       TransactionType: 'DepositPreauth',
       Authorize: BOB,
@@ -409,7 +409,7 @@ describe('DepositPreauthTx', () => {
   });
 
   it('rejects both Authorize and Unauthorize', () => {
-    const tx = new DepositPreauthTx({
+    const tx = new DepositPreauth({
       Account: ALICE,
       TransactionType: 'DepositPreauth',
       Authorize: BOB,
@@ -419,11 +419,11 @@ describe('DepositPreauthTx', () => {
   });
 });
 
-// ─── ClawbackTx ──────────────────────────────────────────────────────
+// ─── Clawback ──────────────────────────────────────────────────────
 
-describe('ClawbackTx', () => {
+describe('Clawback', () => {
   it('validates with IssuedCurrencyAmount', () => {
-    const tx = new ClawbackTx({
+    const tx = new Clawback({
       Account: ALICE,
       TransactionType: 'Clawback',
       Amount: { currency: 'USD', issuer: BOB, value: '100' },
@@ -432,7 +432,7 @@ describe('ClawbackTx', () => {
   });
 
   it('rejects XRP drop amount', () => {
-    const tx = new ClawbackTx({
+    const tx = new Clawback({
       Account: ALICE,
       TransactionType: 'Clawback',
       Amount: '1000000',
@@ -476,21 +476,21 @@ describe('TransactionRegistry', () => {
 
 describe('Property visibility and toJSON serialization', () => {
   it('captures required fields in OfferCancel', () => {
-    const tx = new OfferCancelTx({ Account: ALICE, OfferSequence: 42 });
+    const tx = new OfferCancel({ Account: ALICE, OfferSequence: 42 });
     const json = tx.toJSON();
     expect(json).toHaveProperty('OfferSequence', 42);
     expect(Object.keys(json)).toContain('OfferSequence');
   });
 
   it('captures required fields in NFTokenAcceptOffer', () => {
-    const tx = new NFTokenAcceptOfferTx({ Account: ALICE, NFTokenSellOffer: 'ABC' });
+    const tx = new NFTokenAcceptOffer({ Account: ALICE, NFTokenSellOffer: 'ABC' });
     const json = tx.toJSON();
     expect(json).toHaveProperty('NFTokenSellOffer', 'ABC');
     expect(Object.keys(json)).toContain('NFTokenSellOffer');
   });
 
   it('captures required fields in SignerListSet', () => {
-    const tx = new SignerListSetTx({ Account: ALICE, SignerQuorum: 2 });
+    const tx = new SignerListSet({ Account: ALICE, SignerQuorum: 2 });
     const json = tx.toJSON();
     expect(json).toHaveProperty('SignerQuorum', 2);
     expect(Object.keys(json)).toContain('SignerQuorum');
@@ -500,20 +500,20 @@ describe('Property visibility and toJSON serialization', () => {
 // ─── Inheritance checks ──────────────────────────────────────────────
 
 describe('Class hierarchy', () => {
-  it('PaymentTx is instanceof Transaction', () => {
+  it('Payment is instanceof Transaction', () => {
     const tx = Transaction.payment({ Account: ALICE, Amount: '100', Destination: BOB });
-    expect(tx).toBeInstanceOf(PaymentTx);
-    // PaymentTx → PaymentTransaction → Transaction
-    expect(tx.constructor.name).toBe('PaymentTx');
+    expect(tx).toBeInstanceOf(Payment);
+    // Payment → PaymentTransaction → Transaction
+    expect(tx.constructor.name).toBe('Payment');
   });
 
-  it('AccountSetTx is instanceof AccountTransaction', () => {
-    const tx = new AccountSetTx({ Account: ALICE, TransactionType: 'AccountSet' });
+  it('AccountSet is instanceof AccountTransaction', () => {
+    const tx = new AccountSet({ Account: ALICE, TransactionType: 'AccountSet' });
     expect(tx.requiresSequence()).toBe(true);
   });
 
-  it('NFTokenMintTx reports affectsTokenBalance', () => {
-    const tx = new NFTokenMintTx({
+  it('NFTokenMint reports affectsTokenBalance', () => {
+    const tx = new NFTokenMint({
       Account: ALICE,
       TransactionType: 'NFTokenMint',
       NFTokenTaxon: 0,

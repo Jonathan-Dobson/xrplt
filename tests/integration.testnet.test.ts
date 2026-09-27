@@ -8,16 +8,16 @@ import {
   MPTokenIssuanceCreateFlags,
 } from "xrpl";
 import {
-  PaymentTx,
-  AccountSetTx,
-  SignerListSetTx,
-  NFTokenMintTx,
-  NFTokenCreateOfferTx,
-  NFTokenAcceptOfferTx,
-  OfferCreateTx,
-  OfferCancelTx,
-  MPTokenIssuanceCreateTx,
-  MPTokenAuthorizeTx,
+  Payment,
+  AccountSet,
+  SignerListSet,
+  NFTokenMint,
+  NFTokenCreateOffer,
+  NFTokenAcceptOffer,
+  OfferCreate,
+  OfferCancel,
+  MPTokenIssuanceCreate,
+  MPTokenAuthorize,
 } from "../src/index.js";
 
 describe("xrplt Integration: Live Regression", () => {
@@ -75,7 +75,7 @@ describe("xrplt Integration: Live Regression", () => {
     let mptIssuanceID: string;
 
     it("creates an MPT issuance and authorizes a holder", async () => {
-      const createTx = new MPTokenIssuanceCreateTx({
+      const createTx = new MPTokenIssuanceCreate({
         Account: dave.address,
         Flags: MPTokenIssuanceCreateFlags.tfMPTCanClawback,
       });
@@ -96,7 +96,7 @@ describe("xrplt Integration: Live Regression", () => {
       expect(mptIssuanceID).toBeDefined();
       expect(mptIssuanceID.length).toBe(48);
 
-      const authTx = new MPTokenAuthorizeTx({
+      const authTx = new MPTokenAuthorize({
         Account: alice.address,
         MPTokenIssuanceID: mptIssuanceID,
       });
@@ -108,7 +108,7 @@ describe("xrplt Integration: Live Regression", () => {
     let nftokenID: string;
 
     it("mints an NFT and completes a sale", async () => {
-      const mintTx = new NFTokenMintTx({
+      const mintTx = new NFTokenMint({
         Account: dave.address,
         NFTokenTaxon: 123,
       });
@@ -117,7 +117,7 @@ describe("xrplt Integration: Live Regression", () => {
 
       nftokenID = meta.nftoken_id || (mintRes.result as any).nftoken_id;
 
-      const offerTx = new NFTokenCreateOfferTx({
+      const offerTx = new NFTokenCreateOffer({
         Account: dave.address,
         NFTokenID: nftokenID,
         Amount: "1000000",
@@ -129,7 +129,7 @@ describe("xrplt Integration: Live Regression", () => {
         (n: any) => n.CreatedNode?.LedgerEntryType === "NFTokenOffer"
       ).CreatedNode.LedgerIndex;
 
-      const acceptTx = new NFTokenAcceptOfferTx({
+      const acceptTx = new NFTokenAcceptOffer({
         Account: alice.address,
         NFTokenSellOffer: offerID,
       });
@@ -139,7 +139,7 @@ describe("xrplt Integration: Live Regression", () => {
 
   describe("3. DEX & Multi-Signature", () => {
     it("manages offers and performs a multi-signature payment", async () => {
-      const createTx = new OfferCreateTx({
+      const createTx = new OfferCreate({
         Account: dave.address,
         TakerGets: "1000000",
         TakerPays: { currency: "USD", issuer: alice.address, value: "10" },
@@ -147,13 +147,13 @@ describe("xrplt Integration: Live Regression", () => {
       const createRes = await submit(dave, createTx);
       const seq = (createRes.result as any).Sequence || (createRes.result as any).tx_json.Sequence;
 
-      const cancelTx = new OfferCancelTx({
+      const cancelTx = new OfferCancel({
         Account: dave.address,
         OfferSequence: seq,
       });
       await submit(dave, cancelTx);
 
-      const listTx = new SignerListSetTx({
+      const listTx = new SignerListSet({
         Account: alice.address,
         SignerQuorum: 2,
         SignerEntries: [
@@ -163,13 +163,13 @@ describe("xrplt Integration: Live Regression", () => {
       });
       await submit(alice, listTx);
 
-      const disableTx = new AccountSetTx({
+      const disableTx = new AccountSet({
         Account: alice.address,
         SetFlag: AccountSetAsfFlags.asfDisableMaster,
       });
       await submit(alice, disableTx);
 
-      const payTx = new PaymentTx({
+      const payTx = new Payment({
         Account: alice.address,
         Destination: dave.address,
         Amount: "1000",

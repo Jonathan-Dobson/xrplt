@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { 
-  PaymentTx, 
+  Payment, 
   Transaction, 
-  AccountSetTx, 
-  TicketCreateTx 
+  AccountSet, 
+  TicketCreate 
 } from "../src/index.js";
 import { AccountSetAsfFlags } from "xrpl";
 
@@ -17,7 +17,7 @@ describe("API Documentation Examples", () => {
   
   it("Core Concepts: Serialization (toJSON)", () => {
     // Example from line 29
-    const payment = new PaymentTx({
+    const payment = new Payment({
       Account: 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
       Amount: '1000000',
       Destination: 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe',
@@ -30,7 +30,7 @@ describe("API Documentation Examples", () => {
 
   it("Core Concepts: Immutability (with)", () => {
     // Example from line 42
-    const payment = new PaymentTx({
+    const payment = new Payment({
       Account: 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
       Amount: '1000000',
       Destination: 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe',
@@ -64,7 +64,7 @@ describe("API Documentation Examples", () => {
   it("Advanced Usage: Master Key Management", () => {
     // Example from line 125
     const alice = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
-    const disableMaster = new AccountSetTx({
+    const disableMaster = new AccountSet({
       Account: alice,
       SetFlag: AccountSetAsfFlags.asfDisableMaster,
     });
@@ -74,10 +74,10 @@ describe("API Documentation Examples", () => {
   it("Advanced Usage: Ticket-Based Submissions", () => {
     // Example from line 134
     const alice = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
-    const ticketTx = new TicketCreateTx({ Account: alice, TicketCount: 1 });
+    const ticketTx = new TicketCreate({ Account: alice, TicketCount: 1 });
     expect(ticketTx.toJSON().TicketCount).toBe(1);
 
-    const pay = new PaymentTx({
+    const pay = new Payment({
       Account: alice,
       Sequence: 0, 
       TicketSequence: 12345,
