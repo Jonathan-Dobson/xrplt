@@ -4,6 +4,53 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-09-28
+
+Patch release. Brings the MPT (Multi-Purpose Token) transaction family
+up to date with the upstream spec. Three amendments worth of previously
+missing fields, capability flags, and validation rules.
+
+### Fixed
+- **MPTokenIssuanceCreate** — added `DomainID` (PermissionedDomains +
+  SingleAssetVault amendments) and `ImmutableFlags` (DynamicMPT
+  amendment) fields; added all 7 capability flags
+  (`tfMPTCanLock`, `tfMPTRequireAuth`, `tfMPTCanEscrow`, `tfMPTCanTrade`,
+  `tfMPTCanTransfer`, `tfMPTCanClawback`,
+  `tfMPTCanHoldConfidentialBalance`). New validate() rules enforce the
+  spec's coherence locally so common `temMALFORMED` /
+  `temBAD_TRANSFER_FEE` / `temINVALID_FLAG` cases fail at construction
+  rather than at submit time.
+- **MPTokenIssuanceSet** — added 6 fields
+  (`AuditorEncryptionKey`, `IssuerEncryptionKey`, `DomainID`,
+  `ImmutableFlags`, `MPTokenMetadata`, `TransferFee`) plus the full
+  flag set (`tfMPTLock`, `tfMPTUnlock`, 6x `tfMPTSet*` flags,
+  `tfMPTSetCanHoldConfidentialBalance`). New validate() enforces 10
+  spec coherence rules including the lock/unlock ↔ field-update
+  incombinable rule, the Holder ↔ DomainID mutual exclusion, and the
+  encryption-key ↔ Holder incombinable rule.
+- **MPTokenIssuanceSet manifest** — `MPTokenIssuanceID` was missing
+  from the `ASSIGNABLE_FIELDS` array after the prior refactor; required
+  field was being silently dropped at construction. Re-added.
+
+### Added
+- **New flag enums + interfaces** in `src/types/flags.ts`:
+  `MPTokenIssuanceCreateFlags`, `MPTokenIssuanceCreateFlagsInterface`,
+  `MPTokenIssuanceSetFlags`, `MPTokenIssuanceSetFlagsInterface`,
+  `MPTokenImmutableFlags`, `MPTokenImmutableFlagsInterface`.
+- **`tests/mpt.test.ts`** — 44 direct tests for the 4 MPT classes
+  covering construction, validation, the new field set, and flag
+  math. Now MPTokenIssuanceDestroy and MPTokenAuthorize also have
+  direct coverage (they previously had only the
+  `TransactionRegistry.types()` round-trip in
+  `integration.offline.test.ts`).
+
+### Notes for 0.4.2
+- The Vault family (6 classes — `VaultCreate`, `VaultSet`,
+  `VaultDeposit`, `VaultWithdraw`, `VaultDelete`, `VaultClawback`) and
+  the Loan family (9 classes — all `Loan*`) are also significantly
+  out of date with the current XRPL spec. Each will get its own
+  minor-bump release after 0.4.1 lands.
+
 ## [0.4.0] - 2026-09-27
 
 The constructor-pattern refactor. The 71 transaction classes no longer

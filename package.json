@@ -1,6 +1,6 @@
 {
   "name": "xrplt",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A standalone, zero-dependency transaction builder for the XRP Ledger",
   "type": "module",
   "main": "./dist/index.js",

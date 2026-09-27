@@ -173,17 +173,25 @@ export class MPTokenIssuanceCreate
           'MPTokenIssuanceCreate: MaximumAmount must be > 0',
         );
       }
+      // Parse outside try/catch — BigInt throws SyntaxError on invalid
+      // integer strings; we let that propagate (and wrap in
+      // ValidationError if it's a SyntaxError) but DO NOT swallow our
+      // own ValidationError for the out-of-range case below.
+      let n: bigint;
       try {
-        const n = BigInt(this.MaximumAmount);
-        const max = BigInt(MAX_ISSUANCE_AMOUNT);
-        if (n > max) {
+        n = BigInt(this.MaximumAmount);
+      } catch (e) {
+        if (e instanceof SyntaxError) {
           throw new ValidationError(
-            `MPTokenIssuanceCreate: MaximumAmount must be <= ${MAX_ISSUANCE_AMOUNT}`,
+            'MPTokenIssuanceCreate: MaximumAmount must be a base-10 integer string',
           );
         }
-      } catch {
+        throw e;
+      }
+      const max = BigInt(MAX_ISSUANCE_AMOUNT);
+      if (n > max) {
         throw new ValidationError(
-          'MPTokenIssuanceCreate: MaximumAmount must be a base-10 integer string',
+          `MPTokenIssuanceCreate: MaximumAmount must be <= ${MAX_ISSUANCE_AMOUNT}`,
         );
       }
     }
