@@ -199,6 +199,93 @@ export interface MPTokenAuthorizeFlagsInterface extends GlobalFlagsInterface {
   tfMPTUnauthorize?: boolean;
 }
 
+// ─── MPTokenIssuanceCreate ───────────────────────────────────────────
+// Capable-setting flags (set at issuance; once set, most cannot be disabled).
+// Required by the MPTokenIssuanceCreate spec; driven by the
+// `MPTokensV1` amendment (capable flags) plus `ConfidentialTransfer`
+// (tfMPTCanHoldConfidentialBalance).
+
+export enum MPTokenIssuanceCreateFlags {
+  tfMPTCanLock = 0x00000002,
+  tfMPTRequireAuth = 0x00000004,
+  tfMPTCanEscrow = 0x00000008,
+  tfMPTCanTrade = 0x00000010,
+  tfMPTCanTransfer = 0x00000020,
+  tfMPTCanClawback = 0x00000040,
+  tfMPTCanHoldConfidentialBalance = 0x00000080,
+}
+
+export interface MPTokenIssuanceCreateFlagsInterface
+  extends GlobalFlagsInterface {
+  tfMPTCanLock?: boolean;
+  tfMPTRequireAuth?: boolean;
+  tfMPTCanEscrow?: boolean;
+  tfMPTCanTrade?: boolean;
+  tfMPTCanTransfer?: boolean;
+  tfMPTCanClawback?: boolean;
+  tfMPTCanHoldConfidentialBalance?: boolean;
+}
+
+// ─── MPTokenIssuanceSet ──────────────────────────────────────────────
+// Capable-setting flags + lock/unlock. Spec'd in
+// `MPTokenIssuanceSet.md` and gated by `MPTokensV1`,
+// `DynamicMPT` (capable flags + immutable flags), and
+// `ConfidentialTransfer` (tfMPTCanHoldConfidentialBalance).
+
+export enum MPTokenIssuanceSetFlags {
+  tfMPTLock = 0x00000001,
+  tfMPTUnlock = 0x00000002,
+  tfMPTSetCanLock = 0x00000004,
+  tfMPTSetRequireAuth = 0x00000008,
+  tfMPTSetCanEscrow = 0x00000010,
+  tfMPTSetCanTrade = 0x00000020,
+  tfMPTSetCanTransfer = 0x00000040,
+  tfMPTSetCanClawback = 0x00000080,
+  tfMPTSetCanHoldConfidentialBalance = 0x00000100,
+}
+
+export interface MPTokenIssuanceSetFlagsInterface
+  extends GlobalFlagsInterface {
+  tfMPTLock?: boolean;
+  tfMPTUnlock?: boolean;
+  tfMPTSetCanLock?: boolean;
+  tfMPTSetRequireAuth?: boolean;
+  tfMPTSetCanEscrow?: boolean;
+  tfMPTSetCanTrade?: boolean;
+  tfMPTSetCanTransfer?: boolean;
+  tfMPTSetCanClawback?: boolean;
+  tfMPTSetCanHoldConfidentialBalance?: boolean;
+}
+
+// ─── MPTokenIssuance immutable flags ────────────────────────────────
+// Used on both MPTokenIssuanceCreate and MPTokenIssuanceSet to declare
+// which fields/capabilities become permanent. Driven by the `DynamicMPT`
+// amendment (XLS-94).
+
+export enum MPTokenImmutableFlags {
+  tifMPTCanLock = 0x00000002,
+  tifMPTRequireAuth = 0x00000004,
+  tifMPTCanEscrow = 0x00000008,
+  tifMPTCanTrade = 0x00000010,
+  tifMPTCanTransfer = 0x00000020,
+  tifMPTCanClawback = 0x00000040,
+  tifMPTCanHoldConfidentialBalance = 0x00000080,
+  tifMPTMetadata = 0x00010000,
+  tifMPTTransferFee = 0x00020000,
+}
+
+export interface MPTokenImmutableFlagsInterface {
+  tifMPTCanLock?: boolean;
+  tifMPTRequireAuth?: boolean;
+  tifMPTCanEscrow?: boolean;
+  tifMPTCanTrade?: boolean;
+  tifMPTCanTransfer?: boolean;
+  tifMPTCanClawback?: boolean;
+  tifMPTCanHoldConfidentialBalance?: boolean;
+  tifMPTMetadata?: boolean;
+  tifMPTTransferFee?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {

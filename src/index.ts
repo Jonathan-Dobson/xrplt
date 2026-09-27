@@ -29,7 +29,10 @@ export type {
   NFTokenMintFlagsInterface, NFTokenCreateOfferFlagsInterface,
   PaymentChannelClaimFlagsInterface,
   AMMDepositFlagsInterface, AMMWithdrawFlagsInterface,
-  MPTokenAuthorizeFlagsInterface, ClawbackFlagsInterface,
+  MPTokenAuthorizeFlagsInterface,
+  MPTokenIssuanceCreateFlagsInterface, MPTokenIssuanceSetFlagsInterface,
+  MPTokenImmutableFlagsInterface,
+  ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface, BatchFlagsInterface,
 } from './types/index.js';
 
@@ -39,7 +42,10 @@ export {
   NFTokenMintFlags, NFTokenCreateOfferFlags,
   PaymentChannelClaimFlags,
   AMMDepositFlags, AMMWithdrawFlags,
-  MPTokenAuthorizeFlags, ClawbackFlags,
+  MPTokenAuthorizeFlags,
+  MPTokenIssuanceCreateFlags, MPTokenIssuanceSetFlags,
+  MPTokenImmutableFlags,
+  ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
 } from './types/index.js';
 
