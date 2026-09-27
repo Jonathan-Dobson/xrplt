@@ -17,7 +17,7 @@ export interface DepositPreauthTxFields extends BaseTransactionFields {
   readonly Unauthorize?: string | undefined;
 }
 
-export class DepositPreauthTx extends AccountTransaction {
+export class DepositPreauth extends AccountTransaction {
   override readonly TransactionType = 'DepositPreauth' as const;
 
   readonly Authorize?: string | undefined = undefined;
@@ -29,7 +29,7 @@ export class DepositPreauthTx extends AccountTransaction {
   ] as const;
 
   constructor(props: DepositPreauthTxFields) {
-    super({ ...props, TransactionType: DepositPreauthTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: DepositPreauth.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

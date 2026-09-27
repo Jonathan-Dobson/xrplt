@@ -15,7 +15,7 @@ export interface MPTokenIssuanceSetTxFields extends BaseTransactionFields {
   readonly Holder?: string | undefined;
 }
 
-export class MPTokenIssuanceSetTx extends TokenTransaction {
+export class MPTokenIssuanceSet extends TokenTransaction {
   override readonly TransactionType = 'MPTokenIssuanceSet' as const;
 
   /** The unique identifier of the MPT issuance. */
@@ -30,7 +30,7 @@ export class MPTokenIssuanceSetTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenIssuanceSetTxFields) {
-    super({ ...props, TransactionType: MPTokenIssuanceSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: MPTokenIssuanceSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

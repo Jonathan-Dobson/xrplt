@@ -25,7 +25,7 @@ function isSignerEntry(value: unknown): value is SignerEntry {
   return isString(entry['Account']) && isNumber(entry['SignerWeight']);
 }
 
-export class SignerListSetTx extends AccountTransaction {
+export class SignerListSet extends AccountTransaction {
   override readonly TransactionType = 'SignerListSet' as const;
 
   /** The target number of weights required. */
@@ -40,7 +40,7 @@ export class SignerListSetTx extends AccountTransaction {
   ] as const;
 
   constructor(props: SignerListSetTxFields) {
-    super({ ...props, TransactionType: SignerListSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: SignerListSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

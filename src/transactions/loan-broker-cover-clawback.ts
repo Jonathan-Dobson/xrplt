@@ -13,7 +13,7 @@ export interface LoanBrokerCoverClawbackTxFields extends BaseTransactionFields {
   readonly Amount: Amount;
 }
 
-export class LoanBrokerCoverClawbackTx extends Transaction {
+export class LoanBrokerCoverClawback extends Transaction {
   override readonly TransactionType = 'LoanBrokerCoverClawback' as const;
 
   readonly Amount: Amount = undefined as any;
@@ -24,7 +24,7 @@ export class LoanBrokerCoverClawbackTx extends Transaction {
   ] as const;
 
   constructor(props: LoanBrokerCoverClawbackTxFields) {
-    super({ ...props, TransactionType: LoanBrokerCoverClawbackTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: LoanBrokerCoverClawback.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

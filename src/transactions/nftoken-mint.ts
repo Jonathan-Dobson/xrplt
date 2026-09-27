@@ -24,7 +24,7 @@ export interface NFTokenMintTxFields extends BaseTransactionFields {
   readonly Flags?: number | NFTokenMintFlagsInterface | undefined;
 }
 
-export class NFTokenMintTx extends TokenTransaction {
+export class NFTokenMint extends TokenTransaction {
   override readonly TransactionType = 'NFTokenMint' as const;
 
   /** The taxon associated with this NFToken. */
@@ -41,7 +41,7 @@ export class NFTokenMintTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenMintTxFields) {
-    super({ ...props, TransactionType: NFTokenMintTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: NFTokenMint.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

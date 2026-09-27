@@ -14,7 +14,7 @@ export interface AMMDeleteTxFields extends BaseTransactionFields {
   readonly Asset2: Record<string, unknown>;
 }
 
-export class AMMDeleteTx extends AMMTransaction {
+export class AMMDelete extends AMMTransaction {
   override readonly TransactionType = 'AMMDelete' as const;
 
   readonly Asset: Record<string, unknown> = undefined as any;
@@ -26,7 +26,7 @@ export class AMMDeleteTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMDeleteTxFields) {
-    super({ ...props, TransactionType: AMMDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

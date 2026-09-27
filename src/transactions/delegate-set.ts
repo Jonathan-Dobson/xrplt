@@ -12,7 +12,7 @@ export interface DelegateSetTxFields extends BaseTransactionFields {
   readonly Delegate: string;
 }
 
-export class DelegateSetTx extends Transaction {
+export class DelegateSet extends Transaction {
   override readonly TransactionType = 'DelegateSet' as const;
 
   /** The account to authorize. */
@@ -22,7 +22,7 @@ export class DelegateSetTx extends Transaction {
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: DelegateSetTxFields) {
-    super({ ...props, TransactionType: DelegateSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: DelegateSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

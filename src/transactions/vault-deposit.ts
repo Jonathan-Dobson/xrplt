@@ -13,7 +13,7 @@ export interface VaultDepositTxFields extends BaseTransactionFields {
   readonly Amount: Amount;
 }
 
-export class VaultDepositTx extends Transaction {
+export class VaultDeposit extends Transaction {
   override readonly TransactionType = 'VaultDeposit' as const;
 
   /** The amount to deposit. */
@@ -25,7 +25,7 @@ export class VaultDepositTx extends Transaction {
   ] as const;
 
   constructor(props: VaultDepositTxFields) {
-    super({ ...props, TransactionType: VaultDepositTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: VaultDeposit.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

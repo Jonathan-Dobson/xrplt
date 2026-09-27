@@ -19,7 +19,7 @@ export interface CheckCashTxFields extends BaseTransactionFields {
   readonly DeliverMin?: Amount | undefined;
 }
 
-export class CheckCashTx extends Transaction {
+export class CheckCash extends Transaction {
   override readonly TransactionType = 'CheckCash' as const;
 
   /** The ID of the check to cash. */
@@ -34,7 +34,7 @@ export class CheckCashTx extends Transaction {
   ] as const;
 
   constructor(props: CheckCashTxFields) {
-    super({ ...props, TransactionType: CheckCashTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: CheckCash.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

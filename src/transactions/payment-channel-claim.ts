@@ -23,7 +23,7 @@ export interface PaymentChannelClaimTxFields extends BaseTransactionFields {
   readonly Signature?: string | undefined;
 }
 
-export class PaymentChannelClaimTx extends Transaction {
+export class PaymentChannelClaim extends Transaction {
   override readonly TransactionType = 'PaymentChannelClaim' as const;
 
   /** The unique ID of the channel. */
@@ -40,7 +40,7 @@ export class PaymentChannelClaimTx extends Transaction {
   ] as const;
 
   constructor(props: PaymentChannelClaimTxFields) {
-    super({ ...props, TransactionType: PaymentChannelClaimTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: PaymentChannelClaim.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -8,14 +8,14 @@ export interface VaultSetTxFields extends BaseTransactionFields {
   readonly TransactionType: 'VaultSet';
 }
 
-export class VaultSetTx extends Transaction {
+export class VaultSet extends Transaction {
   override readonly TransactionType = 'VaultSet' as const;
 
   static override readonly TRANSACTION_TYPE = 'VaultSet' as const;
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: VaultSetTxFields) {
-    super({ ...props, TransactionType: VaultSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: VaultSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

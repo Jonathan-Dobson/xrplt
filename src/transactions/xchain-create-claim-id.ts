@@ -16,7 +16,7 @@ export interface XChainCreateClaimIDTxFields extends BaseTransactionFields {
   readonly OtherChainSource: string;
 }
 
-export class XChainCreateClaimIDTx extends XChainTransaction {
+export class XChainCreateClaimID extends XChainTransaction {
   override readonly TransactionType = 'XChainCreateClaimID' as const;
 
   /** Definition of the bridge to use. */
@@ -34,7 +34,7 @@ export class XChainCreateClaimIDTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainCreateClaimIDTxFields) {
-    super({ ...props, TransactionType: XChainCreateClaimIDTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: XChainCreateClaimID.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -16,7 +16,7 @@ export interface AMMVoteTxFields extends BaseTransactionFields {
   readonly TradingFee: number;
 }
 
-export class AMMVoteTx extends AMMTransaction {
+export class AMMVote extends AMMTransaction {
   override readonly TransactionType = 'AMMVote' as const;
 
   readonly Asset: Record<string, unknown> = undefined as any;
@@ -29,7 +29,7 @@ export class AMMVoteTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMVoteTxFields) {
-    super({ ...props, TransactionType: AMMVoteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMVote.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

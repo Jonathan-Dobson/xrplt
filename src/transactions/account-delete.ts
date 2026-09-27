@@ -16,7 +16,7 @@ export interface AccountDeleteTxFields extends BaseTransactionFields {
   readonly DestinationTag?: number | undefined;
 }
 
-export class AccountDeleteTx extends AccountTransaction {
+export class AccountDelete extends AccountTransaction {
   override readonly TransactionType = 'AccountDelete' as const;
 
   /** The address to receive any remaining XRP from the deleted account. */
@@ -31,7 +31,7 @@ export class AccountDeleteTx extends AccountTransaction {
   ] as const;
 
   constructor(props: AccountDeleteTxFields) {
-    super({ ...props, TransactionType: AccountDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AccountDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

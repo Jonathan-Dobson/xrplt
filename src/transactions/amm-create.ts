@@ -19,7 +19,7 @@ export interface AMMCreateTxFields extends BaseTransactionFields {
   readonly TradingFee: number;
 }
 
-export class AMMCreateTx extends AMMTransaction {
+export class AMMCreate extends AMMTransaction {
   override readonly TransactionType = 'AMMCreate' as const;
 
   /** The first amount of the asset pair. */
@@ -37,7 +37,7 @@ export class AMMCreateTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMCreateTxFields) {
-    super({ ...props, TransactionType: AMMCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

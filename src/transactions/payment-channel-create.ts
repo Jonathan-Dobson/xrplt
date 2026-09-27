@@ -24,7 +24,7 @@ export interface PaymentChannelCreateTxFields extends BaseTransactionFields {
   readonly DestinationTag?: number | undefined;
 }
 
-export class PaymentChannelCreateTx extends Transaction {
+export class PaymentChannelCreate extends Transaction {
   override readonly TransactionType = 'PaymentChannelCreate' as const;
 
   /** The amount of XRP (in drops) to deposit. */
@@ -48,7 +48,7 @@ export class PaymentChannelCreateTx extends Transaction {
   ] as const;
 
   constructor(props: PaymentChannelCreateTxFields) {
-    super({ ...props, TransactionType: PaymentChannelCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: PaymentChannelCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

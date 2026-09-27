@@ -31,7 +31,7 @@ export interface PaymentTxFields extends BaseTransactionFields {
   readonly Flags?: number | PaymentFlagsInterface | undefined;
 }
 
-export class PaymentTx extends PaymentTransaction {
+export class Payment extends PaymentTransaction {
   override readonly TransactionType = 'Payment' as const;
 
   /** The amount of currency to deliver. */
@@ -53,7 +53,7 @@ export class PaymentTx extends PaymentTransaction {
   ] as const;
 
   constructor(props: PaymentTxFields) {
-    super({ ...props, TransactionType: PaymentTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: Payment.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

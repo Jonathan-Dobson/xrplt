@@ -14,7 +14,7 @@ export interface CheckCancelTxFields extends BaseTransactionFields {
   readonly CheckID: string;
 }
 
-export class CheckCancelTx extends Transaction {
+export class CheckCancel extends Transaction {
   override readonly TransactionType = 'CheckCancel' as const;
 
   /** The ID of the check to cancel. */
@@ -26,7 +26,7 @@ export class CheckCancelTx extends Transaction {
   ] as const;
 
   constructor(props: CheckCancelTxFields) {
-    super({ ...props, TransactionType: CheckCancelTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: CheckCancel.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

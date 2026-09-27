@@ -14,7 +14,7 @@ export interface NFTokenCancelOfferTxFields extends BaseTransactionFields {
   readonly NFTokenOffers: string[];
 }
 
-export class NFTokenCancelOfferTx extends TokenTransaction {
+export class NFTokenCancelOffer extends TokenTransaction {
   override readonly TransactionType = 'NFTokenCancelOffer' as const;
 
   /** Array of NFToken Offer IDs to cancel. */
@@ -26,7 +26,7 @@ export class NFTokenCancelOfferTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenCancelOfferTxFields) {
-    super({ ...props, TransactionType: NFTokenCancelOfferTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: NFTokenCancelOffer.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

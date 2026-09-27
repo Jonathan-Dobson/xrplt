@@ -18,7 +18,7 @@ export interface AMMClawbackTxFields extends BaseTransactionFields {
   readonly Flags?: number | ClawbackFlagsInterface | undefined;
 }
 
-export class AMMClawbackTx extends AMMTransaction {
+export class AMMClawback extends AMMTransaction {
   override readonly TransactionType = 'AMMClawback' as const;
   readonly Asset!: { currency: string; issuer?: string };
   readonly Asset2!: { currency: string; issuer?: string };
@@ -32,7 +32,7 @@ export class AMMClawbackTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMClawbackTxFields) {
-    super({ ...props, TransactionType: AMMClawbackTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMClawback.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

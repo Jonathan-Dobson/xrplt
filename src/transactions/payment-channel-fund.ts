@@ -19,7 +19,7 @@ export interface PaymentChannelFundTxFields extends BaseTransactionFields {
   readonly Expiration?: number | undefined;
 }
 
-export class PaymentChannelFundTx extends Transaction {
+export class PaymentChannelFund extends Transaction {
   override readonly TransactionType = 'PaymentChannelFund' as const;
 
   /** The unique ID of the channel. */
@@ -36,7 +36,7 @@ export class PaymentChannelFundTx extends Transaction {
   ] as const;
 
   constructor(props: PaymentChannelFundTxFields) {
-    super({ ...props, TransactionType: PaymentChannelFundTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: PaymentChannelFund.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -13,7 +13,7 @@ export interface LoanPayTxFields extends BaseTransactionFields {
   readonly Amount: Amount;
 }
 
-export class LoanPayTx extends Transaction {
+export class LoanPay extends Transaction {
   override readonly TransactionType = 'LoanPay' as const;
 
   readonly Amount: Amount = undefined as any;
@@ -24,7 +24,7 @@ export class LoanPayTx extends Transaction {
   ] as const;
 
   constructor(props: LoanPayTxFields) {
-    super({ ...props, TransactionType: LoanPayTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: LoanPay.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

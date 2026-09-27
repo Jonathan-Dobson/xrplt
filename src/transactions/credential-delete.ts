@@ -16,7 +16,7 @@ export interface CredentialDeleteTxFields extends BaseTransactionFields {
   readonly CredentialType: string;
 }
 
-export class CredentialDeleteTx extends Transaction {
+export class CredentialDelete extends Transaction {
   override readonly TransactionType = 'CredentialDelete' as const;
 
   readonly Subject: string = undefined as any;
@@ -29,7 +29,7 @@ export class CredentialDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: CredentialDeleteTxFields) {
-    super({ ...props, TransactionType: CredentialDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: CredentialDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

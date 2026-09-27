@@ -13,7 +13,7 @@ export interface VaultClawbackTxFields extends BaseTransactionFields {
   readonly Amount: Amount;
 }
 
-export class VaultClawbackTx extends Transaction {
+export class VaultClawback extends Transaction {
   override readonly TransactionType = 'VaultClawback' as const;
 
   /** The amount to claw back. */
@@ -25,7 +25,7 @@ export class VaultClawbackTx extends Transaction {
   ] as const;
 
   constructor(props: VaultClawbackTxFields) {
-    super({ ...props, TransactionType: VaultClawbackTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: VaultClawback.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -17,7 +17,7 @@ export interface DIDSetTxFields extends BaseTransactionFields {
   readonly URI?: string | undefined;
 }
 
-export class DIDSetTx extends Transaction {
+export class DIDSet extends Transaction {
   override readonly TransactionType = 'DIDSet' as const;
 
   readonly Data?: string | undefined = undefined;
@@ -30,7 +30,7 @@ export class DIDSetTx extends Transaction {
   ] as const;
 
   constructor(props: DIDSetTxFields) {
-    super({ ...props, TransactionType: DIDSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: DIDSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

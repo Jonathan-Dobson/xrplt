@@ -21,7 +21,7 @@ export interface MPTokenIssuanceCreateTxFields extends BaseTransactionFields {
   readonly MPTokenMetadata?: string | undefined;
 }
 
-export class MPTokenIssuanceCreateTx extends TokenTransaction {
+export class MPTokenIssuanceCreate extends TokenTransaction {
   override readonly TransactionType = 'MPTokenIssuanceCreate' as const;
 
   readonly MaximumAmount?: string | undefined = undefined;
@@ -35,7 +35,7 @@ export class MPTokenIssuanceCreateTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenIssuanceCreateTxFields) {
-    super({ ...props, TransactionType: MPTokenIssuanceCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: MPTokenIssuanceCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -16,7 +16,7 @@ export interface PermissionedDomainSetTxFields extends BaseTransactionFields {
   readonly AcceptedCredentials?: any[] | undefined;
 }
 
-export class PermissionedDomainSetTx extends Transaction {
+export class PermissionedDomainSet extends Transaction {
   override readonly TransactionType = 'PermissionedDomainSet' as const;
 
   readonly AcceptedAccounts?: string[] | undefined = undefined;
@@ -28,7 +28,7 @@ export class PermissionedDomainSetTx extends Transaction {
   ] as const;
 
   constructor(props: PermissionedDomainSetTxFields) {
-    super({ ...props, TransactionType: PermissionedDomainSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: PermissionedDomainSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

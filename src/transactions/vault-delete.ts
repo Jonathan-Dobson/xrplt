@@ -8,14 +8,14 @@ export interface VaultDeleteTxFields extends BaseTransactionFields {
   readonly TransactionType: 'VaultDelete';
 }
 
-export class VaultDeleteTx extends Transaction {
+export class VaultDelete extends Transaction {
   override readonly TransactionType = 'VaultDelete' as const;
 
   static override readonly TRANSACTION_TYPE = 'VaultDelete' as const;
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: VaultDeleteTxFields) {
-    super({ ...props, TransactionType: VaultDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: VaultDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

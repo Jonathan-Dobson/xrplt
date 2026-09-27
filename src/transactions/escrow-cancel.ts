@@ -16,7 +16,7 @@ export interface EscrowCancelTxFields extends BaseTransactionFields {
   readonly OfferSequence: number;
 }
 
-export class EscrowCancelTx extends Transaction {
+export class EscrowCancel extends Transaction {
   override readonly TransactionType = 'EscrowCancel' as const;
 
   /** The address that created the escrow. */
@@ -31,7 +31,7 @@ export class EscrowCancelTx extends Transaction {
   ] as const;
 
   constructor(props: EscrowCancelTxFields) {
-    super({ ...props, TransactionType: EscrowCancelTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: EscrowCancel.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

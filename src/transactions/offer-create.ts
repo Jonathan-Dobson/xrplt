@@ -27,7 +27,7 @@ export interface OfferCreateTxFields extends BaseTransactionFields {
   readonly Flags?: number | OfferCreateFlagsInterface | undefined;
 }
 
-export class OfferCreateTx extends OfferTransaction {
+export class OfferCreate extends OfferTransaction {
   override readonly TransactionType = 'OfferCreate' as const;
 
   /** The amount to deliver to the order book. */
@@ -47,7 +47,7 @@ export class OfferCreateTx extends OfferTransaction {
   ] as const;
 
   constructor(props: OfferCreateTxFields) {
-    super({ ...props, TransactionType: OfferCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: OfferCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -26,7 +26,7 @@ export interface OracleSetTxFields extends BaseTransactionFields {
   readonly AssetQuote?: string | undefined;
 }
 
-export class OracleSetTx extends Transaction {
+export class OracleSet extends Transaction {
   override readonly TransactionType = 'OracleSet' as const;
 
   readonly OracleDocumentID: number = undefined as any;
@@ -43,7 +43,7 @@ export class OracleSetTx extends Transaction {
   ] as const;
 
   constructor(props: OracleSetTxFields) {
-    super({ ...props, TransactionType: OracleSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: OracleSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

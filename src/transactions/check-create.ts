@@ -23,7 +23,7 @@ export interface CheckCreateTxFields extends BaseTransactionFields {
   readonly InvoiceID?: string | undefined;
 }
 
-export class CheckCreateTx extends Transaction {
+export class CheckCreate extends Transaction {
   override readonly TransactionType = 'CheckCreate' as const;
 
   /** The address that can cash the check. */
@@ -42,7 +42,7 @@ export class CheckCreateTx extends Transaction {
   ] as const;
 
   constructor(props: CheckCreateTxFields) {
-    super({ ...props, TransactionType: CheckCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: CheckCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

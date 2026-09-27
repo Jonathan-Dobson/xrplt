@@ -20,7 +20,7 @@ export interface MPTokenAuthorizeTxFields extends BaseTransactionFields {
   readonly Flags?: number | MPTokenAuthorizeFlagsInterface | undefined;
 }
 
-export class MPTokenAuthorizeTx extends TokenTransaction {
+export class MPTokenAuthorize extends TokenTransaction {
   override readonly TransactionType = 'MPTokenAuthorize' as const;
 
   /** The unique identifier of the MPT issuance. */
@@ -36,7 +36,7 @@ export class MPTokenAuthorizeTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenAuthorizeTxFields) {
-    super({ ...props, TransactionType: MPTokenAuthorizeTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: MPTokenAuthorize.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

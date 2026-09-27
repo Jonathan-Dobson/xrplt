@@ -12,7 +12,7 @@ export interface OracleDeleteTxFields extends BaseTransactionFields {
   readonly OracleDocumentID: number;
 }
 
-export class OracleDeleteTx extends Transaction {
+export class OracleDelete extends Transaction {
   override readonly TransactionType = 'OracleDelete' as const;
 
   readonly OracleDocumentID: number = undefined as any;
@@ -23,7 +23,7 @@ export class OracleDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: OracleDeleteTxFields) {
-    super({ ...props, TransactionType: OracleDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: OracleDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

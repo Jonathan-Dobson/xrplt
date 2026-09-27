@@ -32,7 +32,7 @@ export interface AccountSetTxFields extends BaseTransactionFields {
   readonly Flags?: number | AccountSetFlagsInterface | undefined;
 }
 
-export class AccountSetTx extends AccountTransaction {
+export class AccountSet extends AccountTransaction {
   override readonly TransactionType = 'AccountSet' as const;
 
   readonly ClearFlag?: number | undefined = undefined;
@@ -51,7 +51,7 @@ export class AccountSetTx extends AccountTransaction {
   ] as const;
 
   constructor(props: AccountSetTxFields) {
-    super({ ...props, TransactionType: AccountSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AccountSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

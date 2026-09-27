@@ -22,7 +22,7 @@ export interface CredentialCreateTxFields extends BaseTransactionFields {
   readonly URI?: string | undefined;
 }
 
-export class CredentialCreateTx extends Transaction {
+export class CredentialCreate extends Transaction {
   override readonly TransactionType = 'CredentialCreate' as const;
 
   readonly Subject: string = undefined as any;
@@ -37,7 +37,7 @@ export class CredentialCreateTx extends Transaction {
   ] as const;
 
   constructor(props: CredentialCreateTxFields) {
-    super({ ...props, TransactionType: CredentialCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: CredentialCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

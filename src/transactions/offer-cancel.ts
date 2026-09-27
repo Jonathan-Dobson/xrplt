@@ -11,7 +11,7 @@ export interface OfferCancelTxFields extends BaseTransactionFields {
   readonly OfferSequence: number;
 }
 
-export class OfferCancelTx extends OfferTransaction {
+export class OfferCancel extends OfferTransaction {
   override readonly TransactionType = 'OfferCancel' as const;
   readonly OfferSequence: number = undefined as any;
 
@@ -21,7 +21,7 @@ export class OfferCancelTx extends OfferTransaction {
   ] as const;
 
   constructor(props: OfferCancelTxFields) {
-    super({ ...props, TransactionType: OfferCancelTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: OfferCancel.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

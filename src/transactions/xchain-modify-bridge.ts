@@ -16,7 +16,7 @@ export interface XChainModifyBridgeTxFields extends BaseTransactionFields {
   readonly SignatureReward?: string | undefined;
 }
 
-export class XChainModifyBridgeTx extends XChainTransaction {
+export class XChainModifyBridge extends XChainTransaction {
   override readonly TransactionType = 'XChainModifyBridge' as const;
 
   /** Definition of the bridge to modify. */
@@ -31,7 +31,7 @@ export class XChainModifyBridgeTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainModifyBridgeTxFields) {
-    super({ ...props, TransactionType: XChainModifyBridgeTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: XChainModifyBridge.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

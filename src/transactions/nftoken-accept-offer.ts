@@ -20,7 +20,7 @@ export interface NFTokenAcceptOfferTxFields extends BaseTransactionFields {
   readonly NFTokenBrokerFee?: Amount | undefined;
 }
 
-export class NFTokenAcceptOfferTx extends TokenTransaction {
+export class NFTokenAcceptOffer extends TokenTransaction {
   override readonly TransactionType = 'NFTokenAcceptOffer' as const;
 
   readonly NFTokenSellOffer?: string | undefined = undefined;
@@ -33,7 +33,7 @@ export class NFTokenAcceptOfferTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenAcceptOfferTxFields) {
-    super({ ...props, TransactionType: NFTokenAcceptOfferTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: NFTokenAcceptOffer.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

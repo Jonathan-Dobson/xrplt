@@ -20,7 +20,7 @@ export interface AMMDepositTxFields extends BaseTransactionFields {
   readonly LPTokenOut?: Amount | undefined;
 }
 
-export class AMMDepositTx extends AMMTransaction {
+export class AMMDeposit extends AMMTransaction {
   override readonly TransactionType = 'AMMDeposit' as const;
 
   readonly Asset: Record<string, unknown> = undefined as any;
@@ -36,7 +36,7 @@ export class AMMDepositTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMDepositTxFields) {
-    super({ ...props, TransactionType: AMMDepositTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMDeposit.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

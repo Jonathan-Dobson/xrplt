@@ -26,7 +26,7 @@ export interface EscrowCreateTxFields extends BaseTransactionFields {
   readonly DestinationTag?: number | undefined;
 }
 
-export class EscrowCreateTx extends PaymentTransaction {
+export class EscrowCreate extends PaymentTransaction {
   override readonly TransactionType = 'EscrowCreate' as const;
 
   /** Amount of XRP to lock. */
@@ -46,7 +46,7 @@ export class EscrowCreateTx extends PaymentTransaction {
   ] as const;
 
   constructor(props: EscrowCreateTxFields) {
-    super({ ...props, TransactionType: EscrowCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: EscrowCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

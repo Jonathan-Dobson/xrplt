@@ -12,7 +12,7 @@ export interface LoanDeleteTxFields extends BaseTransactionFields {
   readonly Asset: string;
 }
 
-export class LoanDeleteTx extends Transaction {
+export class LoanDelete extends Transaction {
   override readonly TransactionType = 'LoanDelete' as const;
 
   readonly Asset: string = undefined as any;
@@ -23,7 +23,7 @@ export class LoanDeleteTx extends Transaction {
   ] as const;
 
   constructor(props: LoanDeleteTxFields) {
-    super({ ...props, TransactionType: LoanDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: LoanDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -26,7 +26,7 @@ export interface XChainAddClaimAttestationTxFields extends BaseTransactionFields
   readonly XChainAttestationSequence: number;
 }
 
-export class XChainAddClaimAttestationTx extends XChainTransaction {
+export class XChainAddClaimAttestation extends XChainTransaction {
   override readonly TransactionType = 'XChainAddClaimAttestation' as const;
 
   readonly XChainBridge: Record<string, unknown> = undefined as any;
@@ -44,7 +44,7 @@ export class XChainAddClaimAttestationTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainAddClaimAttestationTxFields) {
-    super({ ...props, TransactionType: XChainAddClaimAttestationTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: XChainAddClaimAttestation.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

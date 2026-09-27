@@ -14,7 +14,7 @@ export interface BatchTxFields extends BaseTransactionFields {
   readonly Transactions: any[];
 }
 
-export class BatchTx extends Transaction {
+export class Batch extends Transaction {
   override readonly TransactionType = 'Batch' as const;
 
   /** Array of transactions to execute. */
@@ -26,7 +26,7 @@ export class BatchTx extends Transaction {
   ] as const;
 
   constructor(props: BatchTxFields) {
-    super({ ...props, TransactionType: BatchTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: Batch.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

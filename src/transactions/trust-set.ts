@@ -23,7 +23,7 @@ export interface TrustSetTxFields extends BaseTransactionFields {
   readonly Flags?: number | TrustSetFlagsInterface | undefined;
 }
 
-export class TrustSetTx extends TokenTransaction {
+export class TrustSet extends TokenTransaction {
   override readonly TransactionType = 'TrustSet' as const;
 
   /** The limit and currency for the trust line. */
@@ -39,7 +39,7 @@ export class TrustSetTx extends TokenTransaction {
   ] as const;
 
   constructor(props: TrustSetTxFields) {
-    super({ ...props, TransactionType: TrustSetTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: TrustSet.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

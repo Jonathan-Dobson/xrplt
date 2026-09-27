@@ -20,7 +20,7 @@ export interface AMMWithdrawTxFields extends BaseTransactionFields {
   readonly LPTokenIn?: Amount | undefined;
 }
 
-export class AMMWithdrawTx extends AMMTransaction {
+export class AMMWithdraw extends AMMTransaction {
   override readonly TransactionType = 'AMMWithdraw' as const;
 
   readonly Asset: Record<string, unknown> = undefined as any;
@@ -36,7 +36,7 @@ export class AMMWithdrawTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMWithdrawTxFields) {
-    super({ ...props, TransactionType: AMMWithdrawTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMWithdraw.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -15,7 +15,7 @@ export interface SetRegularKeyTxFields extends BaseTransactionFields {
   readonly RegularKey?: string | undefined;
 }
 
-export class SetRegularKeyTx extends AccountTransaction {
+export class SetRegularKey extends AccountTransaction {
   override readonly TransactionType = 'SetRegularKey' as const;
 
   /** The address of the new regular key. */
@@ -27,7 +27,7 @@ export class SetRegularKeyTx extends AccountTransaction {
   ] as const;
 
   constructor(props: SetRegularKeyTxFields) {
-    super({ ...props, TransactionType: SetRegularKeyTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: SetRegularKey.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

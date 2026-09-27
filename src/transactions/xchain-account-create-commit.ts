@@ -18,7 +18,7 @@ export interface XChainAccountCreateCommitTxFields extends BaseTransactionFields
   readonly SignatureReward: string;
 }
 
-export class XChainAccountCreateCommitTx extends XChainTransaction {
+export class XChainAccountCreateCommit extends XChainTransaction {
   override readonly TransactionType = 'XChainAccountCreateCommit' as const;
 
   /** Definition of the bridge to use. */
@@ -39,7 +39,7 @@ export class XChainAccountCreateCommitTx extends XChainTransaction {
   ] as const;
 
   constructor(props: XChainAccountCreateCommitTxFields) {
-    super({ ...props, TransactionType: XChainAccountCreateCommitTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: XChainAccountCreateCommit.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

@@ -14,7 +14,7 @@ export interface TicketCreateTxFields extends BaseTransactionFields {
   readonly TicketCount: number;
 }
 
-export class TicketCreateTx extends Transaction {
+export class TicketCreate extends Transaction {
   override readonly TransactionType = 'TicketCreate' as const;
 
   /** How many tickets to create. */
@@ -26,7 +26,7 @@ export class TicketCreateTx extends Transaction {
   ] as const;
 
   constructor(props: TicketCreateTxFields) {
-    super({ ...props, TransactionType: TicketCreateTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: TicketCreate.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

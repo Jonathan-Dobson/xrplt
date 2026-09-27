@@ -8,93 +8,93 @@ import type { TransactionType } from './types/transaction-types.js';
 import { Transaction, _setRegistry } from './transaction.js';
 
 // ─── Concrete transaction imports ────────────────────────────────────
-import { PaymentTx } from './transactions/payment.js';
-import { AccountSetTx } from './transactions/account-set.js';
-import { AccountDeleteTx } from './transactions/account-delete.js';
-import { SetRegularKeyTx } from './transactions/set-regular-key.js';
-import { SignerListSetTx } from './transactions/signer-list-set.js';
-import { TrustSetTx } from './transactions/trust-set.js';
-import { OfferCreateTx } from './transactions/offer-create.js';
-import { OfferCancelTx } from './transactions/offer-cancel.js';
-import { EscrowCreateTx } from './transactions/escrow-create.js';
-import { EscrowFinishTx } from './transactions/escrow-finish.js';
-import { EscrowCancelTx } from './transactions/escrow-cancel.js';
-import { CheckCreateTx } from './transactions/check-create.js';
-import { CheckCashTx } from './transactions/check-cash.js';
-import { CheckCancelTx } from './transactions/check-cancel.js';
-import { NFTokenMintTx } from './transactions/nftoken-mint.js';
-import { NFTokenBurnTx } from './transactions/nftoken-burn.js';
-import { NFTokenCreateOfferTx } from './transactions/nftoken-create-offer.js';
-import { NFTokenCancelOfferTx } from './transactions/nftoken-cancel-offer.js';
-import { NFTokenAcceptOfferTx } from './transactions/nftoken-accept-offer.js';
-import { NFTokenModifyTx } from './transactions/nftoken-modify.js';
-import { MPTokenIssuanceCreateTx } from './transactions/mptoken-issuance-create.js';
-import { MPTokenIssuanceDestroyTx } from './transactions/mptoken-issuance-destroy.js';
-import { MPTokenIssuanceSetTx } from './transactions/mptoken-issuance-set.js';
-import { MPTokenAuthorizeTx } from './transactions/mptoken-authorize.js';
-import { PaymentChannelCreateTx } from './transactions/payment-channel-create.js';
-import { PaymentChannelFundTx } from './transactions/payment-channel-fund.js';
-import { PaymentChannelClaimTx } from './transactions/payment-channel-claim.js';
-import { TicketCreateTx } from './transactions/ticket-create.js';
-import { DepositPreauthTx } from './transactions/deposit-preauth.js';
-import { ClawbackTx } from './transactions/clawback.js';
-import { DelegateSetTx } from './transactions/delegate-set.js';
-import { DIDSetTx } from './transactions/did-set.js';
-import { DIDDeleteTx } from './transactions/did-delete.js';
+import { Payment } from './transactions/payment.js';
+import { AccountSet } from './transactions/account-set.js';
+import { AccountDelete } from './transactions/account-delete.js';
+import { SetRegularKey } from './transactions/set-regular-key.js';
+import { SignerListSet } from './transactions/signer-list-set.js';
+import { TrustSet } from './transactions/trust-set.js';
+import { OfferCreate } from './transactions/offer-create.js';
+import { OfferCancel } from './transactions/offer-cancel.js';
+import { EscrowCreate } from './transactions/escrow-create.js';
+import { EscrowFinish } from './transactions/escrow-finish.js';
+import { EscrowCancel } from './transactions/escrow-cancel.js';
+import { CheckCreate } from './transactions/check-create.js';
+import { CheckCash } from './transactions/check-cash.js';
+import { CheckCancel } from './transactions/check-cancel.js';
+import { NFTokenMint } from './transactions/nftoken-mint.js';
+import { NFTokenBurn } from './transactions/nftoken-burn.js';
+import { NFTokenCreateOffer } from './transactions/nftoken-create-offer.js';
+import { NFTokenCancelOffer } from './transactions/nftoken-cancel-offer.js';
+import { NFTokenAcceptOffer } from './transactions/nftoken-accept-offer.js';
+import { NFTokenModify } from './transactions/nftoken-modify.js';
+import { MPTokenIssuanceCreate } from './transactions/mptoken-issuance-create.js';
+import { MPTokenIssuanceDestroy } from './transactions/mptoken-issuance-destroy.js';
+import { MPTokenIssuanceSet } from './transactions/mptoken-issuance-set.js';
+import { MPTokenAuthorize } from './transactions/mptoken-authorize.js';
+import { PaymentChannelCreate } from './transactions/payment-channel-create.js';
+import { PaymentChannelFund } from './transactions/payment-channel-fund.js';
+import { PaymentChannelClaim } from './transactions/payment-channel-claim.js';
+import { TicketCreate } from './transactions/ticket-create.js';
+import { DepositPreauth } from './transactions/deposit-preauth.js';
+import { Clawback } from './transactions/clawback.js';
+import { DelegateSet } from './transactions/delegate-set.js';
+import { DIDSet } from './transactions/did-set.js';
+import { DIDDelete } from './transactions/did-delete.js';
 
 // AMM
-import { AMMCreateTx } from './transactions/amm-create.js';
-import { AMMDepositTx } from './transactions/amm-deposit.js';
-import { AMMWithdrawTx } from './transactions/amm-withdraw.js';
-import { AMMVoteTx } from './transactions/amm-vote.js';
-import { AMMBidTx } from './transactions/amm-bid.js';
-import { AMMClawbackTx } from './transactions/amm-clawback.js';
-import { AMMDeleteTx } from './transactions/amm-delete.js';
+import { AMMCreate } from './transactions/amm-create.js';
+import { AMMDeposit } from './transactions/amm-deposit.js';
+import { AMMWithdraw } from './transactions/amm-withdraw.js';
+import { AMMVote } from './transactions/amm-vote.js';
+import { AMMBid } from './transactions/amm-bid.js';
+import { AMMClawback } from './transactions/amm-clawback.js';
+import { AMMDelete } from './transactions/amm-delete.js';
 
 // XChain
-import { XChainCreateBridgeTx } from './transactions/xchain-create-bridge.js';
-import { XChainModifyBridgeTx } from './transactions/xchain-modify-bridge.js';
-import { XChainCommitTx } from './transactions/xchain-commit.js';
-import { XChainClaimTx } from './transactions/xchain-claim.js';
-import { XChainAccountCreateCommitTx } from './transactions/xchain-account-create-commit.js';
-import { XChainCreateClaimIDTx } from './transactions/xchain-create-claim-id.js';
-import { XChainAddClaimAttestationTx } from './transactions/xchain-add-claim-attestation.js';
-import { XChainAddAccountCreateAttestationTx } from './transactions/xchain-add-account-create-attestation.js';
+import { XChainCreateBridge } from './transactions/xchain-create-bridge.js';
+import { XChainModifyBridge } from './transactions/xchain-modify-bridge.js';
+import { XChainCommit } from './transactions/xchain-commit.js';
+import { XChainClaim } from './transactions/xchain-claim.js';
+import { XChainAccountCreateCommit } from './transactions/xchain-account-create-commit.js';
+import { XChainCreateClaimID } from './transactions/xchain-create-claim-id.js';
+import { XChainAddClaimAttestation } from './transactions/xchain-add-claim-attestation.js';
+import { XChainAddAccountCreateAttestation } from './transactions/xchain-add-account-create-attestation.js';
 
 // Vaults
-import { VaultCreateTx } from './transactions/vault-create.js';
-import { VaultDepositTx } from './transactions/vault-deposit.js';
-import { VaultWithdrawTx } from './transactions/vault-withdraw.js';
-import { VaultSetTx } from './transactions/vault-set.js';
-import { VaultDeleteTx } from './transactions/vault-delete.js';
-import { VaultClawbackTx } from './transactions/vault-clawback.js';
+import { VaultCreate } from './transactions/vault-create.js';
+import { VaultDeposit } from './transactions/vault-deposit.js';
+import { VaultWithdraw } from './transactions/vault-withdraw.js';
+import { VaultSet } from './transactions/vault-set.js';
+import { VaultDelete } from './transactions/vault-delete.js';
+import { VaultClawback } from './transactions/vault-clawback.js';
 
 // Loans
-import { LoanSetTx } from './transactions/loan-set.js';
-import { LoanDeleteTx } from './transactions/loan-delete.js';
-import { LoanManageTx } from './transactions/loan-manage.js';
-import { LoanPayTx } from './transactions/loan-pay.js';
-import { LoanBrokerSetTx } from './transactions/loan-broker-set.js';
-import { LoanBrokerDeleteTx } from './transactions/loan-broker-delete.js';
-import { LoanBrokerCoverClawbackTx } from './transactions/loan-broker-cover-clawback.js';
-import { LoanBrokerCoverDepositTx } from './transactions/loan-broker-cover-deposit.js';
-import { LoanBrokerCoverWithdrawTx } from './transactions/loan-broker-cover-withdraw.js';
+import { LoanSet } from './transactions/loan-set.js';
+import { LoanDelete } from './transactions/loan-delete.js';
+import { LoanManage } from './transactions/loan-manage.js';
+import { LoanPay } from './transactions/loan-pay.js';
+import { LoanBrokerSet } from './transactions/loan-broker-set.js';
+import { LoanBrokerDelete } from './transactions/loan-broker-delete.js';
+import { LoanBrokerCoverClawback } from './transactions/loan-broker-cover-clawback.js';
+import { LoanBrokerCoverDeposit } from './transactions/loan-broker-cover-deposit.js';
+import { LoanBrokerCoverWithdraw } from './transactions/loan-broker-cover-withdraw.js';
 
 // Credentials
-import { CredentialCreateTx } from './transactions/credential-create.js';
-import { CredentialAcceptTx } from './transactions/credential-accept.js';
-import { CredentialDeleteTx } from './transactions/credential-delete.js';
+import { CredentialCreate } from './transactions/credential-create.js';
+import { CredentialAccept } from './transactions/credential-accept.js';
+import { CredentialDelete } from './transactions/credential-delete.js';
 
 // Oracles
-import { OracleSetTx } from './transactions/oracle-set.js';
-import { OracleDeleteTx } from './transactions/oracle-delete.js';
+import { OracleSet } from './transactions/oracle-set.js';
+import { OracleDelete } from './transactions/oracle-delete.js';
 
 // Permissioned Domain
-import { PermissionedDomainSetTx } from './transactions/permissioned-domain-set.js';
-import { PermissionedDomainDeleteTx } from './transactions/permissioned-domain-delete.js';
+import { PermissionedDomainSet } from './transactions/permissioned-domain-set.js';
+import { PermissionedDomainDelete } from './transactions/permissioned-domain-delete.js';
 
 // Batch
-import { BatchTx } from './transactions/batch.js';
+import { Batch } from './transactions/batch.js';
 
 // ─── Registry map ────────────────────────────────────────────────────
 
@@ -102,105 +102,105 @@ type TransactionConstructor = new (props: Record<string, unknown>) => Transactio
 
 const registryMap: Partial<Record<TransactionType, TransactionConstructor>> = {
   // Account management
-  AccountSet: AccountSetTx as unknown as TransactionConstructor,
-  AccountDelete: AccountDeleteTx as unknown as TransactionConstructor,
-  SetRegularKey: SetRegularKeyTx as unknown as TransactionConstructor,
-  SignerListSet: SignerListSetTx as unknown as TransactionConstructor,
-  DelegateSet: DelegateSetTx as unknown as TransactionConstructor,
-  DepositPreauth: DepositPreauthTx as unknown as TransactionConstructor,
-  TicketCreate: TicketCreateTx as unknown as TransactionConstructor,
-  Clawback: ClawbackTx as unknown as TransactionConstructor,
+  AccountSet: AccountSet as unknown as TransactionConstructor,
+  AccountDelete: AccountDelete as unknown as TransactionConstructor,
+  SetRegularKey: SetRegularKey as unknown as TransactionConstructor,
+  SignerListSet: SignerListSet as unknown as TransactionConstructor,
+  DelegateSet: DelegateSet as unknown as TransactionConstructor,
+  DepositPreauth: DepositPreauth as unknown as TransactionConstructor,
+  TicketCreate: TicketCreate as unknown as TransactionConstructor,
+  Clawback: Clawback as unknown as TransactionConstructor,
 
   // Payments & value transfer
-  Payment: PaymentTx as unknown as TransactionConstructor,
-  CheckCreate: CheckCreateTx as unknown as TransactionConstructor,
-  CheckCash: CheckCashTx as unknown as TransactionConstructor,
-  CheckCancel: CheckCancelTx as unknown as TransactionConstructor,
-  EscrowCreate: EscrowCreateTx as unknown as TransactionConstructor,
-  EscrowFinish: EscrowFinishTx as unknown as TransactionConstructor,
-  EscrowCancel: EscrowCancelTx as unknown as TransactionConstructor,
-  PaymentChannelCreate: PaymentChannelCreateTx as unknown as TransactionConstructor,
-  PaymentChannelFund: PaymentChannelFundTx as unknown as TransactionConstructor,
-  PaymentChannelClaim: PaymentChannelClaimTx as unknown as TransactionConstructor,
+  Payment: Payment as unknown as TransactionConstructor,
+  CheckCreate: CheckCreate as unknown as TransactionConstructor,
+  CheckCash: CheckCash as unknown as TransactionConstructor,
+  CheckCancel: CheckCancel as unknown as TransactionConstructor,
+  EscrowCreate: EscrowCreate as unknown as TransactionConstructor,
+  EscrowFinish: EscrowFinish as unknown as TransactionConstructor,
+  EscrowCancel: EscrowCancel as unknown as TransactionConstructor,
+  PaymentChannelCreate: PaymentChannelCreate as unknown as TransactionConstructor,
+  PaymentChannelFund: PaymentChannelFund as unknown as TransactionConstructor,
+  PaymentChannelClaim: PaymentChannelClaim as unknown as TransactionConstructor,
 
   // DEX offers
-  OfferCreate: OfferCreateTx as unknown as TransactionConstructor,
-  OfferCancel: OfferCancelTx as unknown as TransactionConstructor,
+  OfferCreate: OfferCreate as unknown as TransactionConstructor,
+  OfferCancel: OfferCancel as unknown as TransactionConstructor,
 
   // Trust lines
-  TrustSet: TrustSetTx as unknown as TransactionConstructor,
+  TrustSet: TrustSet as unknown as TransactionConstructor,
 
   // NFTokens
-  NFTokenMint: NFTokenMintTx as unknown as TransactionConstructor,
-  NFTokenBurn: NFTokenBurnTx as unknown as TransactionConstructor,
-  NFTokenCreateOffer: NFTokenCreateOfferTx as unknown as TransactionConstructor,
-  NFTokenCancelOffer: NFTokenCancelOfferTx as unknown as TransactionConstructor,
-  NFTokenAcceptOffer: NFTokenAcceptOfferTx as unknown as TransactionConstructor,
-  NFTokenModify: NFTokenModifyTx as unknown as TransactionConstructor,
+  NFTokenMint: NFTokenMint as unknown as TransactionConstructor,
+  NFTokenBurn: NFTokenBurn as unknown as TransactionConstructor,
+  NFTokenCreateOffer: NFTokenCreateOffer as unknown as TransactionConstructor,
+  NFTokenCancelOffer: NFTokenCancelOffer as unknown as TransactionConstructor,
+  NFTokenAcceptOffer: NFTokenAcceptOffer as unknown as TransactionConstructor,
+  NFTokenModify: NFTokenModify as unknown as TransactionConstructor,
 
   // Multi-Purpose Tokens
-  MPTokenIssuanceCreate: MPTokenIssuanceCreateTx as unknown as TransactionConstructor,
-  MPTokenIssuanceDestroy: MPTokenIssuanceDestroyTx as unknown as TransactionConstructor,
-  MPTokenIssuanceSet: MPTokenIssuanceSetTx as unknown as TransactionConstructor,
-  MPTokenAuthorize: MPTokenAuthorizeTx as unknown as TransactionConstructor,
+  MPTokenIssuanceCreate: MPTokenIssuanceCreate as unknown as TransactionConstructor,
+  MPTokenIssuanceDestroy: MPTokenIssuanceDestroy as unknown as TransactionConstructor,
+  MPTokenIssuanceSet: MPTokenIssuanceSet as unknown as TransactionConstructor,
+  MPTokenAuthorize: MPTokenAuthorize as unknown as TransactionConstructor,
 
   // AMM
-  AMMCreate: AMMCreateTx as unknown as TransactionConstructor,
-  AMMDeposit: AMMDepositTx as unknown as TransactionConstructor,
-  AMMWithdraw: AMMWithdrawTx as unknown as TransactionConstructor,
-  AMMVote: AMMVoteTx as unknown as TransactionConstructor,
-  AMMBid: AMMBidTx as unknown as TransactionConstructor,
-  AMMClawback: AMMClawbackTx as unknown as TransactionConstructor,
-  AMMDelete: AMMDeleteTx as unknown as TransactionConstructor,
+  AMMCreate: AMMCreate as unknown as TransactionConstructor,
+  AMMDeposit: AMMDeposit as unknown as TransactionConstructor,
+  AMMWithdraw: AMMWithdraw as unknown as TransactionConstructor,
+  AMMVote: AMMVote as unknown as TransactionConstructor,
+  AMMBid: AMMBid as unknown as TransactionConstructor,
+  AMMClawback: AMMClawback as unknown as TransactionConstructor,
+  AMMDelete: AMMDelete as unknown as TransactionConstructor,
 
   // XChain
-  XChainCreateBridge: XChainCreateBridgeTx as unknown as TransactionConstructor,
-  XChainModifyBridge: XChainModifyBridgeTx as unknown as TransactionConstructor,
-  XChainCommit: XChainCommitTx as unknown as TransactionConstructor,
-  XChainClaim: XChainClaimTx as unknown as TransactionConstructor,
-  XChainAccountCreateCommit: XChainAccountCreateCommitTx as unknown as TransactionConstructor,
-  XChainCreateClaimID: XChainCreateClaimIDTx as unknown as TransactionConstructor,
-  XChainAddClaimAttestation: XChainAddClaimAttestationTx as unknown as TransactionConstructor,
-  XChainAddAccountCreateAttestation: XChainAddAccountCreateAttestationTx as unknown as TransactionConstructor,
+  XChainCreateBridge: XChainCreateBridge as unknown as TransactionConstructor,
+  XChainModifyBridge: XChainModifyBridge as unknown as TransactionConstructor,
+  XChainCommit: XChainCommit as unknown as TransactionConstructor,
+  XChainClaim: XChainClaim as unknown as TransactionConstructor,
+  XChainAccountCreateCommit: XChainAccountCreateCommit as unknown as TransactionConstructor,
+  XChainCreateClaimID: XChainCreateClaimID as unknown as TransactionConstructor,
+  XChainAddClaimAttestation: XChainAddClaimAttestation as unknown as TransactionConstructor,
+  XChainAddAccountCreateAttestation: XChainAddAccountCreateAttestation as unknown as TransactionConstructor,
 
   // Vaults
-  VaultCreate: VaultCreateTx as unknown as TransactionConstructor,
-  VaultDeposit: VaultDepositTx as unknown as TransactionConstructor,
-  VaultWithdraw: VaultWithdrawTx as unknown as TransactionConstructor,
-  VaultSet: VaultSetTx as unknown as TransactionConstructor,
-  VaultDelete: VaultDeleteTx as unknown as TransactionConstructor,
-  VaultClawback: VaultClawbackTx as unknown as TransactionConstructor,
+  VaultCreate: VaultCreate as unknown as TransactionConstructor,
+  VaultDeposit: VaultDeposit as unknown as TransactionConstructor,
+  VaultWithdraw: VaultWithdraw as unknown as TransactionConstructor,
+  VaultSet: VaultSet as unknown as TransactionConstructor,
+  VaultDelete: VaultDelete as unknown as TransactionConstructor,
+  VaultClawback: VaultClawback as unknown as TransactionConstructor,
 
   // Loans
-  LoanSet: LoanSetTx as unknown as TransactionConstructor,
-  LoanDelete: LoanDeleteTx as unknown as TransactionConstructor,
-  LoanManage: LoanManageTx as unknown as TransactionConstructor,
-  LoanPay: LoanPayTx as unknown as TransactionConstructor,
-  LoanBrokerSet: LoanBrokerSetTx as unknown as TransactionConstructor,
-  LoanBrokerDelete: LoanBrokerDeleteTx as unknown as TransactionConstructor,
-  LoanBrokerCoverClawback: LoanBrokerCoverClawbackTx as unknown as TransactionConstructor,
-  LoanBrokerCoverDeposit: LoanBrokerCoverDepositTx as unknown as TransactionConstructor,
-  LoanBrokerCoverWithdraw: LoanBrokerCoverWithdrawTx as unknown as TransactionConstructor,
+  LoanSet: LoanSet as unknown as TransactionConstructor,
+  LoanDelete: LoanDelete as unknown as TransactionConstructor,
+  LoanManage: LoanManage as unknown as TransactionConstructor,
+  LoanPay: LoanPay as unknown as TransactionConstructor,
+  LoanBrokerSet: LoanBrokerSet as unknown as TransactionConstructor,
+  LoanBrokerDelete: LoanBrokerDelete as unknown as TransactionConstructor,
+  LoanBrokerCoverClawback: LoanBrokerCoverClawback as unknown as TransactionConstructor,
+  LoanBrokerCoverDeposit: LoanBrokerCoverDeposit as unknown as TransactionConstructor,
+  LoanBrokerCoverWithdraw: LoanBrokerCoverWithdraw as unknown as TransactionConstructor,
 
   // Credentials
-  CredentialCreate: CredentialCreateTx as unknown as TransactionConstructor,
-  CredentialAccept: CredentialAcceptTx as unknown as TransactionConstructor,
-  CredentialDelete: CredentialDeleteTx as unknown as TransactionConstructor,
+  CredentialCreate: CredentialCreate as unknown as TransactionConstructor,
+  CredentialAccept: CredentialAccept as unknown as TransactionConstructor,
+  CredentialDelete: CredentialDelete as unknown as TransactionConstructor,
 
   // Oracles
-  OracleSet: OracleSetTx as unknown as TransactionConstructor,
-  OracleDelete: OracleDeleteTx as unknown as TransactionConstructor,
+  OracleSet: OracleSet as unknown as TransactionConstructor,
+  OracleDelete: OracleDelete as unknown as TransactionConstructor,
 
   // Permissioned Domain
-  PermissionedDomainSet: PermissionedDomainSetTx as unknown as TransactionConstructor,
-  PermissionedDomainDelete: PermissionedDomainDeleteTx as unknown as TransactionConstructor,
+  PermissionedDomainSet: PermissionedDomainSet as unknown as TransactionConstructor,
+  PermissionedDomainDelete: PermissionedDomainDelete as unknown as TransactionConstructor,
 
   // Batch
-  Batch: BatchTx as unknown as TransactionConstructor,
+  Batch: Batch as unknown as TransactionConstructor,
 
   // DID
-  DIDSet: DIDSetTx as unknown as TransactionConstructor,
-  DIDDelete: DIDDeleteTx as unknown as TransactionConstructor,
+  DIDSet: DIDSet as unknown as TransactionConstructor,
+  DIDDelete: DIDDelete as unknown as TransactionConstructor,
 };
 
 // ─── Registry API ────────────────────────────────────────────────────

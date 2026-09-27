@@ -20,7 +20,7 @@ export interface EscrowFinishTxFields extends BaseTransactionFields {
   readonly Condition?: string | undefined;
 }
 
-export class EscrowFinishTx extends Transaction {
+export class EscrowFinish extends Transaction {
   override readonly TransactionType = 'EscrowFinish' as const;
 
   /** Escrow creator. */
@@ -38,7 +38,7 @@ export class EscrowFinishTx extends Transaction {
   ] as const;
 
   constructor(props: EscrowFinishTxFields) {
-    super({ ...props, TransactionType: EscrowFinishTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: EscrowFinish.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

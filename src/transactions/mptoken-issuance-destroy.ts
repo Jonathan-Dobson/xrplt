@@ -12,7 +12,7 @@ export interface MPTokenIssuanceDestroyTxFields extends BaseTransactionFields {
   readonly MPTokenIssuanceID: string;
 }
 
-export class MPTokenIssuanceDestroyTx extends TokenTransaction {
+export class MPTokenIssuanceDestroy extends TokenTransaction {
   override readonly TransactionType = 'MPTokenIssuanceDestroy' as const;
 
   /** The unique identifier of the MPT issuance. */
@@ -24,7 +24,7 @@ export class MPTokenIssuanceDestroyTx extends TokenTransaction {
   ] as const;
 
   constructor(props: MPTokenIssuanceDestroyTxFields) {
-    super({ ...props, TransactionType: MPTokenIssuanceDestroyTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: MPTokenIssuanceDestroy.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

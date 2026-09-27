@@ -22,7 +22,7 @@ export interface AMMBidTxFields extends BaseTransactionFields {
   readonly AuthAccounts?: Record<string, string>[] | undefined;
 }
 
-export class AMMBidTx extends AMMTransaction {
+export class AMMBid extends AMMTransaction {
   override readonly TransactionType = 'AMMBid' as const;
 
   readonly Asset: Record<string, unknown> = undefined as any;
@@ -37,7 +37,7 @@ export class AMMBidTx extends AMMTransaction {
   ] as const;
 
   constructor(props: AMMBidTxFields) {
-    super({ ...props, TransactionType: AMMBidTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: AMMBid.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

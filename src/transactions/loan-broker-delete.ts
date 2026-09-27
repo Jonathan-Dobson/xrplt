@@ -8,14 +8,14 @@ export interface LoanBrokerDeleteTxFields extends BaseTransactionFields {
   readonly TransactionType: 'LoanBrokerDelete';
 }
 
-export class LoanBrokerDeleteTx extends Transaction {
+export class LoanBrokerDelete extends Transaction {
   override readonly TransactionType = 'LoanBrokerDelete' as const;
 
   static override readonly TRANSACTION_TYPE = 'LoanBrokerDelete' as const;
   static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
 
   constructor(props: LoanBrokerDeleteTxFields) {
-    super({ ...props, TransactionType: LoanBrokerDeleteTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: LoanBrokerDelete.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

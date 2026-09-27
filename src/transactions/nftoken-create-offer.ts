@@ -27,7 +27,7 @@ export interface NFTokenCreateOfferTxFields extends BaseTransactionFields {
   readonly Flags?: number | NFTokenCreateOfferFlagsInterface | undefined;
 }
 
-export class NFTokenCreateOfferTx extends TokenTransaction {
+export class NFTokenCreateOffer extends TokenTransaction {
   override readonly TransactionType = 'NFTokenCreateOffer' as const;
 
   /** The unique identifier of the NFToken. */
@@ -47,7 +47,7 @@ export class NFTokenCreateOfferTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenCreateOfferTxFields) {
-    super({ ...props, TransactionType: NFTokenCreateOfferTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: NFTokenCreateOffer.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 

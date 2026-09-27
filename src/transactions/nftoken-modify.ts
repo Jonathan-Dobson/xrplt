@@ -17,7 +17,7 @@ export interface NFTokenModifyTxFields extends BaseTransactionFields {
   readonly Owner?: string | undefined;
 }
 
-export class NFTokenModifyTx extends TokenTransaction {
+export class NFTokenModify extends TokenTransaction {
   override readonly TransactionType = 'NFTokenModify' as const;
 
   /** The unique identifier of the NFToken. */
@@ -35,7 +35,7 @@ export class NFTokenModifyTx extends TokenTransaction {
   ] as const;
 
   constructor(props: NFTokenModifyTxFields) {
-    super({ ...props, TransactionType: NFTokenModifyTx.TRANSACTION_TYPE });
+    super({ ...props, TransactionType: NFTokenModify.TRANSACTION_TYPE });
     this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
