@@ -26,7 +26,7 @@ Every transaction in the library extends the `Transaction` base class. This prov
 ### Serialization & Reliability
 The `toJSON()` method produces a plain object that is 100% compliant with the `xrpl.js` schema. Every class uses explicit property initialization to ensure reliability across all JavaScript environments.
 ```typescript
-const payment = new PaymentTx({
+const payment = new Payment({
   Account: 'r...',
   Amount: '1000000',
   Destination: 'r...',
@@ -70,48 +70,48 @@ const offer = Transaction.offerCreate({ ... });
 ### Core Transactions
 | Class | Description |
 | :--- | :--- |
-| `PaymentTx` | Send XRP or Issued Currencies. |
-| `AccountSetTx` | Modify account settings and flags. |
-| `SetRegularKeyTx` | Assign a secondary signing key. |
-| `TrustSetTx` | Create or modify a trust line. |
-| `SignerListSetTx` | Setup Multi-Signature authority. |
+| `Payment` | Send XRP or Issued Currencies. |
+| `AccountSet` | Modify account settings and flags. |
+| `SetRegularKey` | Assign a secondary signing key. |
+| `TrustSet` | Create or modify a trust line. |
+| `SignerListSet` | Setup Multi-Signature authority. |
 
 ### DEX & AMM Transactions
 | Class | Description |
 | :--- | :--- |
-| `OfferCreateTx` | Place a limit order on the DEX. |
-| `OfferCancelTx` | Cancel an existing order via sequence. |
-| `AMMCreateTx` | Create a new Automated Market Maker instance. |
-| `AMMDepositTx` | Add liquidity to an AMM pool. |
-| `AMMWithdrawTx` | Remove liquidity from an AMM pool. |
+| `OfferCreate` | Place a limit order on the DEX. |
+| `OfferCancel` | Cancel an existing order via sequence. |
+| `AMMCreate` | Create a new Automated Market Maker instance. |
+| `AMMDeposit` | Add liquidity to an AMM pool. |
+| `AMMWithdraw` | Remove liquidity from an AMM pool. |
 
 ### Token Ecosystem (NFT & MPT)
 | Class | Description |
 | :--- | :--- |
-| `NFTokenMintTx` | Create a new NFT. |
-| `NFTokenCreateOfferTx` | Create a buy or sell offer for an NFT. |
-| `NFTokenAcceptOfferTx` | Complete an NFT trade. |
-| `MPTokenIssuanceCreateTx` | Create a new Multi-Purpose Token issuance. |
-| `MPTokenAuthorizeTx` | Authorize an account to hold an MPT. |
+| `NFTokenMint` | Create a new NFT. |
+| `NFTokenCreateOffer` | Create a buy or sell offer for an NFT. |
+| `NFTokenAcceptOffer` | Complete an NFT trade. |
+| `MPTokenIssuanceCreate` | Create a new Multi-Purpose Token issuance. |
+| `MPTokenAuthorize` | Authorize an account to hold an MPT. |
 
 ### Interoperability (XChain Bridges)
 | Class | Description |
 | :--- | :--- |
-| `XChainCreateBridgeTx` | Initialize a cross-chain bridge. |
-| `XChainCommitTx` | Lock funds on the source chain for transfer. |
-| `XChainClaimTx` | Claim funds on the destination chain. |
-| `XChainAddClaimAttestationTx` | Provide witness signatures for transfers. |
+| `XChainCreateBridge` | Initialize a cross-chain bridge. |
+| `XChainCommit` | Lock funds on the source chain for transfer. |
+| `XChainClaim` | Claim funds on the destination chain. |
+| `XChainAddClaimAttestation` | Provide witness signatures for transfers. |
 
 ### Advanced Smart Contracts
 | Class | Description |
 | :--- | :--- |
-| `EscrowCreateTx` | Lock funds with time or crypto-conditions. |
-| `CheckCreateTx` | Create a deferred payment check. |
-| `PaymentChannelCreateTx` | Open a high-throughput payment channel. |
-| `VaultCreateTx` | Create a secure vault for managed assets. |
-| `LoanSetTx` | Configure on-chain loan parameters. |
-| `DIDSetTx` | Manage Decentralized Identifiers. |
-| `OracleSetTx` | Submit external data (price feeds) to the ledger. |
+| `EscrowCreate` | Lock funds with time or crypto-conditions. |
+| `CheckCreate` | Create a deferred payment check. |
+| `PaymentChannelCreate` | Open a high-throughput payment channel. |
+| `VaultCreate` | Create a secure vault for managed assets. |
+| `LoanSet` | Configure on-chain loan parameters. |
+| `DIDSet` | Manage Decentralized Identifiers. |
+| `OracleSet` | Submit external data (price feeds) to the ledger. |
 
 ---
 
@@ -119,7 +119,7 @@ const offer = Transaction.offerCreate({ ... });
 
 ### Multi-Signature
 ```typescript
-const pay = new PaymentTx({ Account: alice, ... });
+const pay = new Payment({ Account: alice, ... });
 const json = pay.toJSON();
 
 // Autofill for 2 signers
@@ -137,7 +137,7 @@ await client.submitAndWait(combined);
 ### Ticket-Based Submissions
 Tickets allow out-of-order submission.
 ```typescript
-const pay = new PaymentTx({
+const pay = new Payment({
   Account: alice,
   Sequence: 0, // Required when using tickets
   TicketSequence: 1723849,

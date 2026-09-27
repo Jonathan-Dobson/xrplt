@@ -33,7 +33,7 @@ npm install xrplt
 ### Creating a Transaction
 
 ```typescript
-import { Transaction, PaymentTx } from 'xrplt';
+import { Transaction, Payment } from 'xrplt';
 
 // Option 1: Using the convenience factory
 const tx = Transaction.payment({
@@ -43,7 +43,7 @@ const tx = Transaction.payment({
 });
 
 // Option 2: Using the concrete class
-const payment = new PaymentTx({
+const payment = new Payment({
   Account: 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
   Destination: 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe',
   Amount: '1000000',
