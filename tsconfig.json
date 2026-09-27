@@ -23,6 +23,7 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
+    "noEmitOnError": true,
     "skipLibCheck": true
   },
   "include": ["src"],

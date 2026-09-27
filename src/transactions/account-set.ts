@@ -56,7 +56,6 @@ export class AccountSetTx extends AccountTransaction {
     this.TransferRate = props.TransferRate as any;
     this.TickSize = props.TickSize as any;
     this.Flags = props.Flags as any;
-    this. = props. as any;
   }
 
   override validate(): void {

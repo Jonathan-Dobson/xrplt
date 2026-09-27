@@ -41,6 +41,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.6.2",
+    "codebase-semantic-search": "^0.2.4",
     "typescript": "^6.0.3",
     "vitest": "^3.2.1",
     "xrpl": "^4.6.0"
@@ -55,5 +56,10 @@
   "bugs": {
     "url": "https://github.com/Jonathan-Dobson/xrplt/issues"
   },
-  "homepage": "https://github.com/Jonathan-Dobson/xrplt#readme"
+  "homepage": "https://github.com/Jonathan-Dobson/xrplt#readme",
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "protobufjs@7.6.5": true
+  }
 }

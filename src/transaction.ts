@@ -24,6 +24,30 @@ type RegistryRef = {
 let _syncRegistry: RegistryRef | undefined;
 
 /**
+ * Field names owned by the `Transaction` base class. The manifest walk in the
+ * base constructor skips these so a leaf that accidentally lists one in its
+ * `ASSIGNABLE_FIELDS` cannot overwrite a base-owned value (e.g. `Account`).
+ * @internal
+ */
+const RESERVED_BASE_FIELDS: ReadonlySet<string> = new Set([
+  'TransactionType',
+  'Account',
+  'Fee',
+  'Sequence',
+  'AccountTxnID',
+  'Flags',
+  'LastLedgerSequence',
+  'Memos',
+  'Signers',
+  'SourceTag',
+  'SigningPubKey',
+  'TicketSequence',
+  'TxnSignature',
+  'NetworkID',
+  'Delegate',
+]);
+
+/**
  * @internal Called by registry.ts during module initialization
  * to provide synchronous access to the registry.
  */
@@ -95,9 +119,29 @@ export abstract class Transaction {
   readonly Delegate?: string | undefined;
 
   /**
+   * Subclasses MUST override these:
+   * - `TRANSACTION_TYPE`: the literal type string this class handles ('Payment', 'AccountSet', ...).
+   * - `ASSIGNABLE_FIELDS`: a readonly array of field names this class owns beyond the
+   *   base set. The base constructor walks this manifest and copies each named field
+   *   from `props` onto `this` when defined. This replaces the per-class
+   *   `this.X = props.X as any` block in every leaf constructor.
+   *
+   * The defaults below are empty so unmigrated leaves continue to work as before —
+   * they still call `super({ ...props, TransactionType: 'X' })` and assign their own
+   * fields explicitly. Once a leaf declares `ASSIGNABLE_FIELDS`, the explicit
+   * assignments in its constructor can be deleted.
+   */
+  static readonly TRANSACTION_TYPE: TransactionType = '' as TransactionType;
+  static readonly ASSIGNABLE_FIELDS: readonly string[] = [];
+
+  /**
    * Protected constructor — concrete subclasses call this via `super()`.
    * Only assigns properties that are actually defined in the input,
    * which satisfies `exactOptionalPropertyTypes`.
+   *
+   * After assigning the common base fields, walks the concrete subclass's
+   * `ASSIGNABLE_FIELDS` manifest and copies any matching prop onto `this`.
+   * The manifest walk is a no-op for unmigrated leaves (empty array).
    */
   protected constructor(props: BaseTransactionFields) {
     this.Account = props.Account;
@@ -115,6 +159,20 @@ export abstract class Transaction {
     this.TxnSignature = props.TxnSignature;
     this.NetworkID = props.NetworkID;
     this.Delegate = props.Delegate;
+
+    // ─── Manifest walk (active only when a leaf overrides ASSIGNABLE_FIELDS) ──
+    // Skips base-class fields that the leaf might (incorrectly) list.
+    const manifest = (this.constructor as typeof Transaction).ASSIGNABLE_FIELDS;
+    if (manifest.length > 0) {
+      const propsRecord = props as Record<string, unknown>;
+      for (const field of manifest) {
+        if (RESERVED_BASE_FIELDS.has(field)) continue;
+        const value = propsRecord[field];
+        if (value !== undefined) {
+          (this as Record<string, unknown>)[field] = value;
+        }
+      }
+    }
   }
 
   // ─── Validation ──────────────────────────────────────────────────

@@ -71,7 +71,7 @@ export class PaymentTx extends PaymentTransaction {
     super.validate();
     if (!isAmount(this.Amount)) throw new ValidationError('Payment: missing or invalid Amount');
     if (!isAccount(this.Destination)) throw new ValidationError('Payment: missing or invalid Destination');
-    
+
     // Partial payment check
     if (this.DeliverMin && !(this.Flags as any)?.tfPartialPayment && (this.Flags as any) !== 0x00020000) {
       throw new ValidationError('Payment: DeliverMin requires tfPartialPayment flag');
