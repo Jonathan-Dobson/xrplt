@@ -139,9 +139,10 @@ export abstract class Transaction {
    * Only assigns properties that are actually defined in the input,
    * which satisfies `exactOptionalPropertyTypes`.
    *
-   * After assigning the common base fields, walks the concrete subclass's
-   * `ASSIGNABLE_FIELDS` manifest and copies any matching prop onto `this`.
-   * The manifest walk is a no-op for unmigrated leaves (empty array).
+   * Note: this constructor only handles the *base* field set. Subclasses
+   * that opt into the manifest pattern must call `this.applyManifest(props)`
+   * at the END of their constructor (after `super()` and after their class
+   * field initializers run). See `applyManifest` for why ordering matters.
    */
   protected constructor(props: BaseTransactionFields) {
     this.Account = props.Account;
@@ -159,18 +160,26 @@ export abstract class Transaction {
     this.TxnSignature = props.TxnSignature;
     this.NetworkID = props.NetworkID;
     this.Delegate = props.Delegate;
+  }
 
-    // ─── Manifest walk (active only when a leaf overrides ASSIGNABLE_FIELDS) ──
-    // Skips base-class fields that the leaf might (incorrectly) list.
+  /**
+   * Apply leaf-declared fields from `props` onto `this`. A leaf that overrides
+   * `ASSIGNABLE_FIELDS` with a non-empty array MUST call this at the end of its
+   * constructor. Calling it before class field initializers run would silently
+   * no-op because the field initializers (`readonly Foo = undefined as any`)
+   * run between `super()` returning and the rest of the constructor body.
+   *
+   * Skips base-owned fields (Account, TransactionType, etc.) so a manifest
+   * that accidentally includes one cannot overwrite a base value.
+   */
+  protected applyManifest(props: Record<string, unknown>): void {
     const manifest = (this.constructor as typeof Transaction).ASSIGNABLE_FIELDS;
-    if (manifest.length > 0) {
-      const propsRecord = props as Record<string, unknown>;
-      for (const field of manifest) {
-        if (RESERVED_BASE_FIELDS.has(field)) continue;
-        const value = propsRecord[field];
-        if (value !== undefined) {
-          (this as Record<string, unknown>)[field] = value;
-        }
+    if (manifest.length === 0) return;
+    for (const field of manifest) {
+      if (RESERVED_BASE_FIELDS.has(field)) continue;
+      const value = props[field];
+      if (value !== undefined) {
+        (this as Record<string, unknown>)[field] = value;
       }
     }
   }

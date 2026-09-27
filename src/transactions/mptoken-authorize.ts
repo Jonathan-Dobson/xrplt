@@ -30,11 +30,14 @@ export class MPTokenAuthorizeTx extends TokenTransaction {
   readonly Holder?: string | undefined = undefined;
   declare readonly Flags?: number | MPTokenAuthorizeFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'MPTokenAuthorize' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Holder', 'MPTokenIssuanceID'
+  ] as const;
+
   constructor(props: MPTokenAuthorizeTxFields) {
-    super({ ...props, TransactionType: 'MPTokenAuthorize' } );
-    this.MPTokenIssuanceID = props.MPTokenIssuanceID as string;
-        this.Holder = props.Holder as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'MPTokenAuthorize' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return true; }

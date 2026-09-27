@@ -23,10 +23,14 @@ export class DepositPreauthTx extends AccountTransaction {
   readonly Authorize?: string | undefined = undefined;
   readonly Unauthorize?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'DepositPreauth' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Authorize', 'Unauthorize'
+  ] as const;
+
   constructor(props: DepositPreauthTxFields) {
-    super({ ...props, TransactionType: 'DepositPreauth' } );
-        this.Authorize = props.Authorize as any;
-    this.Unauthorize = props.Unauthorize as any;
+    super({ ...props, TransactionType: 'DepositPreauth' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

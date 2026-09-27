@@ -27,11 +27,14 @@ export class NFTokenAcceptOfferTx extends TokenTransaction {
   readonly NFTokenBuyOffer?: string | undefined = undefined;
   readonly NFTokenBrokerFee?: Amount | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenAcceptOffer' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'NFTokenBrokerFee', 'NFTokenBuyOffer', 'NFTokenSellOffer'
+  ] as const;
+
   constructor(props: NFTokenAcceptOfferTxFields) {
-    super({ ...props, TransactionType: 'NFTokenAcceptOffer' } );
-        this.NFTokenSellOffer = props.NFTokenSellOffer as any;
-    this.NFTokenBuyOffer = props.NFTokenBuyOffer as any;
-    this.NFTokenBrokerFee = props.NFTokenBrokerFee as any;
+    super({ ...props, TransactionType: 'NFTokenAcceptOffer' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return true; }

@@ -41,14 +41,14 @@ export class NFTokenCreateOfferTx extends TokenTransaction {
   readonly Destination?: string | undefined = undefined;
   declare readonly Flags?: number | NFTokenCreateOfferFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenCreateOffer' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'Destination', 'Expiration', 'NFTokenID', 'Owner'
+  ] as const;
+
   constructor(props: NFTokenCreateOfferTxFields) {
-    super({ ...props, TransactionType: 'NFTokenCreateOffer' } );
-    this.NFTokenID = props.NFTokenID as string;
-    this.Amount = props.Amount as Amount;
-        this.Owner = props.Owner as any;
-    this.Expiration = props.Expiration as any;
-    this.Destination = props.Destination as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'NFTokenCreateOffer' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

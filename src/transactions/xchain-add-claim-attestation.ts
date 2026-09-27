@@ -38,16 +38,14 @@ export class XChainAddClaimAttestationTx extends XChainTransaction {
   readonly Signature: string = undefined as any;
   readonly XChainAttestationSequence: number = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'XChainAddClaimAttestation' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'Destination', 'OtherChainSource', 'PublicKey', 'Signature', 'XChainAttestationSequence', 'XChainBridge', 'XChainClaimID'
+  ] as const;
+
   constructor(props: XChainAddClaimAttestationTxFields) {
-    super({ ...props, TransactionType: 'XChainAddClaimAttestation' } );
-    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
-    this.XChainClaimID = props.XChainClaimID as number;
-    this.Amount = props.Amount as string;
-    this.Destination = props.Destination as string;
-    this.OtherChainSource = props.OtherChainSource as string;
-    this.PublicKey = props.PublicKey as string;
-    this.Signature = props.Signature as string;
-    this.XChainAttestationSequence = props.XChainAttestationSequence as number;
+    super({ ...props, TransactionType: 'XChainAddClaimAttestation' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

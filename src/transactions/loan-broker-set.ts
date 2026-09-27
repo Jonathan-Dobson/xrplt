@@ -11,8 +11,12 @@ export interface LoanBrokerSetTxFields extends BaseTransactionFields {
 export class LoanBrokerSetTx extends Transaction {
   override readonly TransactionType = 'LoanBrokerSet' as const;
 
+  static override readonly TRANSACTION_TYPE = 'LoanBrokerSet' as const;
+  static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
+
   constructor(props: LoanBrokerSetTxFields) {
-    super({ ...props, TransactionType: 'LoanBrokerSet' } );
+    super({ ...props, TransactionType: 'LoanBrokerSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

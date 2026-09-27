@@ -31,13 +31,14 @@ export class AMMBidTx extends AMMTransaction {
   readonly BidMin?: IssuedCurrencyAmount | undefined = undefined;
   readonly AuthAccounts?: Record<string, string>[] | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'AMMBid' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Asset', 'Asset2', 'AuthAccounts', 'BidMax', 'BidMin'
+  ] as const;
+
   constructor(props: AMMBidTxFields) {
-    super({ ...props, TransactionType: 'AMMBid' } );
-    this.Asset = props.Asset as Record<string, unknown>;
-        this.Asset2 = props.Asset2 as any;
-    this.BidMax = props.BidMax as any;
-    this.BidMin = props.BidMin as any;
-    this.AuthAccounts = props.AuthAccounts as any;
+    super({ ...props, TransactionType: 'AMMBid' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

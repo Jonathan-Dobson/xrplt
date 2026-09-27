@@ -11,8 +11,12 @@ export interface DIDDeleteTxFields extends BaseTransactionFields {
 export class DIDDeleteTx extends Transaction {
   override readonly TransactionType = 'DIDDelete' as const;
 
+  static override readonly TRANSACTION_TYPE = 'DIDDelete' as const;
+  static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
+
   constructor(props: DIDDeleteTxFields) {
-    super({ ...props, TransactionType: 'DIDDelete' } );
+    super({ ...props, TransactionType: 'DIDDelete' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

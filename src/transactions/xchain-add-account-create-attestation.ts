@@ -32,16 +32,14 @@ export class XChainAddAccountCreateAttestationTx extends Transaction {
   readonly AttestationRewardAccount: string = undefined as any;
   readonly WasLockingChainSend: number = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'XChainAddAccountCreateAttestation' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'AttestationRewardAccount', 'Destination', 'PublicKey', 'Signature', 'WasLockingChainSend', 'XChainAccountCreateCount', 'XChainBridge'
+  ] as const;
+
   constructor(props: XChainAddAccountCreateAttestationTxFields) {
-    super({ ...props, TransactionType: 'XChainAddAccountCreateAttestation' } );
-    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
-    this.XChainAccountCreateCount = props.XChainAccountCreateCount as number;
-    this.Destination = props.Destination as string;
-    this.Signature = props.Signature as string;
-    this.PublicKey = props.PublicKey as string;
-    this.Amount = props.Amount as string;
-    this.AttestationRewardAccount = props.AttestationRewardAccount as string;
-    this.WasLockingChainSend = props.WasLockingChainSend as number;
+    super({ ...props, TransactionType: 'XChainAddAccountCreateAttestation' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

@@ -34,13 +34,14 @@ export class PaymentChannelClaimTx extends Transaction {
   readonly PublicKey?: string | undefined = undefined;
   readonly Signature?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'PaymentChannelClaim' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'Balance', 'Channel', 'PublicKey', 'Signature'
+  ] as const;
+
   constructor(props: PaymentChannelClaimTxFields) {
-    super({ ...props, TransactionType: 'PaymentChannelClaim' } );
-    this.Channel = props.Channel as string;
-        this.Amount = props.Amount as any;
-    this.Balance = props.Balance as any;
-    this.PublicKey = props.PublicKey as any;
-    this.Signature = props.Signature as any;
+    super({ ...props, TransactionType: 'PaymentChannelClaim' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

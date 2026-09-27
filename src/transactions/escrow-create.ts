@@ -40,14 +40,14 @@ export class EscrowCreateTx extends PaymentTransaction {
   readonly Condition?: string | undefined = undefined;
   readonly DestinationTag?: number | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'EscrowCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'CancelAfter', 'Condition', 'Destination', 'DestinationTag', 'FinishAfter'
+  ] as const;
+
   constructor(props: EscrowCreateTxFields) {
-    super({ ...props, TransactionType: 'EscrowCreate' } );
-    this.Amount = props.Amount as string;
-    this.Destination = props.Destination as string;
-        this.CancelAfter = props.CancelAfter as any;
-    this.FinishAfter = props.FinishAfter as any;
-    this.Condition = props.Condition as any;
-    this.DestinationTag = props.DestinationTag as any;
+    super({ ...props, TransactionType: 'EscrowCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override getAmount(): Amount { return this.Amount; }

@@ -17,9 +17,14 @@ export class OracleDeleteTx extends Transaction {
 
   readonly OracleDocumentID: number = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'OracleDelete' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'OracleDocumentID'
+  ] as const;
+
   constructor(props: OracleDeleteTxFields) {
-    super({ ...props, TransactionType: 'OracleDelete' } );
-    this.OracleDocumentID = props.OracleDocumentID as number;
+    super({ ...props, TransactionType: 'OracleDelete' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

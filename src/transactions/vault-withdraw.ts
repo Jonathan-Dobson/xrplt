@@ -19,9 +19,14 @@ export class VaultWithdrawTx extends Transaction {
   /** The amount to withdraw. */
   readonly Amount: Amount = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'VaultWithdraw' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount'
+  ] as const;
+
   constructor(props: VaultWithdrawTxFields) {
-    super({ ...props, TransactionType: 'VaultWithdraw' } );
-    this.Amount = props.Amount as Amount;
+    super({ ...props, TransactionType: 'VaultWithdraw' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

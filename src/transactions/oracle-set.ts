@@ -37,15 +37,14 @@ export class OracleSetTx extends Transaction {
   readonly AssetBase?: string | undefined = undefined;
   readonly AssetQuote?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'OracleSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'AssetBase', 'AssetQuote', 'LastUpdateTime', 'OracleDocumentID', 'PriceDataSeries', 'Provider', 'URI'
+  ] as const;
+
   constructor(props: OracleSetTxFields) {
-    super({ ...props, TransactionType: 'OracleSet' } );
-    this.OracleDocumentID = props.OracleDocumentID as number;
-    this.LastUpdateTime = props.LastUpdateTime as number;
-    this.PriceDataSeries = props.PriceDataSeries as Record<string, unknown>[];
-        this.Provider = props.Provider as any;
-    this.URI = props.URI as any;
-    this.AssetBase = props.AssetBase as any;
-    this.AssetQuote = props.AssetQuote as any;
+    super({ ...props, TransactionType: 'OracleSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

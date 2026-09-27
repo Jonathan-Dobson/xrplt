@@ -41,14 +41,14 @@ export class OfferCreateTx extends OfferTransaction {
   readonly DomainID?: string | undefined = undefined;
   declare readonly Flags?: number | OfferCreateFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'OfferCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'DomainID', 'Expiration', 'OfferSequence', 'TakerGets', 'TakerPays'
+  ] as const;
+
   constructor(props: OfferCreateTxFields) {
-    super({ ...props, TransactionType: 'OfferCreate' } );
-    this.TakerGets = props.TakerGets as Amount;
-    this.TakerPays = props.TakerPays as Amount;
-        this.Expiration = props.Expiration as any;
-    this.OfferSequence = props.OfferSequence as any;
-    this.DomainID = props.DomainID as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'OfferCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

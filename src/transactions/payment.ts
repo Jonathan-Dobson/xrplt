@@ -47,16 +47,14 @@ export class PaymentTx extends PaymentTransaction {
   readonly SendMax?: Amount | undefined = undefined;
   declare readonly Flags?: number | PaymentFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'Payment' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'DeliverMin', 'Destination', 'DestinationTag', 'InvoiceID', 'Paths', 'SendMax'
+  ] as const;
+
   constructor(props: PaymentTxFields) {
     super({ ...props, TransactionType: 'Payment' });
-    this.Amount = props.Amount;
-    this.Destination = props.Destination;
-    this.DestinationTag = props.DestinationTag;
-    this.InvoiceID = props.InvoiceID;
-    this.DeliverMin = props.DeliverMin;
-    this.Paths = props.Paths;
-    this.SendMax = props.SendMax;
-    this.Flags = props.Flags;
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override getAmount(): Amount {

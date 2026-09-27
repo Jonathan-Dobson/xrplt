@@ -24,10 +24,14 @@ export class MPTokenIssuanceSetTx extends TokenTransaction {
   /** The account of the holder to update (for specific flags). */
   readonly Holder?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'MPTokenIssuanceSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Holder', 'MPTokenIssuanceID'
+  ] as const;
+
   constructor(props: MPTokenIssuanceSetTxFields) {
-    super({ ...props, TransactionType: 'MPTokenIssuanceSet' } );
-    this.MPTokenIssuanceID = props.MPTokenIssuanceID as string;
-        this.Holder = props.Holder as any;
+    super({ ...props, TransactionType: 'MPTokenIssuanceSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

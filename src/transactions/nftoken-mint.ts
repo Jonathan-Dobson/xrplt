@@ -35,13 +35,14 @@ export class NFTokenMintTx extends TokenTransaction {
   readonly URI?: string | undefined = undefined;
   declare readonly Flags?: number | NFTokenMintFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenMint' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Issuer', 'NFTokenTaxon', 'TransferFee', 'URI'
+  ] as const;
+
   constructor(props: NFTokenMintTxFields) {
-    super({ ...props, TransactionType: 'NFTokenMint' } );
-    this.NFTokenTaxon = props.NFTokenTaxon as number;
-        this.Issuer = props.Issuer as any;
-    this.TransferFee = props.TransferFee as any;
-    this.URI = props.URI as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'NFTokenMint' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return true; }

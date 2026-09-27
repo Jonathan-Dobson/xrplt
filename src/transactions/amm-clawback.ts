@@ -26,13 +26,14 @@ export class AMMClawbackTx extends AMMTransaction {
   readonly Amount?: Amount | undefined;
   declare readonly Flags?: number | ClawbackFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'AMMClawback' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Asset'
+  ] as const;
+
   constructor(props: AMMClawbackTxFields) {
-    super({ ...props, TransactionType: 'AMMClawback' } );
-    this.Asset = props.Asset as { currency: string; issuer?: string };
-    this.Asset2 = props.Asset2 as { currency: string; issuer?: string };
-    this.Holder = props.Holder as string;
-        this.Amount = props.Amount as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'AMMClawback' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

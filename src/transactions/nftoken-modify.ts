@@ -29,11 +29,14 @@ export class NFTokenModifyTx extends TokenTransaction {
   /** The account that currently owns the token (if not the sender). */
   readonly Owner?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenModify' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'NFTokenID', 'Owner', 'URI'
+  ] as const;
+
   constructor(props: NFTokenModifyTxFields) {
-    super({ ...props, TransactionType: 'NFTokenModify' } );
-    this.NFTokenID = props.NFTokenID as string;
-        this.URI = props.URI as any;
-    this.Owner = props.Owner as any;
+    super({ ...props, TransactionType: 'NFTokenModify' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

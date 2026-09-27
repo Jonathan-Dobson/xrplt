@@ -15,9 +15,14 @@ export class OfferCancelTx extends OfferTransaction {
   override readonly TransactionType = 'OfferCancel' as const;
   readonly OfferSequence: number = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'OfferCancel' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'OfferSequence'
+  ] as const;
+
   constructor(props: OfferCancelTxFields) {
-    super({ ...props, TransactionType: 'OfferCancel' } );
-    this.OfferSequence = props.OfferSequence as number;
+    super({ ...props, TransactionType: 'OfferCancel' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

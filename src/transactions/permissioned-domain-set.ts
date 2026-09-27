@@ -22,10 +22,14 @@ export class PermissionedDomainSetTx extends Transaction {
   readonly AcceptedAccounts?: string[] | undefined = undefined;
   readonly AcceptedCredentials?: any[] | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'PermissionedDomainSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'AcceptedAccounts', 'AcceptedCredentials'
+  ] as const;
+
   constructor(props: PermissionedDomainSetTxFields) {
-    super({ ...props, TransactionType: 'PermissionedDomainSet' } );
-        this.AcceptedAccounts = props.AcceptedAccounts as any;
-    this.AcceptedCredentials = props.AcceptedCredentials as any;
+    super({ ...props, TransactionType: 'PermissionedDomainSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

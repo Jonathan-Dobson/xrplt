@@ -29,12 +29,14 @@ export class MPTokenIssuanceCreateTx extends TokenTransaction {
   readonly TransferFee?: number | undefined = undefined;
   readonly MPTokenMetadata?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'MPTokenIssuanceCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'AssetScale', 'MPTokenMetadata', 'MaximumAmount', 'TransferFee'
+  ] as const;
+
   constructor(props: MPTokenIssuanceCreateTxFields) {
-    super({ ...props, TransactionType: 'MPTokenIssuanceCreate' } );
-        this.MaximumAmount = props.MaximumAmount as any;
-    this.AssetScale = props.AssetScale as any;
-    this.TransferFee = props.TransferFee as any;
-    this.MPTokenMetadata = props.MPTokenMetadata as any;
+    super({ ...props, TransactionType: 'MPTokenIssuanceCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

@@ -37,12 +37,14 @@ export class XChainCommitTx extends XChainTransaction {
   /** The destination account on the destination chain. */
   readonly OtherChainDestination?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'XChainCommit' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'OtherChainDestination', 'XChainBridge', 'XChainClaimID'
+  ] as const;
+
   constructor(props: XChainCommitTxFields) {
-    super({ ...props, TransactionType: 'XChainCommit' } );
-    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
-    this.XChainClaimID = props.XChainClaimID as number;
-    this.Amount = props.Amount as Amount;
-        this.OtherChainDestination = props.OtherChainDestination as any;
+    super({ ...props, TransactionType: 'XChainCommit' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

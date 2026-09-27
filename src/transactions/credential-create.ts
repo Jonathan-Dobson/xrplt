@@ -31,13 +31,14 @@ export class CredentialCreateTx extends Transaction {
   readonly Expiration?: number | undefined = undefined;
   readonly URI?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'CredentialCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'CredentialSequence', 'CredentialType', 'Expiration', 'Subject', 'URI'
+  ] as const;
+
   constructor(props: CredentialCreateTxFields) {
-    super({ ...props, TransactionType: 'CredentialCreate' } );
-    this.Subject = props.Subject as string;
-    this.CredentialType = props.CredentialType as string;
-    this.CredentialSequence = props.CredentialSequence as number;
-        this.Expiration = props.Expiration as any;
-    this.URI = props.URI as any;
+    super({ ...props, TransactionType: 'CredentialCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

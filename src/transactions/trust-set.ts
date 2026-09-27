@@ -33,12 +33,14 @@ export class TrustSetTx extends TokenTransaction {
   readonly QualityOut?: number | undefined = undefined;
   declare readonly Flags?: number | TrustSetFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'TrustSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'LimitAmount', 'QualityIn', 'QualityOut'
+  ] as const;
+
   constructor(props: TrustSetTxFields) {
-    super({ ...props, TransactionType: 'TrustSet' } );
-    this.LimitAmount = props.LimitAmount as IssuedCurrencyAmount;
-        this.QualityIn = props.QualityIn as any;
-    this.QualityOut = props.QualityOut as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'TrustSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

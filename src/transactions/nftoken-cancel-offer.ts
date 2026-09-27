@@ -20,9 +20,14 @@ export class NFTokenCancelOfferTx extends TokenTransaction {
   /** Array of NFToken Offer IDs to cancel. */
   readonly NFTokenOffers: string[] = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenCancelOffer' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'NFTokenOffers'
+  ] as const;
+
   constructor(props: NFTokenCancelOfferTxFields) {
-    super({ ...props, TransactionType: 'NFTokenCancelOffer' } );
-    this.NFTokenOffers = props.NFTokenOffers as string[];
+    super({ ...props, TransactionType: 'NFTokenCancelOffer' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return false; }

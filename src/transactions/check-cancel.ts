@@ -20,9 +20,14 @@ export class CheckCancelTx extends Transaction {
   /** The ID of the check to cancel. */
   readonly CheckID: string = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'CheckCancel' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'CheckID'
+  ] as const;
+
   constructor(props: CheckCancelTxFields) {
-    super({ ...props, TransactionType: 'CheckCancel' } );
-    this.CheckID = props.CheckID as string;
+    super({ ...props, TransactionType: 'CheckCancel' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

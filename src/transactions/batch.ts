@@ -20,9 +20,14 @@ export class BatchTx extends Transaction {
   /** Array of transactions to execute. */
   readonly Transactions: any[] = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'Batch' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Transactions'
+  ] as const;
+
   constructor(props: BatchTxFields) {
-    super({ ...props, TransactionType: 'Batch' } );
-    this.Transactions = props.Transactions as any[];
+    super({ ...props, TransactionType: 'Batch' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

@@ -32,12 +32,14 @@ export class EscrowFinishTx extends Transaction {
   readonly Fulfillment?: string | undefined = undefined;
   readonly Condition?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'EscrowFinish' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Condition', 'Fulfillment', 'OfferSequence', 'Owner'
+  ] as const;
+
   constructor(props: EscrowFinishTxFields) {
-    super({ ...props, TransactionType: 'EscrowFinish' } );
-    this.Owner = props.Owner as string;
-    this.OfferSequence = props.OfferSequence as number;
-        this.Fulfillment = props.Fulfillment as any;
-    this.Condition = props.Condition as any;
+    super({ ...props, TransactionType: 'EscrowFinish' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

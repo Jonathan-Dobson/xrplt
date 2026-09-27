@@ -34,10 +34,14 @@ export class SignerListSetTx extends AccountTransaction {
   /** Up to 32 signer entries. */
   readonly SignerEntries?: SignerEntry[] | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'SignerListSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'SignerEntries', 'SignerQuorum'
+  ] as const;
+
   constructor(props: SignerListSetTxFields) {
-    super({ ...props, TransactionType: 'SignerListSet' } );
-    this.SignerQuorum = props.SignerQuorum as number;
-        this.SignerEntries = props.SignerEntries as any;
+    super({ ...props, TransactionType: 'SignerListSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

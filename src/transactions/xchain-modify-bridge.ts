@@ -25,11 +25,14 @@ export class XChainModifyBridgeTx extends XChainTransaction {
   readonly MinAccountCreateAmount?: string | undefined = undefined;
   readonly SignatureReward?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'XChainModifyBridge' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'MinAccountCreateAmount', 'SignatureReward', 'XChainBridge'
+  ] as const;
+
   constructor(props: XChainModifyBridgeTxFields) {
-    super({ ...props, TransactionType: 'XChainModifyBridge' } );
-    this.XChainBridge = props.XChainBridge as Record<string, unknown>;
-    this.MinAccountCreateAmount = props.MinAccountCreateAmount as string;
-    this.SignatureReward = props.SignatureReward as string;
+    super({ ...props, TransactionType: 'XChainModifyBridge' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

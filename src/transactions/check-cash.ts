@@ -28,11 +28,14 @@ export class CheckCashTx extends Transaction {
   readonly Amount?: Amount | undefined = undefined;
   readonly DeliverMin?: Amount | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'CheckCash' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'CheckID', 'DeliverMin'
+  ] as const;
+
   constructor(props: CheckCashTxFields) {
-    super({ ...props, TransactionType: 'CheckCash' } );
-    this.CheckID = props.CheckID as string;
-        this.Amount = props.Amount as any;
-    this.DeliverMin = props.DeliverMin as any;
+    super({ ...props, TransactionType: 'CheckCash' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

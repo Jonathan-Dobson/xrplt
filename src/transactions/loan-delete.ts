@@ -17,9 +17,14 @@ export class LoanDeleteTx extends Transaction {
 
   readonly Asset: string = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'LoanDelete' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Asset'
+  ] as const;
+
   constructor(props: LoanDeleteTxFields) {
-    super({ ...props, TransactionType: 'LoanDelete' } );
-    this.Asset = props.Asset as string;
+    super({ ...props, TransactionType: 'LoanDelete' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

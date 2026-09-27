@@ -18,9 +18,12 @@ export class DelegateSetTx extends Transaction {
   /** The account to authorize. */
   override readonly Delegate: string = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'DelegateSet' as const;
+  static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
+
   constructor(props: DelegateSetTxFields) {
-    super({ ...props, TransactionType: 'DelegateSet' } );
-    this.Delegate = props.Delegate as string;
+    super({ ...props, TransactionType: 'DelegateSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

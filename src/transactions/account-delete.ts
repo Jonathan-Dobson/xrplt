@@ -25,10 +25,14 @@ export class AccountDeleteTx extends AccountTransaction {
   /** Arbitrary destination tag for the recipient. */
   readonly DestinationTag?: number | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'AccountDelete' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Destination', 'DestinationTag'
+  ] as const;
+
   constructor(props: AccountDeleteTxFields) {
-    super({ ...props, TransactionType: 'AccountDelete' } );
-    this.Destination = props.Destination as string;
-    this.DestinationTag = props.DestinationTag as number;
+    super({ ...props, TransactionType: 'AccountDelete' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

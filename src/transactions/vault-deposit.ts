@@ -19,9 +19,14 @@ export class VaultDepositTx extends Transaction {
   /** The amount to deposit. */
   readonly Amount: Amount = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'VaultDeposit' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount'
+  ] as const;
+
   constructor(props: VaultDepositTxFields) {
-    super({ ...props, TransactionType: 'VaultDeposit' } );
-    this.Amount = props.Amount as Amount;
+    super({ ...props, TransactionType: 'VaultDeposit' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

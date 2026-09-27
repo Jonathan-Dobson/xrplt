@@ -20,9 +20,14 @@ export class TicketCreateTx extends Transaction {
   /** How many tickets to create. */
   readonly TicketCount: number = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'TicketCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'TicketCount'
+  ] as const;
+
   constructor(props: TicketCreateTxFields) {
-    super({ ...props, TransactionType: 'TicketCreate' } );
-    this.TicketCount = props.TicketCount as number;
+    super({ ...props, TransactionType: 'TicketCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

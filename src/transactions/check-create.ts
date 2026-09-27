@@ -36,13 +36,14 @@ export class CheckCreateTx extends Transaction {
   readonly Expiration?: number | undefined = undefined;
   readonly InvoiceID?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'CheckCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Destination', 'DestinationTag', 'Expiration', 'InvoiceID', 'SendMax'
+  ] as const;
+
   constructor(props: CheckCreateTxFields) {
-    super({ ...props, TransactionType: 'CheckCreate' } );
-    this.Destination = props.Destination as string;
-    this.SendMax = props.SendMax as Amount;
-        this.DestinationTag = props.DestinationTag as any;
-    this.Expiration = props.Expiration as any;
-    this.InvoiceID = props.InvoiceID as any;
+    super({ ...props, TransactionType: 'CheckCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

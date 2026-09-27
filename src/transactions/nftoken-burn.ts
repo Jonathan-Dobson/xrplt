@@ -26,10 +26,14 @@ export class NFTokenBurnTx extends TokenTransaction {
   /** The account that currently owns the token (if not the sender). */
   readonly Owner?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'NFTokenBurn' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'NFTokenID', 'Owner'
+  ] as const;
+
   constructor(props: NFTokenBurnTxFields) {
-    super({ ...props, TransactionType: 'NFTokenBurn' } );
-    this.NFTokenID = props.NFTokenID as string;
-        this.Owner = props.Owner as any;
+    super({ ...props, TransactionType: 'NFTokenBurn' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return true; }

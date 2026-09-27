@@ -21,9 +21,14 @@ export class SetRegularKeyTx extends AccountTransaction {
   /** The address of the new regular key. */
   readonly RegularKey?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'SetRegularKey' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'RegularKey'
+  ] as const;
+
   constructor(props: SetRegularKeyTxFields) {
-    super({ ...props, TransactionType: 'SetRegularKey' } );
-        this.RegularKey = props.RegularKey as any;
+    super({ ...props, TransactionType: 'SetRegularKey' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

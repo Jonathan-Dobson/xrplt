@@ -45,17 +45,14 @@ export class AccountSetTx extends AccountTransaction {
   readonly TickSize?: number | undefined = undefined;
   declare readonly Flags?: number | AccountSetFlagsInterface | undefined;
 
+  static override readonly TRANSACTION_TYPE = 'AccountSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'ClearFlag', 'Domain', 'EmailHash', 'MessageKey', 'NFTokenBrokerFee', 'SetFlag', 'TickSize', 'TransferRate'
+  ] as const;
+
   constructor(props: AccountSetTxFields) {
-    super({ ...props, TransactionType: 'AccountSet' } );
-        this.ClearFlag = props.ClearFlag as any;
-    this.Domain = props.Domain as any;
-    this.EmailHash = props.EmailHash as any;
-    this.MessageKey = props.MessageKey as any;
-    this.NFTokenBrokerFee = props.NFTokenBrokerFee as any;
-    this.SetFlag = props.SetFlag as any;
-    this.TransferRate = props.TransferRate as any;
-    this.TickSize = props.TickSize as any;
-    this.Flags = props.Flags as any;
+    super({ ...props, TransactionType: 'AccountSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

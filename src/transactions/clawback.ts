@@ -21,9 +21,14 @@ export class ClawbackTx extends TokenTransaction {
   /** The amount to claw back. */
   readonly Amount: Amount = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'Clawback' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount'
+  ] as const;
+
   constructor(props: ClawbackTxFields) {
-    super({ ...props, TransactionType: 'Clawback' } );
-    this.Amount = props.Amount as Amount;
+    super({ ...props, TransactionType: 'Clawback' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override affectsTokenBalance(): boolean { return true; }

@@ -20,10 +20,14 @@ export class AMMDeleteTx extends AMMTransaction {
   readonly Asset: Record<string, unknown> = undefined as any;
   readonly Asset2: Record<string, unknown> = undefined as any;
 
+  static override readonly TRANSACTION_TYPE = 'AMMDelete' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Asset', 'Asset2'
+  ] as const;
+
   constructor(props: AMMDeleteTxFields) {
-    super({ ...props, TransactionType: 'AMMDelete' } );
-    this.Asset = props.Asset as Record<string, unknown>;
-    this.Asset2 = props.Asset2 as Record<string, unknown>;
+    super({ ...props, TransactionType: 'AMMDelete' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

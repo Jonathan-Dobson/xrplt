@@ -24,11 +24,14 @@ export class DIDSetTx extends Transaction {
   readonly DIDDocument?: string | undefined = undefined;
   readonly URI?: string | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'DIDSet' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'DIDDocument', 'Data', 'URI'
+  ] as const;
+
   constructor(props: DIDSetTxFields) {
-    super({ ...props, TransactionType: 'DIDSet' } );
-        this.Data = props.Data as any;
-    this.DIDDocument = props.DIDDocument as any;
-    this.URI = props.URI as any;
+    super({ ...props, TransactionType: 'DIDSet' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

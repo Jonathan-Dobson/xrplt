@@ -42,14 +42,14 @@ export class PaymentChannelCreateTx extends Transaction {
   readonly CancelAfter?: number | undefined = undefined;
   readonly DestinationTag?: number | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'PaymentChannelCreate' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'CancelAfter', 'Destination', 'DestinationTag', 'PublicKey', 'SettleDelay'
+  ] as const;
+
   constructor(props: PaymentChannelCreateTxFields) {
-    super({ ...props, TransactionType: 'PaymentChannelCreate' } );
-    this.Amount = props.Amount as string;
-    this.Destination = props.Destination as string;
-    this.SettleDelay = props.SettleDelay as number;
-    this.PublicKey = props.PublicKey as string;
-        this.CancelAfter = props.CancelAfter as any;
-    this.DestinationTag = props.DestinationTag as any;
+    super({ ...props, TransactionType: 'PaymentChannelCreate' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

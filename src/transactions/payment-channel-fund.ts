@@ -30,11 +30,14 @@ export class PaymentChannelFundTx extends Transaction {
 
   readonly Expiration?: number | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'PaymentChannelFund' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'Channel', 'Expiration'
+  ] as const;
+
   constructor(props: PaymentChannelFundTxFields) {
-    super({ ...props, TransactionType: 'PaymentChannelFund' } );
-    this.Channel = props.Channel as string;
-    this.Amount = props.Amount as Amount;
-        this.Expiration = props.Expiration as any;
+    super({ ...props, TransactionType: 'PaymentChannelFund' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {

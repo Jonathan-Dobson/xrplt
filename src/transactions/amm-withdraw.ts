@@ -30,14 +30,14 @@ export class AMMWithdrawTx extends AMMTransaction {
   readonly EPrice?: Amount | undefined = undefined;
   readonly LPTokenIn?: Amount | undefined = undefined;
 
+  static override readonly TRANSACTION_TYPE = 'AMMWithdraw' as const;
+  static override readonly ASSIGNABLE_FIELDS = [
+    'Amount', 'Amount2', 'Asset', 'Asset2', 'EPrice', 'LPTokenIn'
+  ] as const;
+
   constructor(props: AMMWithdrawTxFields) {
-    super({ ...props, TransactionType: 'AMMWithdraw' } );
-    this.Asset = props.Asset as Record<string, unknown>;
-    this.Asset2 = props.Asset2 as Record<string, unknown>;
-        this.Amount = props.Amount as any;
-    this.Amount2 = props.Amount2 as any;
-    this.EPrice = props.EPrice as any;
-    this.LPTokenIn = props.LPTokenIn as any;
+    super({ ...props, TransactionType: 'AMMWithdraw' });
+    this.applyManifest(props as unknown as Record<string, unknown>);
   }
 
   override validate(): void {
