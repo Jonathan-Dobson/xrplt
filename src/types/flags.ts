@@ -346,6 +346,22 @@ export interface LoanPayFlagsInterface extends GlobalFlagsInterface {
   tfLoanLatePayment?: boolean;
 }
 
+// ─── LoanManage ──────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. Three action flags. Note
+// that tfLoanImpair and tfLoanUnimpair are mutually exclusive.
+
+export enum LoanManageFlags {
+  tfLoanDefault = 0x00010000,
+  tfLoanImpair = 0x00020000,
+  tfLoanUnimpair = 0x00040000,
+}
+
+export interface LoanManageFlagsInterface extends GlobalFlagsInterface {
+  tfLoanDefault?: boolean;
+  tfLoanImpair?: boolean;
+  tfLoanUnimpair?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {

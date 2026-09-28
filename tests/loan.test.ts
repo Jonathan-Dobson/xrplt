@@ -20,6 +20,11 @@ import {
   LoanBrokerSet,
   LoanBrokerDelete,
   LoanPay,
+  LoanBrokerCoverDeposit,
+  LoanBrokerCoverWithdraw,
+  LoanBrokerCoverClawback,
+  LoanDelete,
+  LoanManage,
 } from '../src/index.js';
 
 // 64-char hex ledger entry ID for LoanBroker
@@ -546,6 +551,276 @@ describe('LoanPay', () => {
 
     it('accepts Flags = 0 (no payment type set)', () => {
       const tx = makeLoanPay('5000', LOAN_ID, 0);
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanBrokerCoverDeposit
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanBrokerCoverDeposit', () => {
+  const LOAN_BROKER_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeCoverDeposit(
+    amount: Record<string, unknown> | string = '5000',
+    brokerId = LOAN_BROKER_ID,
+  ) {
+    return new LoanBrokerCoverDeposit({
+      Account: OWNER,
+      LoanBrokerID: brokerId,
+      Amount: amount as never,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required LoanBrokerID + Amount', () => {
+      const tx = makeCoverDeposit();
+      expect(tx.TransactionType).toBe('LoanBrokerCoverDeposit');
+      expect(tx.LoanBrokerID).toBe(LOAN_BROKER_ID);
+    });
+  });
+
+  describe('LoanBrokerID validation', () => {
+    it('rejects bad LoanBrokerID', () => {
+      const tx = makeCoverDeposit('5000', 'NOTHEX');
+      expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+    });
+
+    it('rejects missing LoanBrokerID', () => {
+      const tx = makeCoverDeposit();
+      (tx as unknown as Record<string, unknown>).LoanBrokerID = undefined;
+      expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+    });
+  });
+
+  describe('Amount validation', () => {
+    it('rejects missing Amount', () => {
+      const tx = makeCoverDeposit();
+      (tx as unknown as Record<string, unknown>).Amount = undefined;
+      expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanBrokerCoverWithdraw
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanBrokerCoverWithdraw', () => {
+  const LOAN_BROKER_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeCoverWithdraw(extras: Record<string, unknown> = {}) {
+    return new LoanBrokerCoverWithdraw({
+      Account: OWNER,
+      LoanBrokerID: LOAN_BROKER_ID,
+      Amount: '5000' as never,
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required LoanBrokerID + Amount', () => {
+      const tx = makeCoverWithdraw();
+      expect(tx.TransactionType).toBe('LoanBrokerCoverWithdraw');
+    });
+  });
+
+  describe('Destination validation', () => {
+    it('rejects bad Destination', () => {
+      const tx = makeCoverWithdraw({ Destination: 'NOTADDRESS' });
+      expect(() => tx.validate()).toThrow(/Destination must be a valid XRPL account address/);
+    });
+  });
+
+  describe('DestinationTag validation', () => {
+    it('rejects non-number DestinationTag', () => {
+      const tx = makeCoverWithdraw({ DestinationTag: '123' });
+      expect(() => tx.validate()).toThrow(/DestinationTag must be a number/);
+    });
+  });
+
+  describe('CredentialIDs validation', () => {
+    it('rejects wrong-length credential', () => {
+      const tx = makeCoverWithdraw({ CredentialIDs: ['A'.repeat(63)] });
+      expect(() => tx.validate()).toThrow(/CredentialIDs\[0\] must be a 64-character hex string/);
+    });
+
+    it('accepts array of valid 64-char hex credentials', () => {
+      const tx = makeCoverWithdraw({ CredentialIDs: ['A'.repeat(64)] });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanBrokerCoverClawback
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanBrokerCoverClawback', () => {
+  const LOAN_BROKER_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const ISSUER = 'rXJSJiZMxaLuH3kQBUV5DLipnYtrE6iVb';
+
+  function makeCoverClawback(extras: Record<string, unknown> = {}) {
+    return new LoanBrokerCoverClawback({
+      Account: ISSUER,
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with LoanBrokerID only', () => {
+      const tx = makeCoverClawback({ LoanBrokerID: LOAN_BROKER_ID });
+      expect(tx.TransactionType).toBe('LoanBrokerCoverClawback');
+    });
+
+    it('constructs with Amount only (claws back all)', () => {
+      const tx = makeCoverClawback({
+        Amount: { currency: 'USD', issuer: ISSUER, value: '50' },
+      });
+      expect(tx.Amount).toEqual({ currency: 'USD', issuer: ISSUER, value: '50' });
+    });
+  });
+
+  describe('at-least-one-field rule', () => {
+    it('rejects when neither LoanBrokerID nor Amount is set', () => {
+      const tx = makeCoverClawback();
+      expect(() => tx.validate()).toThrow(/Either LoanBrokerID or Amount is required/);
+    });
+  });
+
+  describe('Amount validation', () => {
+    it('rejects XRP Amount (clawback does not support XRP)', () => {
+      const tx = makeCoverClawback({ Amount: '1000000' });
+      expect(() => tx.validate()).toThrow(/Amount must be a valid ClawbackAmount/);
+    });
+
+    it('rejects Amount with negative value', () => {
+      const tx = makeCoverClawback({
+        Amount: { currency: 'USD', issuer: ISSUER, value: '-50' },
+      });
+      expect(() => tx.validate()).toThrow(/Amount must be >= 0/);
+    });
+
+    it('accepts trust-line ClawbackAmount with value 0', () => {
+      const tx = makeCoverClawback({
+        Amount: { currency: 'USD', issuer: ISSUER, value: '0' },
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts MPT ClawbackAmount', () => {
+      const tx = makeCoverClawback({
+        Amount: { mpt_issuance_id: '00000001', value: '50' },
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('LoanBrokerID validation', () => {
+    it('rejects bad LoanBrokerID', () => {
+      const tx = makeCoverClawback({ LoanBrokerID: 'NOTHEX' });
+      expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanDelete
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanDelete', () => {
+  const LOAN_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeLoanDelete(loanId = LOAN_ID) {
+    return new LoanDelete({
+      Account: OWNER,
+      LoanID: loanId,
+    });
+  }
+
+  it('constructs with required LoanID', () => {
+    const tx = makeLoanDelete();
+    expect(tx.TransactionType).toBe('LoanDelete');
+    expect(tx.LoanID).toBe(LOAN_ID);
+  });
+
+  it('rejects bad LoanID', () => {
+    const tx = makeLoanDelete('bad');
+    expect(() => tx.validate()).toThrow(/LoanID must be a 64-character hex string/);
+  });
+
+  it('rejects missing LoanID', () => {
+    const tx = makeLoanDelete();
+    (tx as unknown as Record<string, unknown>).LoanID = undefined;
+    expect(() => tx.validate()).toThrow(/LoanID must be a 64-character hex string/);
+  });
+
+  it('accepts valid LoanID', () => {
+    const tx = makeLoanDelete();
+    expect(() => tx.validate()).not.toThrow();
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanManage
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanManage', () => {
+  const LOAN_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeLoanManage(flags?: number) {
+    return new LoanManage({
+      Account: OWNER,
+      LoanID: LOAN_ID,
+      ...(flags !== undefined ? { Flags: flags } : {}),
+    });
+  }
+
+  it('constructs with required LoanID', () => {
+    const tx = makeLoanManage();
+    expect(tx.TransactionType).toBe('LoanManage');
+  });
+
+  it('rejects bad LoanID', () => {
+    const tx = makeLoanManage();
+    (tx as unknown as Record<string, unknown>).LoanID = 'bad';
+    expect(() => tx.validate()).toThrow(/LoanID must be a 64-character hex string/);
+  });
+
+  describe('flag exclusivity', () => {
+    it('accepts tfLoanDefault alone', () => {
+      const tx = makeLoanManage(0x00010000);
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts tfLoanImpair alone', () => {
+      const tx = makeLoanManage(0x00020000);
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts tfLoanUnimpair alone', () => {
+      const tx = makeLoanManage(0x00040000);
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('rejects tfLoanImpair + tfLoanUnimpair (mutually exclusive)', () => {
+      const tx = makeLoanManage(0x00020000 | 0x00040000);
+      expect(() => tx.validate()).toThrow(/tfLoanImpair and tfLoanUnimpair cannot both be present/);
+    });
+
+    it('accepts tfLoanDefault + tfLoanImpair (Impair allows combining with Default)', () => {
+      const tx = makeLoanManage(0x00010000 | 0x00020000);
       expect(() => tx.validate()).not.toThrow();
     });
   });

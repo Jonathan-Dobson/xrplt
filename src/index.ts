@@ -35,6 +35,7 @@ export type {
   VaultCreateFlagsInterface,
   LoanSetFlagsInterface,
   LoanPayFlagsInterface,
+  LoanManageFlagsInterface,
   ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface, BatchFlagsInterface,
 } from './types/index.js';
@@ -52,6 +53,7 @@ export {
   VaultWithdrawalPolicy, VaultKind,
   LoanSetFlags,
   LoanPayFlags,
+  LoanManageFlags,
   ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
 } from './types/index.js';
