@@ -4,6 +4,30 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Direct tests for the 8 v0.7.0 transaction classes**:
+  - `tests/sponsorship.test.ts` (17 tests) — `SponsorshipSet`,
+    `SponsorshipTransfer`, `LedgerStateFix`. Covers XOR
+    CounterpartySponsor/Sponsee rule, delta-zero rejection,
+    flag-set/flag-clear exclusivity, `tfDeleteObject`
+    combinations, mode-flag exclusivity on Transfer, and
+    serialization shape.
+  - `tests/confidential-mpt.test.ts` (21 tests) — all 5
+    ConfidentialMPT classes. Covers Ciphertext byte-length
+    rules, ZKProof conditional requirements, blinding-factor
+    shape, BalanceCommitment shape, MPTAmount non-zero, and
+    destination address validation.
+
+### Tests
+
+- 435 unit + integration tests passing (was 397, +38 from the
+  new direct tests). All per-class validate() invariants are
+  now asserted in tests instead of just the offline registry
+  sweep.
+
 ## [0.7.0] - 2026-09-28
 
 Minor release — **breaking**: removes the deprecated `*Tx` aliases

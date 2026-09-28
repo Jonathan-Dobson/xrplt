@@ -96,7 +96,7 @@ console.log(tx1.Fee); // undefined (tx1 remains unchanged)
 
 ## Status
 
-**Latest release:** `v0.7.0` — 79 transaction types, **397 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
+**Latest release:** `v0.7.0` — 79 transaction types, **435 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
 
 ## Development
 
