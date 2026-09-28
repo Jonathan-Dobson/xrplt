@@ -235,7 +235,7 @@ export type { PermissionedDomainDeleteTxFields } from './transactions/permission
 
 // Batch
 export { Batch } from './transactions/batch.js';
-export type { BatchTxFields } from './transactions/batch.js';
+export type { BatchTxFields, BatchSigner, RawTransaction } from './transactions/batch.js';
 
 // DID
 export { DIDSet } from './transactions/did-set.js';

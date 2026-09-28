@@ -362,6 +362,24 @@ export interface LoanManageFlagsInterface extends GlobalFlagsInterface {
   tfLoanUnimpair?: boolean;
 }
 
+// ─── Batch ────────────────────────────────────────────────────────────
+// Driven by the `BatchV1_1` amendment. Four mutually-exclusive batch modes.
+// Per the spec, exactly one of these flags must be set per Batch tx.
+
+export enum BatchFlags {
+  tfAllOrNothing = 0x00010000,
+  tfOnlyOne = 0x00020000,
+  tfUntilFailure = 0x00040000,
+  tfIndependent = 0x00080000,
+}
+
+export interface BatchFlagsInterface extends GlobalFlagsInterface {
+  tfAllOrNothing?: boolean;
+  tfOnlyOne?: boolean;
+  tfUntilFailure?: boolean;
+  tfIndependent?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {
@@ -380,20 +398,4 @@ export enum XChainModifyBridgeFlags {
 
 export interface XChainModifyBridgeFlagsInterface extends GlobalFlagsInterface {
   tfClearAccountCreateAmount?: boolean;
-}
-
-// ─── Batch ───────────────────────────────────────────────────────────
-
-export enum BatchFlags {
-  tfAllOrNothing = 0x00000001,
-  tfOnlyOne = 0x00000002,
-  tfUntilFailure = 0x00000004,
-  tfIndependent = 0x00000008,
-}
-
-export interface BatchFlagsInterface extends GlobalFlagsInterface {
-  tfAllOrNothing?: boolean;
-  tfOnlyOne?: boolean;
-  tfUntilFailure?: boolean;
-  tfIndependent?: boolean;
 }
