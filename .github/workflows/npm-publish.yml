@@ -16,10 +16,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Pinned to 24.04 to opt out of the auto-migration notice to Ubuntu 26
+    # (transitioning 2026-10-19). Bump when the image we depend on is GA.
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6.5.0
         with:
           node-version: 26
       - run: npm ci
@@ -27,13 +29,13 @@ jobs:
 
   publish-npm:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       # Required for npm provenance signing via OIDC.
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v6.5.0
         with:
           node-version: 26
