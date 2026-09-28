@@ -17,6 +17,7 @@ import { describe, it, expect } from 'vitest';
 import {
   VaultCreate,
   VaultCreateFlags,
+  VaultSet,
   ValidationError,
 } from '../src/index.js';
 
@@ -402,6 +403,151 @@ describe('VaultCreate', () => {
         expect(flags & VaultCreateFlags.tfVaultPrivate).toBe(0);
         expect(flags & VaultCreateFlags.tfVaultShareNonTransferable).toBe(0);
       }
+    });
+  });
+});
+describe('VaultSet', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890'; // 64 hex chars
+  const OWNER = 'rNGHoQwNG753zyfDrib4qDvvswtmV8Es';
+
+  function makeVaultSet(
+    extras: Record<string, unknown> = {},
+    vaultId = VAULT_ID,
+  ) {
+    return new VaultSet({ Account: OWNER, VaultID: vaultId, ...extras });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID only', () => {
+      const tx = makeVaultSet();
+      expect(tx.TransactionType).toBe('VaultSet');
+      expect(tx.VaultID).toBe(VAULT_ID);
+    });
+
+    it('accepts all 4 spec fields', () => {
+      const tx = new VaultSet({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Data: '5661756C74206D65746164617461',
+        AssetsMaximum: '1000000',
+        DomainID:
+          'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+      });
+      expect(tx.VaultID).toBe(VAULT_ID);
+      expect(tx.Data).toBeDefined();
+      expect(tx.AssetsMaximum).toBe('1000000');
+      expect(tx.DomainID).toBeDefined();
+    });
+  });
+
+  describe('VaultID validation', () => {
+    it('rejects missing VaultID (undefined)', () => {
+      const tx = makeVaultSet();
+      (tx as unknown as Record<string, unknown>).VaultID = undefined;
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('rejects VaultID that is too short', () => {
+      const tx = makeVaultSet({}, VAULT_ID.slice(0, 63));
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('rejects VaultID that is too long', () => {
+      const tx = makeVaultSet({}, VAULT_ID + 'A');
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('rejects VaultID with non-hex chars', () => {
+      const tx = makeVaultSet({}, 'Z'.repeat(64));
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('accepts a valid 64-char hex VaultID', () => {
+      const tx = makeVaultSet();
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('Data validation', () => {
+    it('rejects empty Data', () => {
+      const tx = makeVaultSet({ Data: '' });
+      expect(() => tx.validate()).toThrow(/Data must be a hex string/);
+    });
+
+    it('rejects non-hex Data', () => {
+      const tx = makeVaultSet({ Data: 'NOTHEX' });
+      expect(() => tx.validate()).toThrow(/Data must be a hex string/);
+    });
+
+    it('rejects Data with odd hex length', () => {
+      const tx = makeVaultSet({ Data: 'ABC' });
+      expect(() => tx.validate()).toThrow(/Data must be a hex string with an even number of characters/);
+    });
+
+    it('rejects Data > 256 bytes', () => {
+      const tx = makeVaultSet({ Data: 'A'.repeat(514) });
+      expect(() => tx.validate()).toThrow(/Data exceeds 256 bytes \(actual: 257\)/);
+    });
+
+    it('accepts Data at the 256-byte cap', () => {
+      const tx = makeVaultSet({ Data: 'A'.repeat(512) });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('AssetsMaximum validation', () => {
+    it('rejects non-numeric AssetsMaximum', () => {
+      const tx = makeVaultSet({ AssetsMaximum: '100.5' });
+      expect(() => tx.validate()).toThrow(/AssetsMaximum must be a non-negative base-10 integer string/);
+    });
+
+    it('rejects negative AssetsMaximum', () => {
+      const tx = makeVaultSet({ AssetsMaximum: '-1' });
+      expect(() => tx.validate()).toThrow(/AssetsMaximum must be a non-negative base-10 integer string/);
+    });
+
+    it('accepts zero AssetsMaximum', () => {
+      const tx = makeVaultSet({ AssetsMaximum: '0' });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts large AssetsMaximum', () => {
+      const tx = makeVaultSet({ AssetsMaximum: '999999999999999999' });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('DomainID validation', () => {
+    it('rejects DomainID that is too short', () => {
+      const tx = makeVaultSet({ DomainID: 'A'.repeat(63) });
+      expect(() => tx.validate()).toThrow(/DomainID must be a 64-character hex string/);
+    });
+
+    it('rejects DomainID with non-hex chars', () => {
+      const tx = makeVaultSet({ DomainID: 'Z'.repeat(64) });
+      expect(() => tx.validate()).toThrow(/DomainID must be a 64-character hex string/);
+    });
+
+    it('accepts a valid 64-char hex DomainID', () => {
+      const tx = makeVaultSet({
+        DomainID:
+          'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('field combination', () => {
+    // NOTE: VaultSet does NOT require tfVaultPrivate for DomainID (unlike
+    // VaultCreate which sets the flag). VaultSet just modifies an existing
+    // vault; the flag was set at creation time.
+    it('accepts DomainID without any flags (vault was already private)', () => {
+      const tx = makeVaultSet({
+        DomainID:
+          'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+      });
+      expect(() => tx.validate()).not.toThrow();
     });
   });
 });
