@@ -22,6 +22,7 @@ export type {
   Memo, Signer, PathStep, Path, XChainBridge,
   AuthorizeCredential, SignerEntry, OracleDataSeries,
   AuthAccount, XChainClaimAttestation, XChainAccountCreateAttestation,
+  CounterpartySignature,
   BaseTransactionFields, PreparedTransactionFields, SignedTransactionFields,
   TransactionType,
   GlobalFlagsInterface, PaymentFlagsInterface, AccountSetFlagsInterface,
@@ -38,6 +39,7 @@ export type {
   LoanManageFlagsInterface,
   ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface, BatchFlagsInterface,
+  SponsorshipSetFlagsInterface, SponsorshipTransferFlagsInterface,
 } from './types/index.js';
 
 export {
@@ -56,6 +58,7 @@ export {
   LoanManageFlags,
   ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
+  SponsorshipSetFlags, SponsorshipTransferFlags,
 } from './types/index.js';
 
 // ─── Group abstract classes ──────────────────────────────────────────
@@ -243,6 +246,28 @@ export type { DIDSetTxFields } from './transactions/did-set.js';
 export { DIDDelete } from './transactions/did-delete.js';
 export type { DIDDeleteTxFields } from './transactions/did-delete.js';
 
+// Sponsorship (Sponsor amendment — not_enabled)
+export { SponsorshipSet } from './transactions/sponsorship-set.js';
+export type { SponsorshipSetTxFields } from './transactions/sponsorship-set.js';
+export { SponsorshipTransfer } from './transactions/sponsorship-transfer.js';
+export type { SponsorshipTransferTxFields } from './transactions/sponsorship-transfer.js';
+
+// Ledger-state fix
+export { LedgerStateFix } from './transactions/ledger-state-fix.js';
+export type { LedgerStateFixTxFields } from './transactions/ledger-state-fix.js';
+
+// ConfidentialMPT family (ConfidentialTransfer amendment — not_enabled)
+export { ConfidentialMPTClawback } from './transactions/confidential-mpt-clawback.js';
+export type { ConfidentialMPTClawbackTxFields } from './transactions/confidential-mpt-clawback.js';
+export { ConfidentialMPTConvert } from './transactions/confidential-mpt-convert.js';
+export type { ConfidentialMPTConvertTxFields } from './transactions/confidential-mpt-convert.js';
+export { ConfidentialMPTConvertBack } from './transactions/confidential-mpt-convert-back.js';
+export type { ConfidentialMPTConvertBackTxFields } from './transactions/confidential-mpt-convert-back.js';
+export { ConfidentialMPTMergeInbox } from './transactions/confidential-mpt-merge-inbox.js';
+export type { ConfidentialMPTMergeInboxTxFields } from './transactions/confidential-mpt-merge-inbox.js';
+export { ConfidentialMPTSend } from './transactions/confidential-mpt-send.js';
+export type { ConfidentialMPTSendTxFields } from './transactions/confidential-mpt-send.js';
+
 // ─── Validation utilities ────────────────────────────────────────────
 export {
   isAmount, isIssuedCurrencyAmount, isMPTAmount,
@@ -251,75 +276,3 @@ export {
 } from './validation/index.js';
 
 
-// ─── Deprecated *Tx aliases (kept for v0.4.x; remove in v0.5.0) ─────────
-export { AMMBid as AMMBidTx } from './transactions/amm-bid.js'; // @deprecated use `AMMBid`
-export { AMMClawback as AMMClawbackTx } from './transactions/amm-clawback.js'; // @deprecated use `AMMClawback`
-export { AMMCreate as AMMCreateTx } from './transactions/amm-create.js'; // @deprecated use `AMMCreate`
-export { AMMDelete as AMMDeleteTx } from './transactions/amm-delete.js'; // @deprecated use `AMMDelete`
-export { AMMDeposit as AMMDepositTx } from './transactions/amm-deposit.js'; // @deprecated use `AMMDeposit`
-export { AMMVote as AMMVoteTx } from './transactions/amm-vote.js'; // @deprecated use `AMMVote`
-export { AMMWithdraw as AMMWithdrawTx } from './transactions/amm-withdraw.js'; // @deprecated use `AMMWithdraw`
-export { AccountDelete as AccountDeleteTx } from './transactions/account-delete.js'; // @deprecated use `AccountDelete`
-export { AccountSet as AccountSetTx } from './transactions/account-set.js'; // @deprecated use `AccountSet`
-export { Batch as BatchTx } from './transactions/batch.js'; // @deprecated use `Batch`
-export { CheckCancel as CheckCancelTx } from './transactions/check-cancel.js'; // @deprecated use `CheckCancel`
-export { CheckCash as CheckCashTx } from './transactions/check-cash.js'; // @deprecated use `CheckCash`
-export { CheckCreate as CheckCreateTx } from './transactions/check-create.js'; // @deprecated use `CheckCreate`
-export { Clawback as ClawbackTx } from './transactions/clawback.js'; // @deprecated use `Clawback`
-export { CredentialAccept as CredentialAcceptTx } from './transactions/credential-accept.js'; // @deprecated use `CredentialAccept`
-export { CredentialCreate as CredentialCreateTx } from './transactions/credential-create.js'; // @deprecated use `CredentialCreate`
-export { CredentialDelete as CredentialDeleteTx } from './transactions/credential-delete.js'; // @deprecated use `CredentialDelete`
-export { DIDDelete as DIDDeleteTx } from './transactions/did-delete.js'; // @deprecated use `DIDDelete`
-export { DIDSet as DIDSetTx } from './transactions/did-set.js'; // @deprecated use `DIDSet`
-export { DelegateSet as DelegateSetTx } from './transactions/delegate-set.js'; // @deprecated use `DelegateSet`
-export { DepositPreauth as DepositPreauthTx } from './transactions/deposit-preauth.js'; // @deprecated use `DepositPreauth`
-export { EscrowCancel as EscrowCancelTx } from './transactions/escrow-cancel.js'; // @deprecated use `EscrowCancel`
-export { EscrowCreate as EscrowCreateTx } from './transactions/escrow-create.js'; // @deprecated use `EscrowCreate`
-export { EscrowFinish as EscrowFinishTx } from './transactions/escrow-finish.js'; // @deprecated use `EscrowFinish`
-export { LoanBrokerCoverClawback as LoanBrokerCoverClawbackTx } from './transactions/loan-broker-cover-clawback.js'; // @deprecated use `LoanBrokerCoverClawback`
-export { LoanBrokerCoverDeposit as LoanBrokerCoverDepositTx } from './transactions/loan-broker-cover-deposit.js'; // @deprecated use `LoanBrokerCoverDeposit`
-export { LoanBrokerCoverWithdraw as LoanBrokerCoverWithdrawTx } from './transactions/loan-broker-cover-withdraw.js'; // @deprecated use `LoanBrokerCoverWithdraw`
-export { LoanBrokerDelete as LoanBrokerDeleteTx } from './transactions/loan-broker-delete.js'; // @deprecated use `LoanBrokerDelete`
-export { LoanBrokerSet as LoanBrokerSetTx } from './transactions/loan-broker-set.js'; // @deprecated use `LoanBrokerSet`
-export { LoanDelete as LoanDeleteTx } from './transactions/loan-delete.js'; // @deprecated use `LoanDelete`
-export { LoanManage as LoanManageTx } from './transactions/loan-manage.js'; // @deprecated use `LoanManage`
-export { LoanPay as LoanPayTx } from './transactions/loan-pay.js'; // @deprecated use `LoanPay`
-export { LoanSet as LoanSetTx } from './transactions/loan-set.js'; // @deprecated use `LoanSet`
-export { MPTokenAuthorize as MPTokenAuthorizeTx } from './transactions/mptoken-authorize.js'; // @deprecated use `MPTokenAuthorize`
-export { MPTokenIssuanceCreate as MPTokenIssuanceCreateTx } from './transactions/mptoken-issuance-create.js'; // @deprecated use `MPTokenIssuanceCreate`
-export { MPTokenIssuanceDestroy as MPTokenIssuanceDestroyTx } from './transactions/mptoken-issuance-destroy.js'; // @deprecated use `MPTokenIssuanceDestroy`
-export { MPTokenIssuanceSet as MPTokenIssuanceSetTx } from './transactions/mptoken-issuance-set.js'; // @deprecated use `MPTokenIssuanceSet`
-export { NFTokenAcceptOffer as NFTokenAcceptOfferTx } from './transactions/nftoken-accept-offer.js'; // @deprecated use `NFTokenAcceptOffer`
-export { NFTokenBurn as NFTokenBurnTx } from './transactions/nftoken-burn.js'; // @deprecated use `NFTokenBurn`
-export { NFTokenCancelOffer as NFTokenCancelOfferTx } from './transactions/nftoken-cancel-offer.js'; // @deprecated use `NFTokenCancelOffer`
-export { NFTokenCreateOffer as NFTokenCreateOfferTx } from './transactions/nftoken-create-offer.js'; // @deprecated use `NFTokenCreateOffer`
-export { NFTokenMint as NFTokenMintTx } from './transactions/nftoken-mint.js'; // @deprecated use `NFTokenMint`
-export { NFTokenModify as NFTokenModifyTx } from './transactions/nftoken-modify.js'; // @deprecated use `NFTokenModify`
-export { OfferCancel as OfferCancelTx } from './transactions/offer-cancel.js'; // @deprecated use `OfferCancel`
-export { OfferCreate as OfferCreateTx } from './transactions/offer-create.js'; // @deprecated use `OfferCreate`
-export { OracleDelete as OracleDeleteTx } from './transactions/oracle-delete.js'; // @deprecated use `OracleDelete`
-export { OracleSet as OracleSetTx } from './transactions/oracle-set.js'; // @deprecated use `OracleSet`
-export { PaymentChannelClaim as PaymentChannelClaimTx } from './transactions/payment-channel-claim.js'; // @deprecated use `PaymentChannelClaim`
-export { PaymentChannelCreate as PaymentChannelCreateTx } from './transactions/payment-channel-create.js'; // @deprecated use `PaymentChannelCreate`
-export { PaymentChannelFund as PaymentChannelFundTx } from './transactions/payment-channel-fund.js'; // @deprecated use `PaymentChannelFund`
-export { Payment as PaymentTx } from './transactions/payment.js'; // @deprecated use `Payment`
-export { PermissionedDomainDelete as PermissionedDomainDeleteTx } from './transactions/permissioned-domain-delete.js'; // @deprecated use `PermissionedDomainDelete`
-export { PermissionedDomainSet as PermissionedDomainSetTx } from './transactions/permissioned-domain-set.js'; // @deprecated use `PermissionedDomainSet`
-export { SetRegularKey as SetRegularKeyTx } from './transactions/set-regular-key.js'; // @deprecated use `SetRegularKey`
-export { SignerListSet as SignerListSetTx } from './transactions/signer-list-set.js'; // @deprecated use `SignerListSet`
-export { TicketCreate as TicketCreateTx } from './transactions/ticket-create.js'; // @deprecated use `TicketCreate`
-export { TrustSet as TrustSetTx } from './transactions/trust-set.js'; // @deprecated use `TrustSet`
-export { VaultClawback as VaultClawbackTx } from './transactions/vault-clawback.js'; // @deprecated use `VaultClawback`
-export { VaultCreate as VaultCreateTx } from './transactions/vault-create.js'; // @deprecated use `VaultCreate`
-export { VaultDelete as VaultDeleteTx } from './transactions/vault-delete.js'; // @deprecated use `VaultDelete`
-export { VaultDeposit as VaultDepositTx } from './transactions/vault-deposit.js'; // @deprecated use `VaultDeposit`
-export { VaultSet as VaultSetTx } from './transactions/vault-set.js'; // @deprecated use `VaultSet`
-export { VaultWithdraw as VaultWithdrawTx } from './transactions/vault-withdraw.js'; // @deprecated use `VaultWithdraw`
-export { XChainAccountCreateCommit as XChainAccountCreateCommitTx } from './transactions/xchain-account-create-commit.js'; // @deprecated use `XChainAccountCreateCommit`
-export { XChainAddAccountCreateAttestation as XChainAddAccountCreateAttestationTx } from './transactions/xchain-add-account-create-attestation.js'; // @deprecated use `XChainAddAccountCreateAttestation`
-export { XChainAddClaimAttestation as XChainAddClaimAttestationTx } from './transactions/xchain-add-claim-attestation.js'; // @deprecated use `XChainAddClaimAttestation`
-export { XChainClaim as XChainClaimTx } from './transactions/xchain-claim.js'; // @deprecated use `XChainClaim`
-export { XChainCommit as XChainCommitTx } from './transactions/xchain-commit.js'; // @deprecated use `XChainCommit`
-export { XChainCreateBridge as XChainCreateBridgeTx } from './transactions/xchain-create-bridge.js'; // @deprecated use `XChainCreateBridge`
-export { XChainCreateClaimID as XChainCreateClaimIDTx } from './transactions/xchain-create-claim-id.js'; // @deprecated use `XChainCreateClaimID`
-export { XChainModifyBridge as XChainModifyBridgeTx } from './transactions/xchain-modify-bridge.js'; // @deprecated use `XChainModifyBridge`

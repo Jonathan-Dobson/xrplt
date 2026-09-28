@@ -88,12 +88,15 @@ console.log(tx1.Fee); // undefined (tx1 remains unchanged)
 - **Loan (v0.5.0):** `LoanSet`, `LoanBrokerSet`, `LoanBrokerDelete`, `LoanPay`, `LoanBrokerCoverDeposit`, `LoanBrokerCoverWithdraw`, `LoanBrokerCoverClawback`, `LoanDelete`, `LoanManage` — `LendingProtocol` + `LendingProtocolV1_1` amendments, including the `CounterpartySignature` inner-object type.
 - **Batch (v0.5.0):** `Batch` rewritten to the `BatchV1_1` shape with `RawTransactions` + `BatchSigners` + inner-tx invariants.
 - **Permissioned domains:** `PermissionedDomainSet`, `PermissionedDomainDelete`.
+- **Sponsorship (v0.7.0, not enabled):** `SponsorshipSet`, `SponsorshipTransfer` — `Sponsor` amendment.
+- **Confidential MPT (v0.7.0, not enabled):** `ConfidentialMPTSend`, `ConfidentialMPTConvert`, `ConfidentialMPTConvertBack`, `ConfidentialMPTMergeInbox`, `ConfidentialMPTClawback` — `ConfidentialTransfer` amendment.
+- **Ledger:** `LedgerStateFix`.
 - **Sidechains:** `XChainCreateBridge`, `XChainCommit`, `XChainClaim`, etc.
 - **Niche:** `Oracle*`, `Credential*`, `DID*`, `DelegateSet`, `Clawback`, etc.
 
 ## Status
 
-**Latest release:** `v0.5.0` — 71 transaction types, **387 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
+**Latest release:** `v0.7.0` — 79 transaction types, **397 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
 
 ## Development
 

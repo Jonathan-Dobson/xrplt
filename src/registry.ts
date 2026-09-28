@@ -42,6 +42,20 @@ import { DelegateSet } from './transactions/delegate-set.js';
 import { DIDSet } from './transactions/did-set.js';
 import { DIDDelete } from './transactions/did-delete.js';
 
+// Sponsorship (Sponsor amendment — not_enabled)
+import { SponsorshipSet } from './transactions/sponsorship-set.js';
+import { SponsorshipTransfer } from './transactions/sponsorship-transfer.js';
+
+// Ledger-state fix
+import { LedgerStateFix } from './transactions/ledger-state-fix.js';
+
+// ConfidentialMPT family (ConfidentialTransfer amendment — not_enabled)
+import { ConfidentialMPTClawback } from './transactions/confidential-mpt-clawback.js';
+import { ConfidentialMPTConvert } from './transactions/confidential-mpt-convert.js';
+import { ConfidentialMPTConvertBack } from './transactions/confidential-mpt-convert-back.js';
+import { ConfidentialMPTMergeInbox } from './transactions/confidential-mpt-merge-inbox.js';
+import { ConfidentialMPTSend } from './transactions/confidential-mpt-send.js';
+
 // AMM
 import { AMMCreate } from './transactions/amm-create.js';
 import { AMMDeposit } from './transactions/amm-deposit.js';
@@ -201,6 +215,20 @@ const registryMap: Partial<Record<TransactionType, TransactionConstructor>> = {
   // DID
   DIDSet: DIDSet as unknown as TransactionConstructor,
   DIDDelete: DIDDelete as unknown as TransactionConstructor,
+
+  // Sponsorship (Sponsor amendment — not_enabled)
+  SponsorshipSet: SponsorshipSet as unknown as TransactionConstructor,
+  SponsorshipTransfer: SponsorshipTransfer as unknown as TransactionConstructor,
+
+  // Ledger-state fix
+  LedgerStateFix: LedgerStateFix as unknown as TransactionConstructor,
+
+  // ConfidentialMPT family (ConfidentialTransfer amendment — not_enabled)
+  ConfidentialMPTClawback: ConfidentialMPTClawback as unknown as TransactionConstructor,
+  ConfidentialMPTConvert: ConfidentialMPTConvert as unknown as TransactionConstructor,
+  ConfidentialMPTConvertBack: ConfidentialMPTConvertBack as unknown as TransactionConstructor,
+  ConfidentialMPTMergeInbox: ConfidentialMPTMergeInbox as unknown as TransactionConstructor,
+  ConfidentialMPTSend: ConfidentialMPTSend as unknown as TransactionConstructor,
 };
 
 // ─── Registry API ────────────────────────────────────────────────────

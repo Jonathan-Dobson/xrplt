@@ -4,6 +4,77 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-09-28
+
+Minor release — **breaking**: removes the deprecated `*Tx` aliases
+that were scheduled for removal at v0.5.0 (a year overdue). Also
+fills in several coverage gaps identified by the v0.6.1 sweep:
+exporting `CounterpartySignature`, extending `NFTokenMint` with
+the offer-amendment fields, and adding 8 amendment-driven
+transaction classes that match the xrpl.js canonical reference.
+
+### Breaking changes
+
+- **Removed**: the 71 `*Tx` exported aliases (e.g. `PaymentTx`,
+  `AMMBidTx`, `LoanSetTx`, ...) that were deprecated at v0.4.0
+  with removal planned for v0.5.0. Use the non-`Tx` form
+  (e.g. `Payment`, `AMMBid`, `LoanSet`). The comment in `src/index.ts`
+  that said "remove in v0.5.0" has been honoured two cycles late.
+
+### Added
+
+- **Export `CounterpartySignature`** from `src/index.ts:23` — was
+  defined in `src/types/common.ts` and re-exported through
+  `src/types/index.ts`, but missed the public entrypoint. Consumers
+  using `LoanSet` multi-party signing can now
+  `import { CounterpartySignature } from 'xrplt'`.
+- **`NFTokenMint` extended** with the offer-amendment fields
+  `Amount`, `Expiration`, `Destination`. Each has its own validate
+  rule (cross-field: `Amount` required when `Expiration` or
+  `Destination` is set; `Expiration` must be UInt32; `Destination`
+  must be a valid XRPL address). Closes the long-standing gap
+  from the v0.5.0 Known Gaps.
+- **Sponsorship family** (Sponsor amendment, `not_enabled`):
+  - `SponsorshipSet` — 5 fields (CounterpartySponsor, Sponsee,
+    FeeAmountDelta, MaxFee, RemainingOwnerCountDelta) + 5 flags +
+    mode-exclusivity validate rules.
+  - `SponsorshipTransfer` — 3-modes (`tfSponsorshipEnd` /
+    `Create` / `Reassign`), each with its own field requirements.
+- **`LedgerStateFix`** — minimal transaction class for the
+  ledger-state-fix internal type.
+- **ConfidentialMPT family** (ConfidentialTransfer amendment,
+  `not_enabled`) — 5 transaction classes covering the encrypted
+  balance lifecycle:
+  - `ConfidentialMPTClawback` (4 fields).
+  - `ConfidentialMPTConvert` (8 fields, conditional ZKProof).
+  - `ConfidentialMPTConvertBack` (8 fields including 816-byte
+    proof bundle).
+  - `ConfidentialMPTMergeInbox` (1 field).
+  - `ConfidentialMPTSend` (10 fields including 946-byte proof bundle).
+
+### Removed
+
+- **71 `*Tx` deprecated alias exports** — see Breaking changes.
+
+### Changed
+
+- **`SponsorshipSetFlags` / `SponsorshipTransferFlags` enums** —
+  relocated from `src/transactions/sponsorship-{set,transfer}.ts`
+  to `src/types/flags.ts` alongside the other family flag enums.
+- **`TransactionType` union** — added 8 new entries
+  (`SponsorshipSet`, `SponsorshipTransfer`, `LedgerStateFix`,
+  `ConfidentialMPT{Clawback,Convert,ConvertBack,MergeInbox,Send}`).
+
+### Tests
+
+- 397 unit + integration tests passing (was 387). The +10 delta
+  is from `tests/integration.offline.test.ts` iterating over the
+  expanded `TransactionRegistry.types()`. Note: none of the 8 new
+  amendment-driven classes have **dedicated** direct tests yet —
+  they construct + serialize via the offline sweep, but per-class
+  validate-rule coverage is deferred to a v0.7.x patch (the dev-portal
+  validator-against-devnet timing is the real test).
+
 ## [0.6.1] - 2026-09-28
 
 Patch release. Self-documents the live-testnet test budgets so the

@@ -405,3 +405,35 @@ export enum XChainModifyBridgeFlags {
 export interface XChainModifyBridgeFlagsInterface extends GlobalFlagsInterface {
   tfClearAccountCreateAmount?: boolean;
 }
+
+// ─── SponsorshipSet ─────────────────────────────────────────────────
+
+export enum SponsorshipSetFlags {
+  tfSponsorshipSetRequireSignForFee = 0x00010000,
+  tfSponsorshipClearRequireSignForFee = 0x00020000,
+  tfSponsorshipSetRequireSignForReserve = 0x00040000,
+  tfSponsorshipClearRequireSignForReserve = 0x00080000,
+  tfDeleteObject = 0x00100000,
+}
+
+export interface SponsorshipSetFlagsInterface extends GlobalFlagsInterface {
+  tfSponsorshipSetRequireSignForFee?: boolean;
+  tfSponsorshipClearRequireSignForFee?: boolean;
+  tfSponsorshipSetRequireSignForReserve?: boolean;
+  tfSponsorshipClearRequireSignForReserve?: boolean;
+  tfDeleteObject?: boolean;
+}
+
+// ─── SponsorshipTransfer ────────────────────────────────────────────
+
+export enum SponsorshipTransferFlags {
+  tfSponsorshipEnd = 0x00010000,
+  tfSponsorshipCreate = 0x00020000,
+  tfSponsorshipReassign = 0x00040000,
+}
+
+export interface SponsorshipTransferFlagsInterface extends GlobalFlagsInterface {
+  tfSponsorshipEnd?: boolean;
+  tfSponsorshipCreate?: boolean;
+  tfSponsorshipReassign?: boolean;
+}

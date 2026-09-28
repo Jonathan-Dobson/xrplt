@@ -58,6 +58,8 @@ export {
   ClawbackFlags,
   XChainModifyBridgeFlags,
   BatchFlags,
+  SponsorshipSetFlags,
+  SponsorshipTransferFlags,
 } from './flags.js';
 
 export type {
@@ -82,4 +84,6 @@ export type {
   ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface,
   BatchFlagsInterface,
+  SponsorshipSetFlagsInterface,
+  SponsorshipTransferFlagsInterface,
 } from './flags.js';

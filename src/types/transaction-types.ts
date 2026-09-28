@@ -103,4 +103,18 @@ export type TransactionType =
   | 'PermissionedDomainDelete'
 
   // Batch
-  | 'Batch';
+  | 'Batch'
+
+  // Sponsorship (Sponsor amendment — not_enabled)
+  | 'SponsorshipSet'
+  | 'SponsorshipTransfer'
+
+  // Ledger-state fix
+  | 'LedgerStateFix'
+
+  // ConfidentialMPT family (ConfidentialTransfer amendment — not_enabled)
+  | 'ConfidentialMPTClawback'
+  | 'ConfidentialMPTConvert'
+  | 'ConfidentialMPTConvertBack'
+  | 'ConfidentialMPTMergeInbox'
+  | 'ConfidentialMPTSend';
