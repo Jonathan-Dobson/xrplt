@@ -29,8 +29,7 @@ export class SignerListSet extends AccountTransaction {
   override readonly TransactionType = 'SignerListSet' as const;
 
   /** The target number of weights required. */
-  readonly SignerQuorum: number = undefined as any;
-
+  declare readonly SignerQuorum: number;
   /** Up to 32 signer entries. */
   readonly SignerEntries?: SignerEntry[] | undefined = undefined;
 

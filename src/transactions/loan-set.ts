@@ -108,8 +108,8 @@ export interface LoanSetTxFields extends BaseTransactionFields {
 export class LoanSet extends LoanTransaction {
   override readonly TransactionType = 'LoanSet' as const;
 
-  readonly LoanBrokerID: string = undefined as any;
-  readonly PrincipalRequested: string = undefined as any;
+  declare readonly LoanBrokerID: string;
+  declare readonly PrincipalRequested: string;
   readonly Counterparty?: string | undefined = undefined;
   readonly CounterpartySignature?: CounterpartySignature | undefined = undefined;
   readonly Data?: string | undefined = undefined;

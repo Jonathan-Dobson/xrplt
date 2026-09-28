@@ -44,8 +44,8 @@ export interface VaultClawbackTxFields extends BaseTransactionFields {
 export class VaultClawback extends VaultTransaction {
   override readonly TransactionType = 'VaultClawback' as const;
 
-  readonly VaultID: string = undefined as any;
-  readonly Holder: string = undefined as any;
+  declare readonly VaultID: string;
+  declare readonly Holder: string;
   readonly Amount?: ClawbackAmount | undefined = undefined;
 
   static override readonly TRANSACTION_TYPE = 'VaultClawback' as const;

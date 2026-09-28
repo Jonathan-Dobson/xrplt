@@ -22,13 +22,11 @@ export class XChainCreateBridge extends XChainTransaction {
   override readonly TransactionType = 'XChainCreateBridge' as const;
 
   /** Definition of the bridge. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   readonly MinAccountCreateAmount?: string | undefined = undefined;
 
   /** Signature reward for witness servers. */
-  readonly SignatureReward: string = undefined as any;
-
+  declare readonly SignatureReward: string;
   static override readonly TRANSACTION_TYPE = 'XChainCreateBridge' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'MinAccountCreateAmount', 'SignatureReward', 'XChainBridge'

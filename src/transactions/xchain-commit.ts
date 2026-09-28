@@ -26,14 +26,11 @@ export class XChainCommit extends XChainTransaction {
   override readonly TransactionType = 'XChainCommit' as const;
 
   /** Definition of the bridge to use. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   /** The claim ID on the destination chain. */
-  readonly XChainClaimID: number = undefined as any;
-
+  declare readonly XChainClaimID: number;
   /** The amount to commit. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   /** The destination account on the destination chain. */
   readonly OtherChainDestination?: string | undefined = undefined;
 

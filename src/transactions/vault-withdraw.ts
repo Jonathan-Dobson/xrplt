@@ -54,8 +54,8 @@ export interface VaultWithdrawTxFields extends BaseTransactionFields {
 export class VaultWithdraw extends VaultTransaction {
   override readonly TransactionType = 'VaultWithdraw' as const;
 
-  readonly VaultID: string = undefined as any;
-  readonly Amount: Amount | MPTAmount = undefined as any;
+  declare readonly VaultID: string;
+  declare readonly Amount: Amount | MPTAmount;
   readonly Destination?: string | undefined = undefined;
   readonly DestinationTag?: number | undefined = undefined;
   readonly CredentialIDs?: string[] | undefined = undefined;

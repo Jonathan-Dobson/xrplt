@@ -44,9 +44,8 @@ export interface LoanPayTxFields extends BaseTransactionFields {
 export class LoanPay extends LoanTransaction {
   override readonly TransactionType = 'LoanPay' as const;
 
-  readonly LoanID: string = undefined as any;
-  readonly Amount: Amount | MPTAmount = undefined as any;
-
+  declare readonly LoanID: string;
+  declare readonly Amount: Amount | MPTAmount;
   static override readonly TRANSACTION_TYPE = 'LoanPay' as const;
   static override readonly ASSIGNABLE_FIELDS = ['Amount', 'LoanID'] as const;
 

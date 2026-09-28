@@ -29,15 +29,14 @@ export interface XChainAddClaimAttestationTxFields extends BaseTransactionFields
 export class XChainAddClaimAttestation extends XChainTransaction {
   override readonly TransactionType = 'XChainAddClaimAttestation' as const;
 
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-  readonly XChainClaimID: number = undefined as any;
-  readonly Amount: string = undefined as any;
+  declare readonly XChainBridge: Record<string, unknown>;
+  declare readonly XChainClaimID: number;
+  declare readonly Amount: string;
   readonly Destination?: string | undefined = undefined;
-  readonly OtherChainSource: string = undefined as any;
-  readonly PublicKey: string = undefined as any;
-  readonly Signature: string = undefined as any;
-  readonly XChainAttestationSequence: number = undefined as any;
-
+  declare readonly OtherChainSource: string;
+  declare readonly PublicKey: string;
+  declare readonly Signature: string;
+  declare readonly XChainAttestationSequence: number;
   static override readonly TRANSACTION_TYPE = 'XChainAddClaimAttestation' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount', 'Destination', 'OtherChainSource', 'PublicKey', 'Signature', 'XChainAttestationSequence', 'XChainBridge', 'XChainClaimID'

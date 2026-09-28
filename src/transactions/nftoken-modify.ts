@@ -21,8 +21,7 @@ export class NFTokenModify extends TokenTransaction {
   override readonly TransactionType = 'NFTokenModify' as const;
 
   /** The unique identifier of the NFToken. */
-  readonly NFTokenID: string = undefined as any;
-
+  declare readonly NFTokenID: string;
   /** The new URI for the token. */
   readonly URI?: string | undefined = undefined;
 

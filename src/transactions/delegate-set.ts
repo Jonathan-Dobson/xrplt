@@ -16,10 +16,10 @@ export class DelegateSet extends Transaction {
   override readonly TransactionType = 'DelegateSet' as const;
 
   /** The account to authorize. */
-  override readonly Delegate: string = undefined as any;
+  declare readonly Delegate: string;
 
   static override readonly TRANSACTION_TYPE = 'DelegateSet' as const;
-  static override readonly ASSIGNABLE_FIELDS: readonly string[] = [];
+  static override readonly ASSIGNABLE_FIELDS = ['Delegate'] as const;
 
   constructor(props: DelegateSetTxFields) {
     super({ ...props, TransactionType: DelegateSet.TRANSACTION_TYPE });

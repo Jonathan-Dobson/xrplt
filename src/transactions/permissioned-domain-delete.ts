@@ -26,8 +26,7 @@ export interface PermissionedDomainDeleteTxFields
 export class PermissionedDomainDelete extends Transaction {
   override readonly TransactionType = 'PermissionedDomainDelete' as const;
 
-  readonly DomainID: string = undefined as any;
-
+  declare readonly DomainID: string;
   static override readonly TRANSACTION_TYPE =
     'PermissionedDomainDelete' as const;
   static override readonly ASSIGNABLE_FIELDS = ['DomainID'] as const;

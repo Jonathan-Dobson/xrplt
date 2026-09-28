@@ -25,8 +25,8 @@ export interface AMMBidTxFields extends BaseTransactionFields {
 export class AMMBid extends AMMTransaction {
   override readonly TransactionType = 'AMMBid' as const;
 
-  readonly Asset: Record<string, unknown> = undefined as any;
-  readonly Asset2: Record<string, unknown> = undefined as any;
+  declare readonly Asset: Record<string, unknown>;
+  declare readonly Asset2: Record<string, unknown>;
   readonly BidMax?: IssuedCurrencyAmount | undefined = undefined;
   readonly BidMin?: IssuedCurrencyAmount | undefined = undefined;
   readonly AuthAccounts?: Record<string, string>[] | undefined = undefined;

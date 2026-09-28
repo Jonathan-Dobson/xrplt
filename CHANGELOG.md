@@ -4,6 +4,104 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-09-28
+
+Minor release. No public-API changes from v0.5.0 — same 71
+transaction classes, same constructor signatures, same JSON shape.
+The bump is for **type-system tightening** that consumers of the
+declaration files will see: every `readonly Foo: T = undefined as any`
+placeholder has become a real `declare readonly Foo: T` declaration,
+and a strict ESLint config is now the second gate alongside `tsc`.
+
+### Added
+
+- **ESLint 9 flat config** (`eslint.config.js`) — `@eslint/js`
+  recommended + `typescript-eslint` strict. Catches unused-vars
+  (with underscore allow), `no-explicit-any`,
+  `no-floating-promises`, `prefer-readonly`,
+  `@typescript-eslint/consistent-type-imports`, and the rest of the
+  strict TS rule set.
+- **`npm run lint` + `npm run lint:fix` scripts.** Wired into
+  `prepublishOnly`, so `npm publish` blocks on lint errors.
+- **Per-glob overrides** in `eslint.config.js`:
+  - `src/**`: full strictness.
+  - `tests/**`: relaxed for `max-lines-per-function` and
+    `no-explicit-any` (tests legitimately use `any` and run long).
+  - `**/*.d.ts` + `dist/`: `unused-vars` off.
+
+### Changed
+
+### Added
+
+- **ESLint 9 flat config** (`eslint.config.js`) — `@eslint/js`
+  recommended + `typescript-eslint` strict. Catches unused-vars
+  (with underscore allow), `no-explicit-any`,
+  `no-floating-promises`, `prefer-readonly`,
+  `@typescript-eslint/consistent-type-imports`, and the rest of the
+  strict TS rule set.
+- **`npm run lint` + `npm run lint:fix` scripts.** Wired into
+  `prepublishOnly`, so `npm publish` blocks on lint errors.
+- **Per-glob overrides** in `eslint.config.js`:
+  - `src/**`: full strictness.
+  - `tests/**`: relaxed for `max-lines-per-function` and
+    `no-explicit-any` (tests legitimately use `any` and run long).
+  - `**/*.d.ts` + `dist/`: `unused-vars` off.
+
+### Changed
+
+- **115 field declarations converted** across 59 transaction-class
+  files from `readonly Foo: T = undefined as any;` to
+  `declare readonly Foo: T;`. The `as any` was an `applyManifest()`
+  helper hack to keep `strictPropertyInitialization` happy while
+  delegating field assignment to the constructor body. Replacing
+  it with `declare` does the same job without lying to the
+  type-checker about the field's runtime type.
+- **3 leftover `as any` casts removed** via proper narrowing /
+  typing:
+  - `src/transactions/payment.ts` — `(this.Flags as any)
+    ?.tfPartialPayment` → `typeof`-narrowed `isPartial` predicate.
+  - `src/transactions/offer-create.ts` — same pattern for `tfHybrid`.
+  - `src/transactions/permissioned-domain-set.ts` — typed
+    `AcceptedCredentials` as `unknown[]` instead of `any[]`.
+- **`src/transactions/delegate-set.ts` + `src/transaction.ts`** —
+  the last residual `as any` was eliminated by relocating
+  `Delegate` from the abstract `Transaction` base class onto
+  `DelegateSet` itself. Removing the parent field + `this.Delegate
+  = props.Delegate` constructor assignment broke the
+  optional→required override shape that had forced the
+  placeholder. `DelegateSet` now declares
+  `declare readonly Delegate: string;` cleanly and adds
+  `Delegate` to its `ASSIGNABLE_FIELDS` manifest so
+  `applyManifest()` populates it the same way as every other
+  leaf-declared field. **Zero `as any` remain in src/**.
+- **`src/transaction.ts` docstring** — references
+  `declare readonly Foo: T` (the new shape) instead of the old
+  `= undefined as any` initializer.
+
+### Fixed
+
+- **`src/registry.ts`** — added an explanation comment to the
+  existing `TransactionRegistry` static-only class so
+  `@typescript-eslint/no-extraneous-class` allows it.
+- **`tests/batch-v1_1.test.ts`** — added a 10-char description to
+  the `@ts-expect-error` directive so
+  `@typescript-eslint/ban-ts-comment` passes.
+
+### Known gaps
+
+- **None in this release.** The full `as any` surface that motivated
+  v0.6.0 is now eliminated across `src/`. The 123 pre-existing
+  warnings from v0.5.0 → v0.5.1 transition are gone; the lone
+  `Delegate` override pattern was removed by relocating the field
+  from the abstract `Transaction` base class onto `DelegateSet`
+  itself. Carried-forward gaps from v0.5.0 (per-bit flag booleans,
+  NFTokenMint 3 missing fields, NFTokenModify unimplemented) are
+  unchanged.
+
+### Tests
+
+- 387 unit tests passing (no test changes from v0.5.0).
+
 ## [0.5.0] - 2026-09-28
 
 Minor release. Brings the **Vault**, **Loan**, and **Batch** transaction

@@ -20,8 +20,7 @@ export class XChainModifyBridge extends XChainTransaction {
   override readonly TransactionType = 'XChainModifyBridge' as const;
 
   /** Definition of the bridge to modify. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   readonly MinAccountCreateAmount?: string | undefined = undefined;
   readonly SignatureReward?: string | undefined = undefined;
 

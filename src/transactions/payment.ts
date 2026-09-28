@@ -35,10 +35,10 @@ export class Payment extends PaymentTransaction {
   override readonly TransactionType = 'Payment' as const;
 
   /** The amount of currency to deliver. */
-  readonly Amount: Amount = undefined as any;
+  declare readonly Amount: Amount;
 
   /** The address to receive the funds. */
-  readonly Destination: string = undefined as any;
+  declare readonly Destination: string;
 
   readonly DestinationTag?: number | undefined = undefined;
   readonly InvoiceID?: string | undefined = undefined;
@@ -71,7 +71,11 @@ export class Payment extends PaymentTransaction {
     if (!isAccount(this.Destination)) throw new ValidationError('Payment: missing or invalid Destination');
 
     // Partial payment check
-    if (this.DeliverMin && !(this.Flags as any)?.tfPartialPayment && (this.Flags as any) !== 0x00020000) {
+    const flags = this.Flags;
+    const isPartial = typeof flags === 'number'
+      ? flags === 0x00020000
+      : flags?.tfPartialPayment === true;
+    if (this.DeliverMin && !isPartial) {
       throw new ValidationError('Payment: DeliverMin requires tfPartialPayment flag');
     }
   }

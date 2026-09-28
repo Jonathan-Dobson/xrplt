@@ -22,17 +22,13 @@ export class XChainAccountCreateCommit extends XChainTransaction {
   override readonly TransactionType = 'XChainAccountCreateCommit' as const;
 
   /** Definition of the bridge to use. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   /** The address of the account to create on the destination chain. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   /** The amount to commit for account creation. */
-  readonly Amount: string = undefined as any;
-
+  declare readonly Amount: string;
   /** The signature reward for the account creation. */
-  readonly SignatureReward: string = undefined as any;
-
+  declare readonly SignatureReward: string;
   static override readonly TRANSACTION_TYPE = 'XChainAccountCreateCommit' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount', 'Destination', 'SignatureReward', 'XChainBridge'

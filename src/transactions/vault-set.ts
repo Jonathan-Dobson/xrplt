@@ -55,7 +55,7 @@ export interface VaultSetTxFields extends BaseTransactionFields {
 export class VaultSet extends VaultTransaction {
   override readonly TransactionType = 'VaultSet' as const;
 
-  readonly VaultID: string = undefined as any;
+  declare readonly VaultID: string;
   readonly Data?: string | undefined = undefined;
   readonly AssetsMaximum?: string | undefined = undefined;
   readonly DomainID?: string | undefined = undefined;

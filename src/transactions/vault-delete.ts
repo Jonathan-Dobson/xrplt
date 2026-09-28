@@ -37,7 +37,7 @@ export interface VaultDeleteTxFields extends BaseTransactionFields {
 export class VaultDelete extends VaultTransaction {
   override readonly TransactionType = 'VaultDelete' as const;
 
-  readonly VaultID: string = undefined as any;
+  declare readonly VaultID: string;
   readonly MemoData?: string | undefined = undefined;
 
   static override readonly TRANSACTION_TYPE = 'VaultDelete' as const;

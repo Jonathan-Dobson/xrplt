@@ -24,11 +24,9 @@ export class EscrowFinish extends Transaction {
   override readonly TransactionType = 'EscrowFinish' as const;
 
   /** Escrow creator. */
-  readonly Owner: string = undefined as any;
-
+  declare readonly Owner: string;
   /** Sequence number of EscrowCreate. */
-  readonly OfferSequence: number = undefined as any;
-
+  declare readonly OfferSequence: number;
   readonly Fulfillment?: string | undefined = undefined;
   readonly Condition?: string | undefined = undefined;
 

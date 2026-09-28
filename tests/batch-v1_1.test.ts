@@ -85,7 +85,7 @@ describe('Batch', () => {
     });
 
     it('rejects non-array RawTransactions', () => {
-      // @ts-expect-error
+      // @ts-expect-error -- intentional bad input to confirm validate() guards the runtime type
       const tx = new Batch({ Account: ACCOUNT, RawTransactions: 'nope' });
       expect(() => tx.validate()).toThrow(/RawTransactions must be a non-empty array/);
     });

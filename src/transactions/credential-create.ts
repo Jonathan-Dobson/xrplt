@@ -25,9 +25,9 @@ export interface CredentialCreateTxFields extends BaseTransactionFields {
 export class CredentialCreate extends Transaction {
   override readonly TransactionType = 'CredentialCreate' as const;
 
-  readonly Subject: string = undefined as any;
-  readonly CredentialType: string = undefined as any;
-  readonly CredentialSequence: number = undefined as any;
+  declare readonly Subject: string;
+  declare readonly CredentialType: string;
+  declare readonly CredentialSequence: number;
   readonly Expiration?: number | undefined = undefined;
   readonly URI?: string | undefined = undefined;
 

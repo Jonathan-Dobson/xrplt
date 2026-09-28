@@ -17,9 +17,8 @@ export interface CredentialAcceptTxFields extends BaseTransactionFields {
 export class CredentialAccept extends Transaction {
   override readonly TransactionType = 'CredentialAccept' as const;
 
-  readonly Issuer: string = undefined as any;
-  readonly CredentialType: string = undefined as any;
-
+  declare readonly Issuer: string;
+  declare readonly CredentialType: string;
   static override readonly TRANSACTION_TYPE = 'CredentialAccept' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'CredentialType', 'Issuer'

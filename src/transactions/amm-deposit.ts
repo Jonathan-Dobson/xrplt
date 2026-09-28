@@ -23,8 +23,8 @@ export interface AMMDepositTxFields extends BaseTransactionFields {
 export class AMMDeposit extends AMMTransaction {
   override readonly TransactionType = 'AMMDeposit' as const;
 
-  readonly Asset: Record<string, unknown> = undefined as any;
-  readonly Asset2: Record<string, unknown> = undefined as any;
+  declare readonly Asset: Record<string, unknown>;
+  declare readonly Asset2: Record<string, unknown>;
   readonly Amount?: Amount | undefined = undefined;
   readonly Amount2?: Amount | undefined = undefined;
   readonly EPrice?: Amount | undefined = undefined;

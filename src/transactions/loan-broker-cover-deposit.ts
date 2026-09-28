@@ -33,9 +33,8 @@ export interface LoanBrokerCoverDepositTxFields
 export class LoanBrokerCoverDeposit extends LoanTransaction {
   override readonly TransactionType = 'LoanBrokerCoverDeposit' as const;
 
-  readonly LoanBrokerID: string = undefined as any;
-  readonly Amount: Amount | MPTAmount = undefined as any;
-
+  declare readonly LoanBrokerID: string;
+  declare readonly Amount: Amount | MPTAmount;
   static override readonly TRANSACTION_TYPE =
     'LoanBrokerCoverDeposit' as const;
   static override readonly ASSIGNABLE_FIELDS = ['Amount', 'LoanBrokerID'] as const;

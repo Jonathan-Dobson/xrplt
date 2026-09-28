@@ -30,11 +30,9 @@ export class EscrowCreate extends PaymentTransaction {
   override readonly TransactionType = 'EscrowCreate' as const;
 
   /** Amount of XRP to lock. */
-  readonly Amount: string = undefined as any;
-
+  declare readonly Amount: string;
   /** Destination address. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   readonly CancelAfter?: number | undefined = undefined;
   readonly FinishAfter?: number | undefined = undefined;
   readonly Condition?: string | undefined = undefined;

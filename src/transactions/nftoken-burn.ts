@@ -21,8 +21,7 @@ export class NFTokenBurn extends TokenTransaction {
   override readonly TransactionType = 'NFTokenBurn' as const;
 
   /** The unique identifier of the NFToken to burn. */
-  readonly NFTokenID: string = undefined as any;
-
+  declare readonly NFTokenID: string;
   /** The account that currently owns the token (if not the sender). */
   readonly Owner?: string | undefined = undefined;
 

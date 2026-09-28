@@ -25,17 +25,13 @@ export class XChainClaim extends XChainTransaction {
   override readonly TransactionType = 'XChainClaim' as const;
 
   /** Definition of the bridge to use. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   /** The claim ID on the destination chain. */
-  readonly XChainClaimID: number = undefined as any;
-
+  declare readonly XChainClaimID: number;
   /** The destination account for the funds. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   /** The amount to claim. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   static override readonly TRANSACTION_TYPE = 'XChainClaim' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount', 'Destination', 'XChainBridge', 'XChainClaimID'

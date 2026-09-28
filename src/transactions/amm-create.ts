@@ -23,14 +23,11 @@ export class AMMCreate extends AMMTransaction {
   override readonly TransactionType = 'AMMCreate' as const;
 
   /** The first amount of the asset pair. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   /** The second amount of the asset pair. */
-  readonly Amount2: Amount = undefined as any;
-
+  declare readonly Amount2: Amount;
   /** The trading fee for this AMM (0-1000). */
-  readonly TradingFee: number = undefined as any;
-
+  declare readonly TradingFee: number;
   static override readonly TRANSACTION_TYPE = 'AMMCreate' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount', 'Amount2', 'TradingFee'

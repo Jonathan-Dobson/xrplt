@@ -20,8 +20,7 @@ export class AccountDelete extends AccountTransaction {
   override readonly TransactionType = 'AccountDelete' as const;
 
   /** The address to receive any remaining XRP from the deleted account. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   /** Arbitrary destination tag for the recipient. */
   readonly DestinationTag?: number | undefined = undefined;
 

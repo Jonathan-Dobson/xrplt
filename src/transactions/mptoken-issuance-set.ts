@@ -129,7 +129,7 @@ export class MPTokenIssuanceSet
 {
   override readonly TransactionType = 'MPTokenIssuanceSet' as const;
 
-  readonly MPTokenIssuanceID: string = undefined as any;
+  declare readonly MPTokenIssuanceID: string;
   readonly AuditorEncryptionKey?: string | undefined = undefined;
   readonly DomainID?: string | undefined = undefined;
   readonly Holder?: string | undefined = undefined;

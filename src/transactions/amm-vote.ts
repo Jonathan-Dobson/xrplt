@@ -19,10 +19,9 @@ export interface AMMVoteTxFields extends BaseTransactionFields {
 export class AMMVote extends AMMTransaction {
   override readonly TransactionType = 'AMMVote' as const;
 
-  readonly Asset: Record<string, unknown> = undefined as any;
-  readonly Asset2: Record<string, unknown> = undefined as any;
-  readonly TradingFee: number = undefined as any;
-
+  declare readonly Asset: Record<string, unknown>;
+  declare readonly Asset2: Record<string, unknown>;
+  declare readonly TradingFee: number;
   static override readonly TRANSACTION_TYPE = 'AMMVote' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Asset', 'Asset2', 'TradingFee'

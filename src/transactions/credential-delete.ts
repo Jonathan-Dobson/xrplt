@@ -19,10 +19,9 @@ export interface CredentialDeleteTxFields extends BaseTransactionFields {
 export class CredentialDelete extends Transaction {
   override readonly TransactionType = 'CredentialDelete' as const;
 
-  readonly Subject: string = undefined as any;
-  readonly Issuer: string = undefined as any;
-  readonly CredentialType: string = undefined as any;
-
+  declare readonly Subject: string;
+  declare readonly Issuer: string;
+  declare readonly CredentialType: string;
   static override readonly TRANSACTION_TYPE = 'CredentialDelete' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'CredentialType', 'Issuer', 'Subject'

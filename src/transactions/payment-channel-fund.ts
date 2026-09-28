@@ -23,11 +23,9 @@ export class PaymentChannelFund extends Transaction {
   override readonly TransactionType = 'PaymentChannelFund' as const;
 
   /** The unique ID of the channel. */
-  readonly Channel: string = undefined as any;
-
+  declare readonly Channel: string;
   /** Amount of XRP to add. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   readonly Expiration?: number | undefined = undefined;
 
   static override readonly TRANSACTION_TYPE = 'PaymentChannelFund' as const;

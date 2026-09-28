@@ -26,8 +26,7 @@ export interface LoanBrokerDeleteTxFields extends BaseTransactionFields {
 export class LoanBrokerDelete extends LoanTransaction {
   override readonly TransactionType = 'LoanBrokerDelete' as const;
 
-  readonly LoanBrokerID: string = undefined as any;
-
+  declare readonly LoanBrokerID: string;
   static override readonly TRANSACTION_TYPE = 'LoanBrokerDelete' as const;
   static override readonly ASSIGNABLE_FIELDS = ['LoanBrokerID'] as const;
 

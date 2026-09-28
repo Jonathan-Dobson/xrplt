@@ -29,9 +29,9 @@ export interface OracleSetTxFields extends BaseTransactionFields {
 export class OracleSet extends Transaction {
   override readonly TransactionType = 'OracleSet' as const;
 
-  readonly OracleDocumentID: number = undefined as any;
-  readonly LastUpdateTime: number = undefined as any;
-  readonly PriceDataSeries: Record<string, unknown>[] = undefined as any;
+  declare readonly OracleDocumentID: number;
+  declare readonly LastUpdateTime: number;
+  declare readonly PriceDataSeries: Record<string, unknown>[];
   readonly Provider?: string | undefined = undefined;
   readonly URI?: string | undefined = undefined;
   readonly AssetBase?: string | undefined = undefined;

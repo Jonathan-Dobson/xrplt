@@ -83,7 +83,7 @@ export interface BatchTxFields extends BaseTransactionFields {
 export class Batch extends Transaction {
   override readonly TransactionType = 'Batch' as const;
 
-  readonly RawTransactions: RawTransaction[] = undefined as any;
+  declare readonly RawTransactions: RawTransaction[];
   readonly BatchSigners?: BatchSigner[] | undefined = undefined;
 
   static override readonly TRANSACTION_TYPE = 'Batch' as const;

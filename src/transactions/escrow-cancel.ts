@@ -20,11 +20,9 @@ export class EscrowCancel extends Transaction {
   override readonly TransactionType = 'EscrowCancel' as const;
 
   /** The address that created the escrow. */
-  readonly Owner: string = undefined as any;
-
+  declare readonly Owner: string;
   /** The sequence number of the EscrowCreate transaction. */
-  readonly OfferSequence: number = undefined as any;
-
+  declare readonly OfferSequence: number;
   static override readonly TRANSACTION_TYPE = 'EscrowCancel' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'OfferSequence', 'Owner'

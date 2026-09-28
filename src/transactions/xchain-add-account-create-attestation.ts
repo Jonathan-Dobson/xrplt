@@ -23,15 +23,14 @@ export interface XChainAddAccountCreateAttestationTxFields extends BaseTransacti
 export class XChainAddAccountCreateAttestation extends Transaction {
   override readonly TransactionType = 'XChainAddAccountCreateAttestation' as const;
 
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-  readonly XChainAccountCreateCount: number = undefined as any;
-  readonly Destination: string = undefined as any;
-  readonly Signature: string = undefined as any;
-  readonly PublicKey: string = undefined as any;
-  readonly Amount: string = undefined as any;
-  readonly AttestationRewardAccount: string = undefined as any;
-  readonly WasLockingChainSend: number = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
+  declare readonly XChainAccountCreateCount: number;
+  declare readonly Destination: string;
+  declare readonly Signature: string;
+  declare readonly PublicKey: string;
+  declare readonly Amount: string;
+  declare readonly AttestationRewardAccount: string;
+  declare readonly WasLockingChainSend: number;
   static override readonly TRANSACTION_TYPE = 'XChainAddAccountCreateAttestation' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount', 'AttestationRewardAccount', 'Destination', 'PublicKey', 'Signature', 'WasLockingChainSend', 'XChainAccountCreateCount', 'XChainBridge'

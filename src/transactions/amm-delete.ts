@@ -17,9 +17,8 @@ export interface AMMDeleteTxFields extends BaseTransactionFields {
 export class AMMDelete extends AMMTransaction {
   override readonly TransactionType = 'AMMDelete' as const;
 
-  readonly Asset: Record<string, unknown> = undefined as any;
-  readonly Asset2: Record<string, unknown> = undefined as any;
-
+  declare readonly Asset: Record<string, unknown>;
+  declare readonly Asset2: Record<string, unknown>;
   static override readonly TRANSACTION_TYPE = 'AMMDelete' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Asset', 'Asset2'

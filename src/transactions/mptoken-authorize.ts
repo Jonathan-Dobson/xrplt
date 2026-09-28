@@ -24,8 +24,7 @@ export class MPTokenAuthorize extends TokenTransaction {
   override readonly TransactionType = 'MPTokenAuthorize' as const;
 
   /** The unique identifier of the MPT issuance. */
-  readonly MPTokenIssuanceID: string = undefined as any;
-
+  declare readonly MPTokenIssuanceID: string;
   /** The account of the holder to authorize. */
   readonly Holder?: string | undefined = undefined;
   declare readonly Flags?: number | MPTokenAuthorizeFlagsInterface | undefined;

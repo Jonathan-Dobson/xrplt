@@ -23,8 +23,7 @@ export class CheckCash extends Transaction {
   override readonly TransactionType = 'CheckCash' as const;
 
   /** The ID of the check to cash. */
-  readonly CheckID: string = undefined as any;
-
+  declare readonly CheckID: string;
   readonly Amount?: Amount | undefined = undefined;
   readonly DeliverMin?: Amount | undefined = undefined;
 

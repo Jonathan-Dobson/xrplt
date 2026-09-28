@@ -27,8 +27,7 @@ export class PaymentChannelClaim extends Transaction {
   override readonly TransactionType = 'PaymentChannelClaim' as const;
 
   /** The unique ID of the channel. */
-  readonly Channel: string = undefined as any;
-
+  declare readonly Channel: string;
   readonly Amount?: Amount | undefined = undefined;
   readonly Balance?: Amount | undefined = undefined;
   readonly PublicKey?: string | undefined = undefined;

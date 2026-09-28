@@ -18,8 +18,7 @@ export class CheckCancel extends Transaction {
   override readonly TransactionType = 'CheckCancel' as const;
 
   /** The ID of the check to cancel. */
-  readonly CheckID: string = undefined as any;
-
+  declare readonly CheckID: string;
   static override readonly TRANSACTION_TYPE = 'CheckCancel' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'CheckID'

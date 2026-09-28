@@ -16,8 +16,7 @@ export class MPTokenIssuanceDestroy extends TokenTransaction {
   override readonly TransactionType = 'MPTokenIssuanceDestroy' as const;
 
   /** The unique identifier of the MPT issuance. */
-  readonly MPTokenIssuanceID: string = undefined as any;
-
+  declare readonly MPTokenIssuanceID: string;
   static override readonly TRANSACTION_TYPE = 'MPTokenIssuanceDestroy' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'MPTokenIssuanceID'

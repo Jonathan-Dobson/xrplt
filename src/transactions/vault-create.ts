@@ -120,7 +120,7 @@ export class VaultCreate extends VaultTransaction {
   //   (tx.Flags & VaultCreateFlags.tfVaultPrivate) !== 0
   override readonly TransactionType = 'VaultCreate' as const;
 
-  readonly Asset: Currency = undefined as any;
+  declare readonly Asset: Currency;
   readonly AssetsMaximum?: string | undefined = undefined;
   readonly Data?: string | undefined = undefined;
   readonly DomainID?: string | undefined = undefined;

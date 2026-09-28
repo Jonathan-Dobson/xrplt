@@ -27,8 +27,7 @@ export class TrustSet extends TokenTransaction {
   override readonly TransactionType = 'TrustSet' as const;
 
   /** The limit and currency for the trust line. */
-  readonly LimitAmount: IssuedCurrencyAmount = undefined as any;
-
+  declare readonly LimitAmount: IssuedCurrencyAmount;
   readonly QualityIn?: number | undefined = undefined;
   readonly QualityOut?: number | undefined = undefined;
   declare readonly Flags?: number | TrustSetFlagsInterface | undefined;

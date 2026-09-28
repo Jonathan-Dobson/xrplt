@@ -13,8 +13,7 @@ export interface OfferCancelTxFields extends BaseTransactionFields {
 
 export class OfferCancel extends OfferTransaction {
   override readonly TransactionType = 'OfferCancel' as const;
-  readonly OfferSequence: number = undefined as any;
-
+  declare readonly OfferSequence: number;
   static override readonly TRANSACTION_TYPE = 'OfferCancel' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'OfferSequence'

@@ -18,8 +18,7 @@ export class TicketCreate extends Transaction {
   override readonly TransactionType = 'TicketCreate' as const;
 
   /** How many tickets to create. */
-  readonly TicketCount: number = undefined as any;
-
+  declare readonly TicketCount: number;
   static override readonly TRANSACTION_TYPE = 'TicketCreate' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'TicketCount'

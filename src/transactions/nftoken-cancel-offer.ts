@@ -18,8 +18,7 @@ export class NFTokenCancelOffer extends TokenTransaction {
   override readonly TransactionType = 'NFTokenCancelOffer' as const;
 
   /** Array of NFToken Offer IDs to cancel. */
-  readonly NFTokenOffers: string[] = undefined as any;
-
+  declare readonly NFTokenOffers: string[];
   static override readonly TRANSACTION_TYPE = 'NFTokenCancelOffer' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'NFTokenOffers'

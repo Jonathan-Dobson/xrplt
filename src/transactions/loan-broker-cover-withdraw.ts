@@ -51,8 +51,8 @@ export interface LoanBrokerCoverWithdrawTxFields
 export class LoanBrokerCoverWithdraw extends LoanTransaction {
   override readonly TransactionType = 'LoanBrokerCoverWithdraw' as const;
 
-  readonly LoanBrokerID: string = undefined as any;
-  readonly Amount: Amount | MPTAmount = undefined as any;
+  declare readonly LoanBrokerID: string;
+  declare readonly Amount: Amount | MPTAmount;
   readonly Destination?: string | undefined = undefined;
   readonly DestinationTag?: number | undefined = undefined;
   readonly CredentialIDs?: string[] | undefined = undefined;

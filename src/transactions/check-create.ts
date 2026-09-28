@@ -27,11 +27,9 @@ export class CheckCreate extends Transaction {
   override readonly TransactionType = 'CheckCreate' as const;
 
   /** The address that can cash the check. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   /** Maximum amount the check can be cashed for. */
-  readonly SendMax: Amount = undefined as any;
-
+  declare readonly SendMax: Amount;
   readonly DestinationTag?: number | undefined = undefined;
   readonly Expiration?: number | undefined = undefined;
   readonly InvoiceID?: string | undefined = undefined;

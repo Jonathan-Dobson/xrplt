@@ -20,14 +20,11 @@ export class XChainCreateClaimID extends XChainTransaction {
   override readonly TransactionType = 'XChainCreateClaimID' as const;
 
   /** Definition of the bridge to use. */
-  readonly XChainBridge: Record<string, unknown> = undefined as any;
-
+  declare readonly XChainBridge: Record<string, unknown>;
   /** The signature reward for creating the claim ID. */
-  readonly SignatureReward: string = undefined as any;
-
+  declare readonly SignatureReward: string;
   /** The destination account for the future claim. */
-  readonly OtherChainSource: string = undefined as any;
-
+  declare readonly OtherChainSource: string;
   static override readonly TRANSACTION_TYPE = 'XChainCreateClaimID' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'OtherChainSource', 'SignatureReward', 'XChainBridge'

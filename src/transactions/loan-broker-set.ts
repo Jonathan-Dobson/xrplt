@@ -62,7 +62,7 @@ export interface LoanBrokerSetTxFields extends BaseTransactionFields {
 export class LoanBrokerSet extends LoanTransaction {
   override readonly TransactionType = 'LoanBrokerSet' as const;
 
-  readonly VaultID: string = undefined as any;
+  declare readonly VaultID: string;
   readonly LoanBrokerID?: string | undefined = undefined;
   readonly Data?: string | undefined = undefined;
   readonly ManagementFeeRate?: number | undefined = undefined;

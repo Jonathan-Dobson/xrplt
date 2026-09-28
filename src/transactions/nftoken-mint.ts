@@ -28,8 +28,7 @@ export class NFTokenMint extends TokenTransaction {
   override readonly TransactionType = 'NFTokenMint' as const;
 
   /** The taxon associated with this NFToken. */
-  readonly NFTokenTaxon: number = undefined as any;
-
+  declare readonly NFTokenTaxon: number;
   readonly Issuer?: string | undefined = undefined;
   readonly TransferFee?: number | undefined = undefined;
   readonly URI?: string | undefined = undefined;

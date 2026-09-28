@@ -205,6 +205,7 @@ const registryMap: Partial<Record<TransactionType, TransactionConstructor>> = {
 
 // ─── Registry API ────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- static-only namespace holder, not instantiable; converting to `namespace` would lose TS ESM interop.
 export class TransactionRegistry {
   static get(type: TransactionType): TransactionConstructor | undefined {
     return registryMap[type];

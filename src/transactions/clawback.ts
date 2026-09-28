@@ -19,8 +19,7 @@ export class Clawback extends TokenTransaction {
   override readonly TransactionType = 'Clawback' as const;
 
   /** The amount to claw back. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   static override readonly TRANSACTION_TYPE = 'Clawback' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'Amount'

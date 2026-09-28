@@ -31,11 +31,9 @@ export class NFTokenCreateOffer extends TokenTransaction {
   override readonly TransactionType = 'NFTokenCreateOffer' as const;
 
   /** The unique identifier of the NFToken. */
-  readonly NFTokenID: string = undefined as any;
-
+  declare readonly NFTokenID: string;
   /** The price for the token. */
-  readonly Amount: Amount = undefined as any;
-
+  declare readonly Amount: Amount;
   readonly Owner?: string | undefined = undefined;
   readonly Expiration?: number | undefined = undefined;
   readonly Destination?: string | undefined = undefined;

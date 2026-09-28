@@ -120,10 +120,8 @@ export abstract class Transaction {
   /** Network ID. */
   readonly NetworkID?: number | undefined;
 
-  /** Delegate account. */
-  readonly Delegate?: string | undefined;
-
   /**
+   * Subclasses MUST override these:
    * Subclasses MUST override these:
    * - `TRANSACTION_TYPE`: the literal type string this class handles ('Payment', 'AccountSet', ...).
    * - `ASSIGNABLE_FIELDS`: a readonly array of field names this class owns beyond the
@@ -166,15 +164,14 @@ export abstract class Transaction {
     this.TicketSequence = props.TicketSequence;
     this.TxnSignature = props.TxnSignature;
     this.NetworkID = props.NetworkID;
-    this.Delegate = props.Delegate;
   }
 
   /**
    * Apply leaf-declared fields from `props` onto `this`. A leaf that overrides
    * `ASSIGNABLE_FIELDS` with a non-empty array MUST call this at the end of its
    * constructor. Calling it before class field initializers run would silently
-   * no-op because the field initializers (`readonly Foo = undefined as any`)
-   * run between `super()` returning and the rest of the constructor body.
+   * no-op because the field declarations (`declare readonly Foo: T`) are not
+   * initialized until the runtime assignment happens here.
    *
    * Skips base-owned fields (Account, TransactionType, etc.) so a manifest
    * that accidentally includes one cannot overwrite a base value.

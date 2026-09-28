@@ -31,9 +31,8 @@ export interface VaultDepositTxFields extends BaseTransactionFields {
 export class VaultDeposit extends VaultTransaction {
   override readonly TransactionType = 'VaultDeposit' as const;
 
-  readonly VaultID: string = undefined as any;
-  readonly Amount: Amount | MPTAmount = undefined as any;
-
+  declare readonly VaultID: string;
+  declare readonly Amount: Amount | MPTAmount;
   static override readonly TRANSACTION_TYPE = 'VaultDeposit' as const;
   static override readonly ASSIGNABLE_FIELDS = ['Amount', 'VaultID'] as const;
 

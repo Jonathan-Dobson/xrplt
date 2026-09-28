@@ -95,6 +95,16 @@ console.log(tx1.Fee); // undefined (tx1 remains unchanged)
 
 **Latest release:** `v0.5.0` — 71 transaction types, **387 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
 
+## Development
+
+```bash
+npm run lint    # ESLint 9 flat config + typescript-eslint strict-recommended
+npm run build   # tsc → dist/
+npm run test    # vitest (transaction.test.ts)
+```
+
+`npm run lint` is wired into `prepublishOnly`, so `npm publish` will block if lint fails. There are 123 known `no-explicit-any` warnings in `src/transactions/*` (deliberate `field = undefined as any` placeholders); see [CHANGELOG.md](CHANGELOG.md) for the planned declare-sweep.
+
 ## Why use xrplt?
 
 Modern XRPL development often requires high-fidelity transaction construction without the overhead of a full ledger library. `xrplt` is ideal for:

@@ -31,11 +31,9 @@ export class OfferCreate extends OfferTransaction {
   override readonly TransactionType = 'OfferCreate' as const;
 
   /** The amount to deliver to the order book. */
-  readonly TakerGets: Amount = undefined as any;
-
+  declare readonly TakerGets: Amount;
   /** The amount requested in exchange. */
-  readonly TakerPays: Amount = undefined as any;
-
+  declare readonly TakerPays: Amount;
   readonly Expiration?: number | undefined = undefined;
   readonly OfferSequence?: number | undefined = undefined;
   readonly DomainID?: string | undefined = undefined;
@@ -57,8 +55,10 @@ export class OfferCreate extends OfferTransaction {
     if (!isAmount(this.TakerPays)) throw new ValidationError('OfferCreate: missing or invalid TakerPays');
     
     // Check tfHybrid validation
-    const flags = this.Flags as any;
-    const isHybrid = flags?.tfHybrid || flags === 0x00400000;
+    const flags = this.Flags;
+    const isHybrid = typeof flags === 'number'
+      ? flags === 0x00400000
+      : flags?.tfHybrid === true;
     if (isHybrid && !this.DomainID) {
       throw new ValidationError('OfferCreate: tfHybrid requires DomainID');
     }

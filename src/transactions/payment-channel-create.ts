@@ -28,17 +28,13 @@ export class PaymentChannelCreate extends Transaction {
   override readonly TransactionType = 'PaymentChannelCreate' as const;
 
   /** The amount of XRP (in drops) to deposit. */
-  readonly Amount: string = undefined as any;
-
+  declare readonly Amount: string;
   /** The address that can receive funds. */
-  readonly Destination: string = undefined as any;
-
+  declare readonly Destination: string;
   /** Number of seconds to wait before settlement. */
-  readonly SettleDelay: number = undefined as any;
-
+  declare readonly SettleDelay: number;
   /** The public key for signing claims. */
-  readonly PublicKey: string = undefined as any;
-
+  declare readonly PublicKey: string;
   readonly CancelAfter?: number | undefined = undefined;
   readonly DestinationTag?: number | undefined = undefined;
 

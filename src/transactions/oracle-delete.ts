@@ -15,8 +15,7 @@ export interface OracleDeleteTxFields extends BaseTransactionFields {
 export class OracleDelete extends Transaction {
   override readonly TransactionType = 'OracleDelete' as const;
 
-  readonly OracleDocumentID: number = undefined as any;
-
+  declare readonly OracleDocumentID: number;
   static override readonly TRANSACTION_TYPE = 'OracleDelete' as const;
   static override readonly ASSIGNABLE_FIELDS = [
     'OracleDocumentID'
