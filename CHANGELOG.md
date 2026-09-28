@@ -4,6 +4,25 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-09-28
+
+Patch release. Self-documents the live-testnet test budgets so the
+3 network-bound tests don't depend on a CLI flag for correctness.
+
+### Changed
+
+- **`tests/integration.testnet.test.ts`** — declared per-`it`
+  timeouts so the budget is visible at the test site rather than
+  only in `package.json`'s `--testTimeout=30000` flag:
+  - MPT lifecycle (`describe 1`): `20_000` ms — observed at ~10s.
+  - NFT sale (`describe 2`): `30_000` ms — observed at ~18s.
+  - Multisig DEX (`describe 3`): `60_000` ms — observed at ~30s.
+
+### Tests
+
+- 387 unit tests passing; 3 live-testnet tests passing (verified
+  manually against `wss://s.devnet.rippletest.net:51233`).
+
 ## [0.6.0] - 2026-09-28
 
 Minor release. No public-API changes from v0.5.0 — same 71

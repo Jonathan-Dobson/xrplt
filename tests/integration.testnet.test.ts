@@ -73,7 +73,7 @@ describe("xrplt Integration: Live Regression", () => {
   describe("1. Multi-Purpose Token (MPT) Lifecycle", () => {
     let mptIssuanceID: string;
 
-    it("creates an MPT issuance and authorizes a holder", async () => {
+    it("creates an MPT issuance and authorizes a holder", { timeout: 20_000 }, async () => {
       const createTx = new MPTokenIssuanceCreate({
         Account: dave.address,
         Flags: MPTokenIssuanceCreateFlags.tfMPTCanClawback,
@@ -106,7 +106,7 @@ describe("xrplt Integration: Live Regression", () => {
   describe("2. NFT Operations", () => {
     let nftokenID: string;
 
-    it("mints an NFT and completes a sale", async () => {
+    it("mints an NFT and completes a sale", { timeout: 30_000 }, async () => {
       const mintTx = new NFTokenMint({
         Account: dave.address,
         NFTokenTaxon: 123,
@@ -137,7 +137,7 @@ describe("xrplt Integration: Live Regression", () => {
   });
 
   describe("3. DEX & Multi-Signature", () => {
-    it("manages offers and performs a multi-signature payment", async () => {
+    it("manages offers and performs a multi-signature payment", { timeout: 60_000 }, async () => {
       const createTx = new OfferCreate({
         Account: dave.address,
         TakerGets: "1000000",
