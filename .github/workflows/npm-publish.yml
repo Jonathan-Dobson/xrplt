@@ -28,19 +28,19 @@ jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
-    environment: publish-environment
     permissions:
       # Required for npm provenance signing via OIDC.
       id-token: write
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 26
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish --provenance
         # No NPM_TOKEN env var — the OIDC id-token above is exchanged
-        # for a short-lived npm publish token by the setup-node action
-        # when registry-url is set.
+        # for a short-lived npm publish token by setup-node@v6 when
+        # registry-url is set. Trusted Publisher config on npmjs.org
+        # must allow this workflow (repo + filename).
