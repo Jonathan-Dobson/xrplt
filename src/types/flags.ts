@@ -286,6 +286,21 @@ export interface MPTokenImmutableFlagsInterface {
   tifMPTTransferFee?: boolean;
 }
 
+// ─── VaultCreate ─────────────────────────────────────────────────────
+// Flags for the VaultCreate transaction. Both flags can ONLY be set at
+// vault-creation time — they're immutable thereafter. Driven by the
+// `SingleAssetVault` amendment.
+
+export enum VaultCreateFlags {
+  tfVaultPrivate = 0x00010000,
+  tfVaultShareNonTransferable = 0x00020000,
+}
+
+export interface VaultCreateFlagsInterface extends GlobalFlagsInterface {
+  tfVaultPrivate?: boolean;
+  tfVaultShareNonTransferable?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {

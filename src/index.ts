@@ -32,6 +32,7 @@ export type {
   MPTokenAuthorizeFlagsInterface,
   MPTokenIssuanceCreateFlagsInterface, MPTokenIssuanceSetFlagsInterface,
   MPTokenImmutableFlagsInterface,
+  VaultCreateFlagsInterface,
   ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface, BatchFlagsInterface,
 } from './types/index.js';
@@ -45,6 +46,7 @@ export {
   MPTokenAuthorizeFlags,
   MPTokenIssuanceCreateFlags, MPTokenIssuanceSetFlags,
   MPTokenImmutableFlags,
+  VaultCreateFlags,
   ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
 } from './types/index.js';
