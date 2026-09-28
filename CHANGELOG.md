@@ -4,7 +4,13 @@ All notable changes to `xrplt` are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.7.1] - 2026-09-29
+
+Patch release. Adds direct per-class tests for the 8 v0.7.0
+transaction classes so the offline registry sweep is no longer
+the only validation. No public-surface changes; the version
+bump is the version bump the [Unreleased] entry already
+promised in v0.7.0.
 
 ### Added
 
@@ -23,10 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Tests
 
-- 435 unit + integration tests passing (was 397, +38 from the
-  new direct tests). All per-class validate() invariants are
-  now asserted in tests instead of just the offline registry
-  sweep.
+- 435 unit + integration tests passing (was 397 at v0.7.0, +38
+  from the new direct tests). All per-class validate()
+  invariants are now asserted in tests instead of just the
+  offline registry sweep.
 
 ## [0.7.0] - 2026-09-28
 
