@@ -125,17 +125,22 @@ describe('VaultCreate', () => {
   describe('Data and MPTokenMetadata validation', () => {
     it('rejects empty Data', () => {
       const tx = makeVault(IOU_ASSET, { Data: '' });
-      expect(() => tx.validate()).toThrow(/Data must be a non-empty hex string/);
+      expect(() => tx.validate()).toThrow(/Data must be a hex string/);
     });
 
     it('rejects non-hex Data', () => {
       const tx = makeVault(IOU_ASSET, { Data: 'NOTHEX' });
-      expect(() => tx.validate()).toThrow(/Data must be a non-empty hex string/);
+      expect(() => tx.validate()).toThrow(/Data must be a hex string/);
     });
 
     it('rejects Data > 256 bytes', () => {
       const tx = makeVault(IOU_ASSET, { Data: 'A'.repeat(514) }); // 257 bytes
-      expect(() => tx.validate()).toThrow(/Data length must be ≤ 256 bytes/);
+      expect(() => tx.validate()).toThrow(/Data exceeds 256 bytes \(actual: 257\)/);
+    });
+
+    it('rejects Data with odd hex length', () => {
+      const tx = makeVault(IOU_ASSET, { Data: 'ABC' }); // 3 chars = 1.5 bytes
+      expect(() => tx.validate()).toThrow(/Data must be a hex string with an even number of characters/);
     });
 
     it('accepts Data at the 256-byte cap', () => {
@@ -145,12 +150,12 @@ describe('VaultCreate', () => {
 
     it('rejects empty MPTokenMetadata', () => {
       const tx = makeVault(IOU_ASSET, { MPTokenMetadata: '' });
-      expect(() => tx.validate()).toThrow(/MPTokenMetadata must be a non-empty hex string/);
+      expect(() => tx.validate()).toThrow(/MPTokenMetadata must be a valid non-empty hex string/);
     });
 
     it('rejects MPTokenMetadata > 1024 bytes', () => {
       const tx = makeVault(IOU_ASSET, { MPTokenMetadata: 'A'.repeat(2050) }); // 1025 bytes
-      expect(() => tx.validate()).toThrow(/MPTokenMetadata length must be ≤ 1024 bytes/);
+      expect(() => tx.validate()).toThrow(/MPTokenMetadata exceeds 1024 bytes \(actual: 1025\)/);
     });
 
     it('accepts MPTokenMetadata at the 1024-byte cap', () => {
@@ -277,24 +282,26 @@ describe('VaultCreate', () => {
   // ─── Scale validation (asset-type-conditional) ───────────────────
 
   describe('Scale validation', () => {
-    it('accepts Scale=0 for XRP vaults', () => {
-      const tx = makeVault(XRP_ASSET, { Scale: 0 });
-      expect(() => tx.validate()).not.toThrow();
-    });
-
-    it('accepts Scale=0 for MPT vaults', () => {
-      const tx = makeVault(MPT_ASSET, { Scale: 0 });
-      expect(() => tx.validate()).not.toThrow();
-    });
-
-    it('rejects Scale > 0 for XRP vaults (fixed at 0)', () => {
+    it('rejects Scale for XRP vaults (must not be provided)', () => {
       const tx = makeVault(XRP_ASSET, { Scale: 1 });
-      expect(() => tx.validate()).toThrow(/Scale must be 0 for XRP vaults/);
+      expect(() => tx.validate()).toThrow(/Scale parameter must not be provided for XRP or MPT assets/);
     });
 
-    it('rejects Scale > 0 for MPT vaults (fixed at 0)', () => {
+    it('rejects Scale for MPT vaults (must not be provided)', () => {
       const tx = makeVault(MPT_ASSET, { Scale: 1 });
-      expect(() => tx.validate()).toThrow(/Scale must be 0 for MPT vaults/);
+      expect(() => tx.validate()).toThrow(/Scale parameter must not be provided for XRP or MPT assets/);
+    });
+
+    it('rejects Scale=0 for XRP vaults too (parameter must not be provided at all)', () => {
+      // The canonical impl rejects Scale on XRP/MPT even if value is 0 —
+      // the spec says Scale is "must not be provided" for these asset types.
+      const tx = makeVault(XRP_ASSET, { Scale: 0 });
+      expect(() => tx.validate()).toThrow(/Scale parameter must not be provided/);
+    });
+
+    it('rejects Scale=0 for MPT vaults too (parameter must not be provided at all)', () => {
+      const tx = makeVault(MPT_ASSET, { Scale: 0 });
+      expect(() => tx.validate()).toThrow(/Scale parameter must not be provided/);
     });
 
     it('accepts Scale 0–18 for trust line tokens', () => {
@@ -334,6 +341,24 @@ describe('VaultCreate', () => {
       const tx = makeVault(IOU_ASSET, {
         DomainID:
           'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+        Flags: VaultCreateFlags.tfVaultPrivate,
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('rejects DomainID when tfVaultPrivate flag is missing', () => {
+      const tx = makeVault(IOU_ASSET, {
+        DomainID:
+          'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+      });
+      expect(() => tx.validate()).toThrow(/Cannot set DomainID unless tfVaultPrivate flag is set/);
+    });
+
+    it('accepts DomainID when tfVaultPrivate flag is set', () => {
+      const tx = makeVault(IOU_ASSET, {
+        DomainID:
+          'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
+        Flags: VaultCreateFlags.tfVaultPrivate,
       });
       expect(() => tx.validate()).not.toThrow();
     });

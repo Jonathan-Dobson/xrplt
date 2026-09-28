@@ -49,6 +49,8 @@ export {
   MPTokenIssuanceSetFlags,
   MPTokenImmutableFlags,
   VaultCreateFlags,
+  VaultWithdrawalPolicy,
+  VaultKind,
   ClawbackFlags,
   XChainModifyBridgeFlags,
   BatchFlags,

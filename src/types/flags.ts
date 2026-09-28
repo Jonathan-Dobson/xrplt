@@ -301,6 +301,23 @@ export interface VaultCreateFlagsInterface extends GlobalFlagsInterface {
   tfVaultShareNonTransferable?: boolean;
 }
 
+// ─── Vault enums ──────────────────────────────────────────────────────
+// Driven by the `SingleAssetVault` + `LendingProtocolV1_1` amendments.
+// Numeric values are mirrored from the upstream xrpl.js reference impl.
+
+/** Withdrawal strategies for a Vault. Currently only FCFS is supported. */
+export enum VaultWithdrawalPolicy {
+  vaultStrategyFirstComeFirstServe = 0x0001,
+}
+
+/** Vault lifecycle kind (LendingProtocolV1_1). */
+export enum VaultKind {
+  /** Open-ended: shares can be redeemed at any time. */
+  vaultKindOpen = 0,
+  /** Closed-ended: lifecycle bounded by SubscriptionDate/RedemptionDate. */
+  vaultKindClosed = 1,
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {

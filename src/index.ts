@@ -47,6 +47,7 @@ export {
   MPTokenIssuanceCreateFlags, MPTokenIssuanceSetFlags,
   MPTokenImmutableFlags,
   VaultCreateFlags,
+  VaultWithdrawalPolicy, VaultKind,
   ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
 } from './types/index.js';

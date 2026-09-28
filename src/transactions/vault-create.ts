@@ -167,36 +167,37 @@ export class VaultCreate extends VaultTransaction {
       );
     }
 
-    // ── Data ── hex, length in (0, 256] bytes.
+    // ── Data ── hex, even length, ≤ 256 bytes (canonical spec rule).
     if (this.Data !== undefined) {
-      if (!isString(this.Data) || !isHex(this.Data) || this.Data.length === 0) {
+      if (!isString(this.Data) || !isHex(this.Data)) {
         throw new ValidationError(
-          'VaultCreate: Data must be a non-empty hex string',
+          'VaultCreate: Data must be a hex string',
+        );
+      }
+      if (this.Data.length % 2 !== 0) {
+        throw new ValidationError(
+          'VaultCreate: Data must be a hex string with an even number of characters',
         );
       }
       const bytes = this.Data.length / 2;
       if (bytes > MAX_DATA_BYTES) {
         throw new ValidationError(
-          `VaultCreate: Data length must be ≤ ${MAX_DATA_BYTES} bytes`,
+          `VaultCreate: Data exceeds ${MAX_DATA_BYTES} bytes (actual: ${bytes})`,
         );
       }
     }
 
-    // ── MPTokenMetadata ── hex, length in (0, 1024] bytes.
+    // ── MPTokenMetadata ── hex, non-empty, ≤ 1024 bytes.
     if (this.MPTokenMetadata !== undefined) {
-      if (
-        !isString(this.MPTokenMetadata) ||
-        !isHex(this.MPTokenMetadata) ||
-        this.MPTokenMetadata.length === 0
-      ) {
+      if (!isString(this.MPTokenMetadata) || !isHex(this.MPTokenMetadata)) {
         throw new ValidationError(
-          'VaultCreate: MPTokenMetadata must be a non-empty hex string',
+          'VaultCreate: MPTokenMetadata must be a valid non-empty hex string',
         );
       }
       const bytes = this.MPTokenMetadata.length / 2;
       if (bytes > MAX_METADATA_BYTES) {
         throw new ValidationError(
-          `VaultCreate: MPTokenMetadata length must be ≤ ${MAX_METADATA_BYTES} bytes`,
+          `VaultCreate: MPTokenMetadata exceeds ${MAX_METADATA_BYTES} bytes (actual: ${bytes})`,
         );
       }
     }
@@ -250,22 +251,17 @@ export class VaultCreate extends VaultTransaction {
           `VaultCreate: Scale must be an integer in [${MIN_SCALE}, ${MAX_SCALE}]`,
         );
       }
-      // XRP and MPT assets have fixed Scale=0. Trust line tokens can be
-      // configured up to 18.
+      // XRP and MPT assets have fixed Scale=0 (not configurable). Trust line
+      // tokens can be configured up to 18.
       if ('currency' in this.Asset && this.Asset.currency === 'XRP') {
-        if (this.Scale !== 0) {
-          throw new ValidationError(
-            'VaultCreate: Scale must be 0 for XRP vaults (fixed by amendment)',
-          );
-        }
+        throw new ValidationError(
+          'VaultCreate: Scale parameter must not be provided for XRP or MPT assets',
+        );
       } else if ('mpt_issuance_id' in this.Asset) {
-        if (this.Scale !== 0) {
-          throw new ValidationError(
-            'VaultCreate: Scale must be 0 for MPT vaults (fixed by amendment)',
-          );
-        }
+        throw new ValidationError(
+          'VaultCreate: Scale parameter must not be provided for XRP or MPT assets',
+        );
       }
-      // For trust line tokens ({currency, issuer}), Scale can be 0–18.
     }
 
     // ── Closed-ended vault date invariants ──
@@ -317,11 +313,22 @@ export class VaultCreate extends VaultTransaction {
       }
     }
 
-    // ── DomainID ── 64-char hex.
-    if (this.DomainID !== undefined && !isDomainID(this.DomainID)) {
-      throw new ValidationError(
-        'VaultCreate: DomainID must be a 64-character hex string',
-      );
+    // ── DomainID ── 64-char hex AND requires tfVaultPrivate flag.
+    if (this.DomainID !== undefined) {
+      if (!isDomainID(this.DomainID)) {
+        throw new ValidationError(
+          'VaultCreate: DomainID must be a 64-character hex string',
+        );
+      }
+      const flags = (this as unknown as Record<string, unknown>).Flags as
+        | number
+        | undefined;
+      const tfVaultPrivate = 0x00010000;
+      if (!flags || (flags & tfVaultPrivate) !== tfVaultPrivate) {
+        throw new ValidationError(
+          'VaultCreate: Cannot set DomainID unless tfVaultPrivate flag is set',
+        );
+      }
     }
   }
 }
