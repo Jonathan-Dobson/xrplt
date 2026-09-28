@@ -17,6 +17,10 @@ import { describe, it, expect } from 'vitest';
 import {
   LoanSet,
   LoanSetFlags,
+  LoanBrokerSet,
+  LoanBrokerDelete,
+  LoanPay,
+  LoanPayFlags,
   ValidationError,
 } from '../src/index.js';
 
@@ -297,6 +301,254 @@ describe('LoanSet', () => {
       if (flags !== undefined) {
         expect(flags & LoanSetFlags.tfLoanOverpayment).toBe(0);
       }
+    });
+  });
+});
+// ───────────────────────────────────────────────────────────────────────
+// LoanBrokerSet
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanBrokerSet', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890';
+  const LOAN_BROKER_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeBrokerSet(
+    extras: Record<string, unknown> = {},
+    vaultId = VAULT_ID,
+  ) {
+    return new LoanBrokerSet({
+      Account: OWNER,
+      VaultID: vaultId,
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID only (create mode)', () => {
+      const tx = new LoanBrokerSet({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+      });
+      expect(tx.TransactionType).toBe('LoanBrokerSet');
+      expect(tx.VaultID).toBe(VAULT_ID);
+    });
+
+    it('accepts all 7 spec fields (update mode with LoanBrokerID)', () => {
+      const tx = new LoanBrokerSet({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        LoanBrokerID: LOAN_BROKER_ID,
+        Data: '546869732069732061726269747261727920646174612061626F757420746865206C6F616E2E',
+        ManagementFeeRate: 5000,
+        DebtMaximum: '1000000000',
+        CoverRateMinimum: 10000,
+        CoverRateLiquidation: 5000,
+      });
+      expect(tx.LoanBrokerID).toBe(LOAN_BROKER_ID);
+      expect(tx.ManagementFeeRate).toBe(5000);
+    });
+  });
+
+  describe('VaultID validation', () => {
+    it('rejects bad VaultID', () => {
+      const tx = makeBrokerSet({}, 'NOTHEX');
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('rejects missing VaultID', () => {
+      const tx = makeBrokerSet();
+      (tx as unknown as Record<string, unknown>).VaultID = undefined;
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+  });
+
+  describe('LoanBrokerID validation (update mode)', () => {
+    it('rejects bad LoanBrokerID', () => {
+      const tx = makeBrokerSet({ LoanBrokerID: 'bad' });
+      expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+    });
+
+    it('accepts valid LoanBrokerID', () => {
+      const tx = makeBrokerSet({ LoanBrokerID: LOAN_BROKER_ID });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('Data validation', () => {
+    it('rejects Data > 512 chars', () => {
+      const tx = makeBrokerSet({ Data: 'A'.repeat(514) });
+      expect(() => tx.validate()).toThrow(/Data must be 1 to 512 hex characters/);
+    });
+  });
+
+  describe('ManagementFeeRate validation', () => {
+    it('rejects ManagementFeeRate > 10000', () => {
+      const tx = makeBrokerSet({ ManagementFeeRate: 10001 });
+      expect(() => tx.validate()).toThrow(/ManagementFeeRate must be between 0 and 10000/);
+    });
+
+    it('accepts ManagementFeeRate = 10000 (cap)', () => {
+      const tx = makeBrokerSet({ ManagementFeeRate: 10000 });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('DebtMaximum validation', () => {
+    it('rejects negative DebtMaximum', () => {
+      const tx = makeBrokerSet({ DebtMaximum: '-1' });
+      expect(() => tx.validate()).toThrow(/DebtMaximum must be a non-negative base-10 integer string/);
+    });
+  });
+
+  describe('Cover rate coupling rule', () => {
+    it('rejects CoverRateMinimum set but CoverRateLiquidation = 0', () => {
+      const tx = makeBrokerSet({
+        CoverRateMinimum: 10000,
+        CoverRateLiquidation: 0,
+      });
+      expect(() => tx.validate()).toThrow(/CoverRateMinimum and CoverRateLiquidation must both be zero or both be non-zero/);
+    });
+
+    it('rejects CoverRateLiquidation set but CoverRateMinimum = 0', () => {
+      const tx = makeBrokerSet({
+        CoverRateMinimum: 0,
+        CoverRateLiquidation: 5000,
+      });
+      expect(() => tx.validate()).toThrow(/CoverRateMinimum and CoverRateLiquidation must both be zero or both be non-zero/);
+    });
+
+    it('accepts both CoverRate values set', () => {
+      const tx = makeBrokerSet({
+        CoverRateMinimum: 10000,
+        CoverRateLiquidation: 5000,
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts both CoverRate values = 0', () => {
+      const tx = makeBrokerSet({
+        CoverRateMinimum: 0,
+        CoverRateLiquidation: 0,
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts neither CoverRate value set (default 0/0)', () => {
+      const tx = makeBrokerSet();
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanBrokerDelete
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanBrokerDelete', () => {
+  const LOAN_BROKER_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makeBrokerDelete(loanBrokerId = LOAN_BROKER_ID) {
+    return new LoanBrokerDelete({
+      Account: OWNER,
+      LoanBrokerID: loanBrokerId,
+    });
+  }
+
+  it('constructs with required LoanBrokerID', () => {
+    const tx = makeBrokerDelete();
+    expect(tx.TransactionType).toBe('LoanBrokerDelete');
+    expect(tx.LoanBrokerID).toBe(LOAN_BROKER_ID);
+  });
+
+  it('rejects bad LoanBrokerID', () => {
+    const tx = makeBrokerDelete('bad');
+    expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+  });
+
+  it('rejects missing LoanBrokerID', () => {
+    const tx = makeBrokerDelete();
+    (tx as unknown as Record<string, unknown>).LoanBrokerID = undefined;
+    expect(() => tx.validate()).toThrow(/LoanBrokerID must be a 64-character hex string/);
+  });
+
+  it('accepts valid LoanBrokerID', () => {
+    const tx = makeBrokerDelete();
+    expect(() => tx.validate()).not.toThrow();
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// LoanPay
+// ───────────────────────────────────────────────────────────────────────
+
+describe('LoanPay', () => {
+  const LOAN_ID =
+    'A1B1C3D4E5F60718293A4B5C6D7E8F900112233445566778899AABBCCDDEEFF0';
+  const BORROWER = 'rN7n7otQDd6FczRgLdSQEuzEUpToJSjkz4';
+
+  function makeLoanPay(
+    amount: Record<string, unknown> | string = '5000',
+    loanId = LOAN_ID,
+    flags?: number,
+  ) {
+    return new LoanPay({
+      Account: BORROWER,
+      LoanID: loanId,
+      Amount: amount,
+      ...(flags !== undefined ? { Flags: flags } : {}),
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required LoanID + Amount', () => {
+      const tx = makeLoanPay();
+      expect(tx.TransactionType).toBe('LoanPay');
+      expect(tx.LoanID).toBe(LOAN_ID);
+    });
+  });
+
+  describe('LoanID + Amount validation', () => {
+    it('rejects bad LoanID', () => {
+      const tx = makeLoanPay('5000', 'NOTHEX');
+      expect(() => tx.validate()).toThrow(/LoanID must be a 64-character hex string/);
+    });
+
+    it('rejects missing Amount', () => {
+      const tx = makeLoanPay();
+      (tx as unknown as Record<string, unknown>).Amount = undefined;
+      expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);
+    });
+  });
+
+  describe('payment-type flag exclusivity', () => {
+    it('accepts a single flag', () => {
+      const tx = makeLoanPay('5000', LOAN_ID, 0x00010000); // tfLoanOverpayment
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('rejects tfLoanOverpayment + tfLoanFullPayment', () => {
+      const tx = makeLoanPay('5000', LOAN_ID, 0x00010000 | 0x00020000);
+      expect(() => tx.validate()).toThrow(/Only one of tfLoanLatePayment, tfLoanFullPayment, or tfLoanOverpayment flags can be set/);
+    });
+
+    it('rejects tfLoanFullPayment + tfLoanLatePayment', () => {
+      const tx = makeLoanPay('5000', LOAN_ID, 0x00020000 | 0x00040000);
+      expect(() => tx.validate()).toThrow(/Only one of tfLoanLatePayment, tfLoanFullPayment, or tfLoanOverpayment flags can be set/);
+    });
+
+    it('rejects all 3 payment flags', () => {
+      const tx = makeLoanPay('5000', LOAN_ID, 0x00010000 | 0x00020000 | 0x00040000);
+      expect(() => tx.validate()).toThrow(/Only one of tfLoanLatePayment, tfLoanFullPayment, or tfLoanOverpayment flags can be set/);
+    });
+
+    it('accepts Flags = 0 (no payment type set)', () => {
+      const tx = makeLoanPay('5000', LOAN_ID, 0);
+      expect(() => tx.validate()).not.toThrow();
     });
   });
 });

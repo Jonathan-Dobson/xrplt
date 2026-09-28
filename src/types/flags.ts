@@ -330,6 +330,22 @@ export interface LoanSetFlagsInterface extends GlobalFlagsInterface {
   tfLoanOverpayment?: boolean;
 }
 
+// ─── LoanPay ──────────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. Three mutually-exclusive
+// payment-type flags: at most one can be set per transaction.
+
+export enum LoanPayFlags {
+  tfLoanOverpayment = 0x00010000,
+  tfLoanFullPayment = 0x00020000,
+  tfLoanLatePayment = 0x00040000,
+}
+
+export interface LoanPayFlagsInterface extends GlobalFlagsInterface {
+  tfLoanOverpayment?: boolean;
+  tfLoanFullPayment?: boolean;
+  tfLoanLatePayment?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {
