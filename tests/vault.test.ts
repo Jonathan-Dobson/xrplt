@@ -18,6 +18,10 @@ import {
   VaultCreate,
   VaultCreateFlags,
   VaultSet,
+  VaultDeposit,
+  VaultWithdraw,
+  VaultDelete,
+  VaultClawback,
   ValidationError,
 } from '../src/index.js';
 
@@ -547,6 +551,329 @@ describe('VaultSet', () => {
         DomainID:
           'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849',
       });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// VaultDeposit
+// ───────────────────────────────────────────────────────────────────────
+
+describe('VaultDeposit', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890';
+  const OWNER = 'rNGHoQwNG753zyfDrib4qDvvswtmV8Es';
+
+  function makeDeposit(
+    amount: Record<string, unknown> | string = '1000000',
+    vaultId = VAULT_ID,
+  ) {
+    return new VaultDeposit({
+      Account: OWNER,
+      VaultID: vaultId,
+      Amount: amount,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID + Amount (XRP)', () => {
+      const tx = new VaultDeposit({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Amount: '1000000',
+      });
+      expect(tx.TransactionType).toBe('VaultDeposit');
+      expect(tx.VaultID).toBe(VAULT_ID);
+      expect(tx.Amount).toBe('1000000');
+    });
+
+    it('accepts trust-line Amount', () => {
+      const tx = new VaultDeposit({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Amount: { currency: 'USD', issuer: 'rXJSJiZMxaLuH3kQBUV5DLipnYtrE6iVb', value: '100' },
+      });
+      expect(tx.Amount).toEqual({ currency: 'USD', issuer: 'rXJSJiZMxaLuH3kQBUV5DLipnYtrE6iVb', value: '100' });
+    });
+
+    it('accepts MPT Amount', () => {
+      const tx = new VaultDeposit({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Amount: { mpt_issuance_id: '00000001', value: '50' },
+      });
+      expect(tx.Amount).toEqual({ mpt_issuance_id: '00000001', value: '50' });
+    });
+  });
+
+  describe('VaultID validation', () => {
+    it('rejects bad VaultID', () => {
+      const tx = makeDeposit('1000000', 'NOTHEX');
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+  });
+
+  describe('Amount validation', () => {
+    it('rejects missing Amount', () => {
+      const tx = new VaultDeposit({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+      });
+      expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);
+    });
+
+    it('rejects invalid Amount shape', () => {
+      const tx = new VaultDeposit({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Amount: 42,
+      });
+      expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// VaultWithdraw
+// ───────────────────────────────────────────────────────────────────────
+
+describe('VaultWithdraw', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890';
+  const OWNER = 'rNGHoQwNG753zyfDrib4qDvvswtmV8Es';
+  const DEST = 'rN7n7otQDd6FczRgLdSQEuzEUpToJSjkz4';
+
+  function makeWithdraw(extras: Record<string, unknown> = {}) {
+    return new VaultWithdraw({
+      Account: OWNER,
+      VaultID: VAULT_ID,
+      Amount: '1000000',
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID + Amount', () => {
+      const tx = makeWithdraw();
+      expect(tx.TransactionType).toBe('VaultWithdraw');
+    });
+
+    it('accepts all 5 spec fields', () => {
+      const tx = new VaultWithdraw({
+        Account: OWNER,
+        VaultID: VAULT_ID,
+        Amount: '500000',
+        Destination: DEST,
+        DestinationTag: 42,
+        CredentialIDs: [
+          'A'.repeat(64),
+          'B'.repeat(64),
+        ],
+      });
+      expect(tx.Destination).toBe(DEST);
+      expect(tx.DestinationTag).toBe(42);
+      expect(tx.CredentialIDs?.length).toBe(2);
+    });
+  });
+
+  describe('VaultID + Amount validation', () => {
+    it('rejects bad VaultID', () => {
+      const tx = makeWithdraw();
+      (tx as unknown as Record<string, unknown>).VaultID = 'bad';
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+
+    it('rejects missing Amount', () => {
+      const tx = makeWithdraw();
+      (tx as unknown as Record<string, unknown>).Amount = undefined;
+      expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);
+    });
+  });
+
+  describe('Destination validation', () => {
+    it('rejects bad Destination address', () => {
+      const tx = makeWithdraw({ Destination: 'NOTADDRESS' });
+      expect(() => tx.validate()).toThrow(/Destination must be a valid XRPL account address/);
+    });
+
+    it('accepts valid Destination', () => {
+      const tx = makeWithdraw({ Destination: DEST });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+
+  describe('DestinationTag validation', () => {
+    it('rejects non-number DestinationTag', () => {
+      const tx = makeWithdraw({ DestinationTag: '123' });
+      expect(() => tx.validate()).toThrow(/DestinationTag must be a number/);
+    });
+  });
+
+  describe('CredentialIDs validation', () => {
+    it('rejects non-array CredentialIDs', () => {
+      const tx = makeWithdraw({ CredentialIDs: 'A'.repeat(64) });
+      expect(() => tx.validate()).toThrow(/CredentialIDs must be an array/);
+    });
+
+    it('rejects wrong-length credential', () => {
+      const tx = makeWithdraw({ CredentialIDs: ['A'.repeat(63)] });
+      expect(() => tx.validate()).toThrow(/CredentialIDs\[0\] must be a 64-character hex string/);
+    });
+
+    it('rejects non-hex credential', () => {
+      const tx = makeWithdraw({ CredentialIDs: ['Z'.repeat(64)] });
+      expect(() => tx.validate()).toThrow(/CredentialIDs\[0\] must be a 64-character hex string/);
+    });
+
+    it('accepts array of valid 64-char hex credentials', () => {
+      const tx = makeWithdraw({
+        CredentialIDs: ['A'.repeat(64), 'B'.repeat(64)],
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// VaultDelete
+// ───────────────────────────────────────────────────────────────────────
+
+describe('VaultDelete', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890';
+  const OWNER = 'rNGHoQwNG753zyfDrib4qDvvswtmV8Es';
+
+  function makeDelete(extras: Record<string, unknown> = {}) {
+    return new VaultDelete({
+      Account: OWNER,
+      VaultID: VAULT_ID,
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID only', () => {
+      const tx = makeDelete();
+      expect(tx.TransactionType).toBe('VaultDelete');
+      expect(tx.VaultID).toBe(VAULT_ID);
+    });
+
+    it('accepts optional MemoData', () => {
+      const tx = makeDelete({ MemoData: '5661756C74206D65746164617461' });
+      expect(tx.MemoData).toBe('5661756C74206D65746164617461');
+    });
+  });
+
+  describe('VaultID validation', () => {
+    it('rejects bad VaultID', () => {
+      const tx = makeDelete();
+      (tx as unknown as Record<string, unknown>).VaultID = 'bad';
+      expect(() => tx.validate()).toThrow(/VaultID must be a 64-character hex string/);
+    });
+  });
+
+  describe('MemoData validation', () => {
+    it('rejects non-hex MemoData', () => {
+      const tx = makeDelete({ MemoData: 'NOTHEX' });
+      expect(() => tx.validate()).toThrow(/MemoData must be a hex string/);
+    });
+
+    it('rejects odd-length MemoData', () => {
+      const tx = makeDelete({ MemoData: 'ABC' });
+      expect(() => tx.validate()).toThrow(/MemoData must be a hex string with an even number of characters/);
+    });
+
+    it('rejects MemoData > 256 bytes', () => {
+      const tx = makeDelete({ MemoData: 'A'.repeat(514) });
+      expect(() => tx.validate()).toThrow(/MemoData exceeds 256 bytes \(actual: 257\)/);
+    });
+
+    it('accepts MemoData at the 256-byte cap', () => {
+      const tx = makeDelete({ MemoData: 'A'.repeat(512) });
+      expect(() => tx.validate()).not.toThrow();
+    });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// VaultClawback
+// ───────────────────────────────────────────────────────────────────────
+
+describe('VaultClawback', () => {
+  const VAULT_ID =
+    'ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890';
+  const ISSUER = 'rXJSJiZMxaLuH3kQBUV5DLipnYtrE6iVb';
+  const HOLDER = 'rN7n7otQDd6FczRgLdSQEuzEUpToJSjkz4';
+
+  function makeClawback(extras: Record<string, unknown> = {}) {
+    return new VaultClawback({
+      Account: ISSUER,
+      VaultID: VAULT_ID,
+      Holder: HOLDER,
+      ...extras,
+    });
+  }
+
+  describe('construction', () => {
+    it('constructs with required VaultID + Holder', () => {
+      const tx = makeClawback();
+      expect(tx.TransactionType).toBe('VaultClawback');
+      expect(tx.Holder).toBe(HOLDER);
+    });
+
+    it('accepts optional Amount (claws back partial)', () => {
+      const tx = new VaultClawback({
+        Account: ISSUER,
+        VaultID: VAULT_ID,
+        Holder: HOLDER,
+        Amount: { currency: 'USD', issuer: ISSUER, value: '50' },
+      });
+      expect(tx.Amount).toEqual({ currency: 'USD', issuer: ISSUER, value: '50' });
+    });
+  });
+
+  describe('Holder validation', () => {
+    it('rejects bad Holder address', () => {
+      const tx = makeClawback();
+      (tx as unknown as Record<string, unknown>).Holder = 'NOTADDRESS';
+      expect(() => tx.validate()).toThrow(/Holder must be a valid XRPL account address/);
+    });
+
+    it('rejects missing Holder', () => {
+      const tx = makeClawback();
+      (tx as unknown as Record<string, unknown>).Holder = undefined;
+      expect(() => tx.validate()).toThrow(/Holder must be a valid XRPL account address/);
+    });
+  });
+
+  describe('Amount validation', () => {
+    it('rejects XRP Amount (not allowed for clawback)', () => {
+      const tx = makeClawback({ Amount: '1000000' });
+      expect(() => tx.validate()).toThrow(/Amount must be a valid ClawbackAmount/);
+    });
+
+    it('rejects invalid Amount shape', () => {
+      const tx = makeClawback({ Amount: 42 });
+      expect(() => tx.validate()).toThrow(/Amount must be a valid ClawbackAmount/);
+    });
+
+    it('accepts trust-line ClawbackAmount', () => {
+      const tx = makeClawback({
+        Amount: { currency: 'USD', issuer: ISSUER, value: '50' },
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts MPT ClawbackAmount', () => {
+      const tx = makeClawback({
+        Amount: { mpt_issuance_id: '00000001', value: '50' },
+      });
+      expect(() => tx.validate()).not.toThrow();
+    });
+
+    it('accepts omitted Amount (claws back all)', () => {
+      const tx = makeClawback();
       expect(() => tx.validate()).not.toThrow();
     });
   });
