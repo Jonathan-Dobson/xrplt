@@ -22,6 +22,7 @@ export type {
   AuthAccount,
   XChainClaimAttestation,
   XChainAccountCreateAttestation,
+  CounterpartySignature,
 } from './common.js';
 
 export type {
@@ -51,6 +52,7 @@ export {
   VaultCreateFlags,
   VaultWithdrawalPolicy,
   VaultKind,
+  LoanSetFlags,
   ClawbackFlags,
   XChainModifyBridgeFlags,
   BatchFlags,
@@ -72,6 +74,7 @@ export type {
   MPTokenIssuanceSetFlagsInterface,
   MPTokenImmutableFlagsInterface,
   VaultCreateFlagsInterface,
+  LoanSetFlagsInterface,
   ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface,
   BatchFlagsInterface,

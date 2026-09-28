@@ -318,6 +318,18 @@ export enum VaultKind {
   vaultKindClosed = 1,
 }
 
+// ─── LoanSet ──────────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. The lone flag indicates
+// support for overpayments on the resulting loan.
+
+export enum LoanSetFlags {
+  tfLoanOverpayment = 0x00010000,
+}
+
+export interface LoanSetFlagsInterface extends GlobalFlagsInterface {
+  tfLoanOverpayment?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {
