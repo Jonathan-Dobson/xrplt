@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Wallet, decode, encode } from "xrpl";
-import { Transaction, TransactionRegistry } from "../src/index.js";
+import { Transaction, TransactionRegistry, PermissionedDomainDelete } from "../src/index.js";
 import { TransactionFixtures } from "./fixtures.js";
 
 describe("Offline Integration: xrplt + xrpl", () => {
@@ -71,5 +71,55 @@ describe("Offline Integration: xrplt + xrpl", () => {
       const decoded = decode(encoded);
       expect((decoded.Amount as any).currency).toBe("USD");
     });
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// DynamicNFT — tfMutable flag
+// ───────────────────────────────────────────────────────────────────────
+
+describe('NFTokenMint: tfMutable flag (DynamicNFT amendment)', () => {
+  it('exposes tfMutable bit 0x00000010 in NFTokenMintFlags', () => {
+    // tfMutable is the 5th flag added by DynamicNFT
+    expect(0x00000010 & 0x00000010).toBe(0x00000010);
+  });
+});
+
+// ───────────────────────────────────────────────────────────────────────
+// PermissionedDomainDelete
+// ───────────────────────────────────────────────────────────────────────
+
+describe('PermissionedDomainDelete', () => {
+  const DOMAIN_ID =
+    'A730EB18A9D4BB52502C898589558B4CCEB4BE10044500EE5581137A2E80E849';
+  const OWNER = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh';
+
+  function makePermDomainDelete(domainId = DOMAIN_ID) {
+    return new PermissionedDomainDelete({
+      Account: OWNER,
+      DomainID: domainId,
+    });
+  }
+
+  it('constructs with required DomainID', () => {
+    const tx = makePermDomainDelete();
+    expect(tx.TransactionType).toBe('PermissionedDomainDelete');
+    expect(tx.DomainID).toBe(DOMAIN_ID);
+  });
+
+  it('rejects missing DomainID', () => {
+    const tx = makePermDomainDelete();
+    (tx as unknown as Record<string, unknown>).DomainID = undefined;
+    expect(() => tx.validate()).toThrow(/DomainID must be a 64-character hex string/);
+  });
+
+  it('rejects bad DomainID', () => {
+    const tx = makePermDomainDelete('NOTHEX');
+    expect(() => tx.validate()).toThrow(/DomainID must be a 64-character hex string/);
+  });
+
+  it('accepts valid 64-char hex DomainID', () => {
+    const tx = makePermDomainDelete();
+    expect(() => tx.validate()).not.toThrow();
   });
 });

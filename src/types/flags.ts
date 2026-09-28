@@ -116,6 +116,11 @@ export enum NFTokenMintFlags {
   tfOnlyXRP = 0x00000002,
   tfTrustLine = 0x00000004,
   tfTransferable = 0x00000008,
+  /**
+   * If set, indicates that this NFT's URI can be modified via a future
+   * `NFTokenModify` transaction. Driven by the `DynamicNFT` amendment.
+   */
+  tfMutable = 0x00000010,
 }
 
 export interface NFTokenMintFlagsInterface extends GlobalFlagsInterface {
@@ -123,6 +128,7 @@ export interface NFTokenMintFlagsInterface extends GlobalFlagsInterface {
   tfOnlyXRP?: boolean;
   tfTrustLine?: boolean;
   tfTransferable?: boolean;
+  tfMutable?: boolean;
 }
 
 // ─── NFTokenCreateOffer ──────────────────────────────────────────────
