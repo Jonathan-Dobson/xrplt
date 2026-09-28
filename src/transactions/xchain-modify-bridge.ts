@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord } from '../validation/helpers.js';
 
 export interface XChainModifyBridgeTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainModifyBridge';
+  readonly TransactionType?: 'XChainModifyBridge';
   /** Definition of the bridge to modify. */
   readonly XChainBridge: Record<string, unknown>;
   /** New minimum account creation amount. */

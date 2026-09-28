@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isArray } from '../validation/helpers.js';
 
 export interface BatchTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'Batch';
+  readonly TransactionType?: 'Batch';
   /** Array of transactions to execute. */
   readonly Transactions: any[];
 }

@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber, isString, isAccount } from '../validation/helpers.js';
 
 export interface NFTokenMintTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenMint';
+  readonly TransactionType?: 'NFTokenMint';
   /** The taxon associated with this NFToken. */
   readonly NFTokenTaxon: number;
   /** The address of the entity that created the token (if not the sender). */

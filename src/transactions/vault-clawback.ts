@@ -28,7 +28,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isClawbackAmount, isHex, isString } from '../validation/helpers.js';
 
 export interface VaultClawbackTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultClawback';
+  readonly TransactionType?: 'VaultClawback';
   /** The ID of the vault to clawback from. 64-char hex. */
   readonly VaultID: string;
   /** The account from which to clawback assets. */

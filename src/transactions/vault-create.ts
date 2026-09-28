@@ -68,7 +68,7 @@ const MIN_CLOSED_ENDED_GAP_SECONDS = 180;
 const MAX_CLOSED_ENDED_GAP_SECONDS = 946708560; // 30 years
 
 export interface VaultCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultCreate';
+  readonly TransactionType?: 'VaultCreate';
   /** The asset held in the vault: XRP, a trust line token, or an MPT. */
   readonly Asset: Currency;
   /** Optional cap on total assets the vault can hold (base-10 number string). */

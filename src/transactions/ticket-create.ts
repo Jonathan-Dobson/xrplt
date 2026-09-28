@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber } from '../validation/helpers.js';
 
 export interface TicketCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'TicketCreate';
+  readonly TransactionType?: 'TicketCreate';
   /** How many tickets to create (1-250). */
   readonly TicketCount: number;
 }

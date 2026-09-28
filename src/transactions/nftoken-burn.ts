@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
 export interface NFTokenBurnTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenBurn';
+  readonly TransactionType?: 'NFTokenBurn';
   /** The unique identifier of the NFToken to burn. */
   readonly NFTokenID: string;
   /** The account that currently owns the token (if not the sender). */

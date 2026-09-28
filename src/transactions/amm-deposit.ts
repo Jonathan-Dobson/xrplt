@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord } from '../validation/helpers.js';
 
 export interface AMMDepositTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMDeposit';
+  readonly TransactionType?: 'AMMDeposit';
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
   readonly Amount?: Amount | undefined;

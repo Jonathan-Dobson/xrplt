@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount } from '../validation/helpers.js';
 
 export interface DepositPreauthTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'DepositPreauth';
+  readonly TransactionType?: 'DepositPreauth';
   /** Account to authorize. */
   readonly Authorize?: string | undefined;
   /** Account to unauthorize. */

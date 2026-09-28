@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isString } from '../validation/helpers.js';
 
 export interface CredentialDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'CredentialDelete';
+  readonly TransactionType?: 'CredentialDelete';
   /** The subject of the credential. */
   readonly Subject: string;
   /** The issuer of the credential. */

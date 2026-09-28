@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isNumber } from '../validation/helpers.js';
 
 export interface EscrowCancelTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'EscrowCancel';
+  readonly TransactionType?: 'EscrowCancel';
   /** The address that created the escrow. */
   readonly Owner: string;
   /** The sequence number of the EscrowCreate transaction. */

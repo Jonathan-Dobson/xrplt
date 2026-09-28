@@ -35,7 +35,7 @@ import {
 const MAX_DATA_BYTES = 256;
 
 export interface VaultSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultSet';
+  readonly TransactionType?: 'VaultSet';
   /** The ID of the vault to modify. 64-char hex (ledger entry ID). */
   readonly VaultID: string;
   /** Arbitrary vault metadata, hex-encoded, 0 < length ≤ 256 bytes. */

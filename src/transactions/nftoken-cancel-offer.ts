@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isArray } from '../validation/helpers.js';
 
 export interface NFTokenCancelOfferTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenCancelOffer';
+  readonly TransactionType?: 'NFTokenCancelOffer';
   /** Array of NFToken Offer IDs to cancel. */
   readonly NFTokenOffers: string[];
 }

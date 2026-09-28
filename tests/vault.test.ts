@@ -22,7 +22,6 @@ import {
   VaultWithdraw,
   VaultDelete,
   VaultClawback,
-  ValidationError,
 } from '../src/index.js';
 
 const OWNER = 'rNGHoQwNG753zyfDrib4qDvvswtmV8Es';
@@ -40,7 +39,9 @@ function makeVault(
   asset: Record<string, unknown> = IOU_ASSET,
   extras: Record<string, unknown> = {},
 ) {
-  return new VaultCreate({ Account: OWNER, Asset: asset, ...extras });
+  // `Asset` is typed as Currency (XRP / trust line / MPT union) but
+  // `Record<string, unknown>` allows constructing invalid shapes in tests.
+  return new VaultCreate({ Account: OWNER, Asset: asset as never, ...extras });
 }
 
 describe('VaultCreate', () => {
@@ -569,10 +570,12 @@ describe('VaultDeposit', () => {
     amount: Record<string, unknown> | string = '1000000',
     vaultId = VAULT_ID,
   ) {
+    // `Amount` is typed as `Amount | MPTAmount`; cast through `never` for
+    // tests that intentionally construct invalid shapes.
     return new VaultDeposit({
       Account: OWNER,
       VaultID: vaultId,
-      Amount: amount,
+      Amount: amount as never,
     });
   }
 
@@ -616,6 +619,7 @@ describe('VaultDeposit', () => {
 
   describe('Amount validation', () => {
     it('rejects missing Amount', () => {
+      // @ts-expect-error — testing validate() rejection of missing Amount
       const tx = new VaultDeposit({
         Account: OWNER,
         VaultID: VAULT_ID,
@@ -627,6 +631,7 @@ describe('VaultDeposit', () => {
       const tx = new VaultDeposit({
         Account: OWNER,
         VaultID: VAULT_ID,
+        // @ts-expect-error — intentionally invalid shape (number)
         Amount: 42,
       });
       expect(() => tx.validate()).toThrow(/Amount must be a valid Amount/);

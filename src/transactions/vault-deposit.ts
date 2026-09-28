@@ -21,7 +21,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isHex, isString } from '../validation/helpers.js';
 
 export interface VaultDepositTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultDeposit';
+  readonly TransactionType?: 'VaultDeposit';
   /** The ID of the vault to deposit into. 64-char hex. */
   readonly VaultID: string;
   /** Asset amount to deposit (XRP / trust line / MPT form). */

@@ -59,7 +59,7 @@ const KNOWN_IMMUTABLE_FLAG_BITS =
 
 export interface MPTokenIssuanceCreateTxFields
   extends BaseTransactionFields {
-  readonly TransactionType: 'MPTokenIssuanceCreate';
+  readonly TransactionType?: 'MPTokenIssuanceCreate';
   /** Decimal precision for the MPT (0–15). Determines share conversion scale. */
   readonly AssetScale?: number | undefined;
   /**

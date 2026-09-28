@@ -68,7 +68,7 @@ const MIN_PAYMENT_INTERVAL_SECONDS = 60;
 const MAX_DATA_LENGTH_CHARS = 512;
 
 export interface LoanSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanSet';
+  readonly TransactionType?: 'LoanSet';
   /** The ID of the `LoanBroker` ledger entry. 64-char hex. */
   readonly LoanBrokerID: string;
   /** Principal loan amount requested by the Borrower (XRPLNumber). */

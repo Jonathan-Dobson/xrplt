@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber, isString } from '../validation/helpers.js';
 
 export interface AccountSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AccountSet';
+  readonly TransactionType?: 'AccountSet';
   /** Hash of a certificate to use for some external validation. */
   readonly ClearFlag?: number | undefined;
   /** Domain name associated with this account (hex encoded). */

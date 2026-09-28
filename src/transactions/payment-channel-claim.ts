@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
 export interface PaymentChannelClaimTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'PaymentChannelClaim';
+  readonly TransactionType?: 'PaymentChannelClaim';
   /** The unique ID of the channel. */
   readonly Channel: string;
   /** Total amount to claim from the channel. */

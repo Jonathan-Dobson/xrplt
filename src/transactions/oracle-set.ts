@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber, isArray } from '../validation/helpers.js';
 
 export interface OracleSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'OracleSet';
+  readonly TransactionType?: 'OracleSet';
   /** Unique ID for this oracle instance. */
   readonly OracleDocumentID: number;
   /** When the data was last updated. */

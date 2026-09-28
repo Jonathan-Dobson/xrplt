@@ -8,7 +8,7 @@ import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
 export interface NFTokenModifyTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenModify';
+  readonly TransactionType?: 'NFTokenModify';
   /** The unique identifier of the NFToken. */
   readonly NFTokenID: string;
   /** The new URI for the token. */

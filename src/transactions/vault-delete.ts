@@ -24,7 +24,7 @@ import { isHex, isString } from '../validation/helpers.js';
 const MAX_MEMO_DATA_BYTES = 256;
 
 export interface VaultDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultDelete';
+  readonly TransactionType?: 'VaultDelete';
   /** The ID of the vault to delete. 64-char hex. */
   readonly VaultID: string;
   /**

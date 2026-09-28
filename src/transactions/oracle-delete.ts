@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber } from '../validation/helpers.js';
 
 export interface OracleDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'OracleDelete';
+  readonly TransactionType?: 'OracleDelete';
   /** Unique identifier for the oracle. */
   readonly OracleDocumentID: number;
 }

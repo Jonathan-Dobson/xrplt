@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
 export interface LoanDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanDelete';
+  readonly TransactionType?: 'LoanDelete';
   /** The asset associated with the loan. */
   readonly Asset: string;
 }

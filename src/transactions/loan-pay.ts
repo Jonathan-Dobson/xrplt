@@ -34,7 +34,7 @@ const TF_LOAN_FULL_PAYMENT = 0x00020000;
 const TF_LOAN_LATE_PAYMENT = 0x00040000;
 
 export interface LoanPayTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanPay';
+  readonly TransactionType?: 'LoanPay';
   /** The ID of the Loan object to pay. 64-char hex. */
   readonly LoanID: string;
   /** Amount of funds to pay (XRP / trust line / MPT). */

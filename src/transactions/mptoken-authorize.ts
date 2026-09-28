@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isString, isAccount } from '../validation/helpers.js';
 
 export interface MPTokenAuthorizeTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'MPTokenAuthorize';
+  readonly TransactionType?: 'MPTokenAuthorize';
   /** The unique identifier of the MPT issuance. */
   readonly MPTokenIssuanceID: string;
   /** The account of the holder to authorize. */

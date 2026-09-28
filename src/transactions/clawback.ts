@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount } from '../validation/helpers.js';
 
 export interface ClawbackTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'Clawback';
+  readonly TransactionType?: 'Clawback';
   /** The amount to claw back (Issued Currency or MPT). */
   readonly Amount: Amount;
 }

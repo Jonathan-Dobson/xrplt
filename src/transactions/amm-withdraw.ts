@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord } from '../validation/helpers.js';
 
 export interface AMMWithdrawTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMWithdraw';
+  readonly TransactionType?: 'AMMWithdraw';
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
   readonly Amount?: Amount | undefined;

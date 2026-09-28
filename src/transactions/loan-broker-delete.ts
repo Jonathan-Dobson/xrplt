@@ -18,7 +18,7 @@ import { ValidationError } from '../errors.js';
 import { isHex, isString } from '../validation/helpers.js';
 
 export interface LoanBrokerDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanBrokerDelete';
+  readonly TransactionType?: 'LoanBrokerDelete';
   /** The Loan Broker ID to delete. 64-char hex. */
   readonly LoanBrokerID: string;
 }

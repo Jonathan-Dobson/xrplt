@@ -89,7 +89,7 @@ const IS_FIELD_UPDATE = (props: Record<string, unknown>): boolean =>
 
 export interface MPTokenIssuanceSetTxFields
   extends BaseTransactionFields {
-  readonly TransactionType: 'MPTokenIssuanceSet';
+  readonly TransactionType?: 'MPTokenIssuanceSet';
   readonly MPTokenIssuanceID: string;
   /**
    * Audit-only EC-ElGamal public key. Must be paired with IssuerEncryptionKey

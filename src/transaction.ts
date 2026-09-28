@@ -76,8 +76,13 @@ export abstract class Transaction {
   /** The unique address of the transaction sender. */
   readonly Account!: string;
 
-  /** The type of transaction. */
-  readonly TransactionType!: TransactionType;
+  /**
+   * The type of transaction. Optional on the base type because the
+   * concrete subclass constructors always inject it via
+   * `super({ ...props, TransactionType: 'X' as const })`. Subclasses
+   * narrow this to a literal via `override readonly TransactionType`.
+   */
+  readonly TransactionType?: TransactionType;
 
   /** XRP in drops to destroy as a network fee. */
   readonly Fee?: string | undefined;
@@ -146,7 +151,9 @@ export abstract class Transaction {
    */
   protected constructor(props: BaseTransactionFields) {
     this.Account = props.Account;
-    this.TransactionType = props.TransactionType;
+    if (props.TransactionType !== undefined) {
+      this.TransactionType = props.TransactionType;
+    }
     this.Fee = props.Fee;
     this.Sequence = props.Sequence;
     this.AccountTxnID = props.AccountTxnID;

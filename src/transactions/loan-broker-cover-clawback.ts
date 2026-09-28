@@ -8,7 +8,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount } from '../validation/helpers.js';
 
 export interface LoanBrokerCoverClawbackTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanBrokerCoverClawback';
+  readonly TransactionType?: 'LoanBrokerCoverClawback';
   /** The amount of coverage asset to claw back. */
   readonly Amount: Amount;
 }

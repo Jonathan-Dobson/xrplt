@@ -12,7 +12,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isString } from '../validation/helpers.js';
 
 export interface OfferCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'OfferCreate';
+  readonly TransactionType?: 'OfferCreate';
   /** The amount to deliver to the order book. */
   readonly TakerGets: Amount;
   /** The amount requested in exchange. */

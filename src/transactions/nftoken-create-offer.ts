@@ -12,7 +12,7 @@ import { ValidationError } from '../errors.js';
 import { isString, isAmount, isAccount, isNumber } from '../validation/helpers.js';
 
 export interface NFTokenCreateOfferTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenCreateOffer';
+  readonly TransactionType?: 'NFTokenCreateOffer';
   /** The unique identifier of the NFToken. */
   readonly NFTokenID: string;
   /** The price for the token. */

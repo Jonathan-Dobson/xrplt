@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isRecord, isNumber } from '../validation/helpers.js';
 
 export interface XChainCommitTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainCommit';
+  readonly TransactionType?: 'XChainCommit';
   /** Definition of the bridge to use. */
   readonly XChainBridge: Record<string, unknown>;
   /** The claim ID on the destination chain. */

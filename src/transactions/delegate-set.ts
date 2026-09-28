@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount } from '../validation/helpers.js';
 
 export interface DelegateSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'DelegateSet';
+  readonly TransactionType?: 'DelegateSet';
   /** The account to authorize as a delegate. */
   readonly Delegate: string;
 }

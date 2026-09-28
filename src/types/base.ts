@@ -15,8 +15,15 @@ export interface BaseTransactionFields {
   /** The unique address of the transaction sender. */
   readonly Account: string;
 
-  /** The type of transaction. */
-  readonly TransactionType: TransactionType;
+  /**
+   * The type of transaction. Inherited as optional here because the
+   * concrete `<ClassName>TxFields` interfaces narrow this to a literal
+   * (and the class constructor injects the value from its static
+   * `<ClassName>.TRANSACTION_TYPE`). Marking it optional lets callers
+   * construct via `new X({ Account, ... })` without redundantly passing
+   * the discriminator — the constructor takes care of it.
+   */
+  readonly TransactionType?: TransactionType;
 
   /**
    * Integer amount of XRP, in drops, to be destroyed as a cost for

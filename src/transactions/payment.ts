@@ -12,7 +12,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isAmount } from '../validation/helpers.js';
 
 export interface PaymentTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'Payment';
+  readonly TransactionType?: 'Payment';
   /** The amount of currency to deliver. */
   readonly Amount: Amount;
   /** The address to receive the funds. */

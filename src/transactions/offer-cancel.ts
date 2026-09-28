@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isNumber } from '../validation/helpers.js';
 
 export interface OfferCancelTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'OfferCancel';
+  readonly TransactionType?: 'OfferCancel';
   readonly OfferSequence: number;
 }
 

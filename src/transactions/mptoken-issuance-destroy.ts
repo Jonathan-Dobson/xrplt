@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
 export interface MPTokenIssuanceDestroyTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'MPTokenIssuanceDestroy';
+  readonly TransactionType?: 'MPTokenIssuanceDestroy';
   /** The unique identifier of the MPT issuance. */
   readonly MPTokenIssuanceID: string;
 }

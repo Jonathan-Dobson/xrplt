@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord, isAmount } from '../validation/helpers.js';
 
 export interface AMMBidTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMBid';
+  readonly TransactionType?: 'AMMBid';
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
   /** Max amount of LP tokens to spend. */

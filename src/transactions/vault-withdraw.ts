@@ -35,7 +35,7 @@ import {
 const CREDENTIAL_ID_LENGTH = 64;
 
 export interface VaultWithdrawTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'VaultWithdraw';
+  readonly TransactionType?: 'VaultWithdraw';
   /** The ID of the vault to withdraw from. 64-char hex. */
   readonly VaultID: string;
   /** Exact amount of vault asset to withdraw (XRP / trust line / MPT). */

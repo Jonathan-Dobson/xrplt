@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord } from '../validation/helpers.js';
 
 export interface AMMDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMDelete';
+  readonly TransactionType?: 'AMMDelete';
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
 }

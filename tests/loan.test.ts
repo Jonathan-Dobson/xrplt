@@ -20,8 +20,6 @@ import {
   LoanBrokerSet,
   LoanBrokerDelete,
   LoanPay,
-  LoanPayFlags,
-  ValidationError,
 } from '../src/index.js';
 
 // 64-char hex ledger entry ID for LoanBroker
@@ -499,7 +497,7 @@ describe('LoanPay', () => {
     return new LoanPay({
       Account: BORROWER,
       LoanID: loanId,
-      Amount: amount,
+      Amount: amount as never,
       ...(flags !== undefined ? { Flags: flags } : {}),
     });
   }

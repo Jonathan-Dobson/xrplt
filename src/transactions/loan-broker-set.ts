@@ -42,7 +42,7 @@ const MAX_MANAGEMENT_FEE_RATE = 10_000; // 1/10 bp; 0%–10%
 const MAX_COVER_RATE = 100_000; // 1/10 bp; 0%–100%
 
 export interface LoanBrokerSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanBrokerSet';
+  readonly TransactionType?: 'LoanBrokerSet';
   /** The Vault ID that the Lending Protocol will use. 64-char hex. */
   readonly VaultID: string;
   /** LoanBrokerID when updating an existing entry (64-char hex). */

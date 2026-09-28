@@ -8,7 +8,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount } from '../validation/helpers.js';
 
 export interface LoanBrokerCoverWithdrawTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'LoanBrokerCoverWithdraw';
+  readonly TransactionType?: 'LoanBrokerCoverWithdraw';
   /** The amount to withdraw. */
   readonly Amount: Amount;
 }

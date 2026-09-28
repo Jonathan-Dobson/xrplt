@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isRecord } from '../validation/helpers.js';
 
 export interface XChainCreateBridgeTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainCreateBridge';
+  readonly TransactionType?: 'XChainCreateBridge';
   /** Definition of the bridge (locking/issuing chains and assets). */
   readonly XChainBridge: Record<string, unknown>;
   /** Minimum amount required to create an account on the destination chain. */

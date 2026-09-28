@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isArray } from '../validation/helpers.js';
 
 export interface PermissionedDomainSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'PermissionedDomainSet';
+  readonly TransactionType?: 'PermissionedDomainSet';
   /** Accounts permitted within this domain. */
   readonly AcceptedAccounts?: string[] | undefined;
   /** Credentials required for this domain. */

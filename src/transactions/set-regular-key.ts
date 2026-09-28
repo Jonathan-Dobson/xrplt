@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount } from '../validation/helpers.js';
 
 export interface SetRegularKeyTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'SetRegularKey';
+  readonly TransactionType?: 'SetRegularKey';
   /** The address of the new regular key (leave empty to remove). */
   readonly RegularKey?: string | undefined;
 }

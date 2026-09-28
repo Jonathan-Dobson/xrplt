@@ -5,7 +5,7 @@ import type { BaseTransactionFields } from '../types/base.js';
 import { Transaction } from '../transaction.js';
 
 export interface PermissionedDomainDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'PermissionedDomainDelete';
+  readonly TransactionType?: 'PermissionedDomainDelete';
 }
 
 export class PermissionedDomainDelete extends Transaction {

@@ -8,7 +8,7 @@ import { Transaction } from '../transaction.js';
 import { ValidationError } from '../errors.js';
 
 export interface DIDSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'DIDSet';
+  readonly TransactionType?: 'DIDSet';
   /** The DID document (hex encoded). */
   readonly Data?: string | undefined;
   /** The DID URI. */
