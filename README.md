@@ -81,11 +81,19 @@ console.log(tx1.Fee); // undefined (tx1 remains unchanged)
 `xrplt` provides 100% coverage for standard and experimental XRPL transaction types, including:
 
 - **Core:** `Payment`, `AccountSet`, `TrustSet`, `OfferCreate`, `OfferCancel`, `Check*`, `Escrow*`, `SignerListSet`, etc.
-- **NFTs:** `NFTokenMint`, `NFTokenBurn`, `NFTokenCreateOffer`, `NFTokenAcceptOffer`, etc.
+- **NFTs:** `NFTokenMint`, `NFTokenBurn`, `NFTokenCreateOffer`, `NFTokenAcceptOffer`, `NFTokenModify`, etc.
 - **AMM:** `AMMCreate`, `AMMDeposit`, `AMMWithdraw`, `AMMVote`, `AMMBid`, etc.
-- **MPT:** `MPTokenIssuanceCreate`, `MPTokenAuthorize`, etc.
+- **MPT:** `MPTokenIssuanceCreate`, `MPTokenAuthorize`, `MPTokenIssuanceSet`, `MPTokenIssuanceDestroy`, etc.
+- **Vault (v0.5.0):** `VaultCreate`, `VaultSet`, `VaultDeposit`, `VaultWithdraw`, `VaultDelete`, `VaultClawback` — fields, flags, and validate() rules aligned with the `SingleAssetVault` + `LendingProtocolV1_1` amendments.
+- **Loan (v0.5.0):** `LoanSet`, `LoanBrokerSet`, `LoanBrokerDelete`, `LoanPay`, `LoanBrokerCoverDeposit`, `LoanBrokerCoverWithdraw`, `LoanBrokerCoverClawback`, `LoanDelete`, `LoanManage` — `LendingProtocol` + `LendingProtocolV1_1` amendments, including the `CounterpartySignature` inner-object type.
+- **Batch (v0.5.0):** `Batch` rewritten to the `BatchV1_1` shape with `RawTransactions` + `BatchSigners` + inner-tx invariants.
+- **Permissioned domains:** `PermissionedDomainSet`, `PermissionedDomainDelete`.
 - **Sidechains:** `XChainCreateBridge`, `XChainCommit`, `XChainClaim`, etc.
-- **Niche:** `Vault*`, `Loan*`, `Oracle*`, `Credential*`, `DID*`, `Batch`, etc.
+- **Niche:** `Oracle*`, `Credential*`, `DID*`, `DelegateSet`, `Clawback`, etc.
+
+## Status
+
+**Latest release:** `v0.5.0` — 71 transaction types, **387 unit tests passing**. See [CHANGELOG.md](CHANGELOG.md) for the full release notes.
 
 ## Why use xrplt?
 
