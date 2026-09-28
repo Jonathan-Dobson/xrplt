@@ -12,7 +12,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount } from '../validation/helpers.js';
 
 export interface TrustSetTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'TrustSet';
+  readonly TransactionType?: 'TrustSet';
   /** The limit and currency for the trust line. */
   readonly LimitAmount: IssuedCurrencyAmount;
   /** Quality of incoming liquidity (default 0 = 100%). */

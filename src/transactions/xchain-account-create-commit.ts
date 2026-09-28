@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isRecord } from '../validation/helpers.js';
 
 export interface XChainAccountCreateCommitTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainAccountCreateCommit';
+  readonly TransactionType?: 'XChainAccountCreateCommit';
   /** Definition of the bridge to use. */
   readonly XChainBridge: Record<string, unknown>;
   /** The address of the account to create on the destination chain. */

@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isNumber } from '../validation/helpers.js';
 
 export interface AMMCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMCreate';
+  readonly TransactionType?: 'AMMCreate';
   /** The first amount of the asset pair. */
   readonly Amount: Amount;
   /** The second amount of the asset pair. */

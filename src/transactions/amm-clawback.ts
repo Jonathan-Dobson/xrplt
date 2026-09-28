@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isAccount } from '../validation/helpers.js';
 
 export interface AMMClawbackTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMClawback';
+  readonly TransactionType?: 'AMMClawback';
   readonly Asset: { currency: string; issuer?: string };
   readonly Asset2: { currency: string; issuer?: string };
   readonly Holder: string;

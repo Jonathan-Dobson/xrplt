@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord, isNumber } from '../validation/helpers.js';
 
 export interface AMMVoteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AMMVote';
+  readonly TransactionType?: 'AMMVote';
   readonly Asset: Record<string, unknown>;
   readonly Asset2: Record<string, unknown>;
   /** The proposed trading fee (0-1000). */

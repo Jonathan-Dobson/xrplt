@@ -131,3 +131,22 @@ export interface XChainAccountCreateAttestation {
     }>;
   };
 }
+
+/**
+ * CounterpartySignature — inner object on multi-party transactions where
+ * one party creates + signs and the other party counter-signs.
+ *
+ * Used by `LoanSet` (Loan Broker + Borrower mutual agreement) and similar
+ * amendments-driven flows. Role-specific hash prefixes for these
+ * signatures are handled at signing time, not in the transaction body.
+ *
+ * @see https://xrpl.org/docs/references/protocol/transactions/types/loanset
+ */
+export interface CounterpartySignature {
+  /** The public key used to verify the counterparty's signature. */
+  readonly SigningPubKey?: string;
+  /** The counterparty's signature over all signing fields. */
+  readonly TxnSignature?: string;
+  /** Array of multi-signature entries from the counterparty. */
+  readonly Signers?: Signer[];
+}

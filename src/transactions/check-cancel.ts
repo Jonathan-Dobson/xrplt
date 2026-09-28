@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
 export interface CheckCancelTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'CheckCancel';
+  readonly TransactionType?: 'CheckCancel';
   /** The ID of the check to cancel. */
   readonly CheckID: string;
 }

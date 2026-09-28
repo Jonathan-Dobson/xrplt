@@ -5,7 +5,7 @@ import type { BaseTransactionFields } from '../types/base.js';
 import { Transaction } from '../transaction.js';
 
 export interface DIDDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'DIDDelete';
+  readonly TransactionType?: 'DIDDelete';
 }
 
 export class DIDDelete extends Transaction {

@@ -29,7 +29,14 @@ export type {
   NFTokenMintFlagsInterface, NFTokenCreateOfferFlagsInterface,
   PaymentChannelClaimFlagsInterface,
   AMMDepositFlagsInterface, AMMWithdrawFlagsInterface,
-  MPTokenAuthorizeFlagsInterface, ClawbackFlagsInterface,
+  MPTokenAuthorizeFlagsInterface,
+  MPTokenIssuanceCreateFlagsInterface, MPTokenIssuanceSetFlagsInterface,
+  MPTokenImmutableFlagsInterface,
+  VaultCreateFlagsInterface,
+  LoanSetFlagsInterface,
+  LoanPayFlagsInterface,
+  LoanManageFlagsInterface,
+  ClawbackFlagsInterface,
   XChainModifyBridgeFlagsInterface, BatchFlagsInterface,
 } from './types/index.js';
 
@@ -39,7 +46,15 @@ export {
   NFTokenMintFlags, NFTokenCreateOfferFlags,
   PaymentChannelClaimFlags,
   AMMDepositFlags, AMMWithdrawFlags,
-  MPTokenAuthorizeFlags, ClawbackFlags,
+  MPTokenAuthorizeFlags,
+  MPTokenIssuanceCreateFlags, MPTokenIssuanceSetFlags,
+  MPTokenImmutableFlags,
+  VaultCreateFlags,
+  VaultWithdrawalPolicy, VaultKind,
+  LoanSetFlags,
+  LoanPayFlags,
+  LoanManageFlags,
+  ClawbackFlags,
   XChainModifyBridgeFlags, BatchFlags,
 } from './types/index.js';
 
@@ -220,7 +235,7 @@ export type { PermissionedDomainDeleteTxFields } from './transactions/permission
 
 // Batch
 export { Batch } from './transactions/batch.js';
-export type { BatchTxFields } from './transactions/batch.js';
+export type { BatchTxFields, BatchSigner, RawTransaction } from './transactions/batch.js';
 
 // DID
 export { DIDSet } from './transactions/did-set.js';

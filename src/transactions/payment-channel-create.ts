@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isAmount, isNumber } from '../validation/helpers.js';
 
 export interface PaymentChannelCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'PaymentChannelCreate';
+  readonly TransactionType?: 'PaymentChannelCreate';
   /** The amount of XRP (in drops) to deposit in the channel. */
   readonly Amount: string;
   /** The address that can receive funds from the channel. */

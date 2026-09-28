@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAmount, isString } from '../validation/helpers.js';
 
 export interface PaymentChannelFundTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'PaymentChannelFund';
+  readonly TransactionType?: 'PaymentChannelFund';
   /** The unique ID of the channel to fund. */
   readonly Channel: string;
   /** Amount of XRP to add to the channel. */

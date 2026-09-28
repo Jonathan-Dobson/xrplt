@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord, isNumber } from '../validation/helpers.js';
 
 export interface XChainAddAccountCreateAttestationTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainAddAccountCreateAttestation';
+  readonly TransactionType?: 'XChainAddAccountCreateAttestation';
   readonly XChainBridge: Record<string, unknown>;
   readonly XChainAccountCreateCount: number;
   readonly Destination: string;

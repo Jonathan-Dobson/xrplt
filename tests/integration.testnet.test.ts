@@ -2,7 +2,6 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import {
   Client,
   Wallet,
-  NFTokenMintFlags,
   AccountSetAsfFlags,
   multisign,
   MPTokenIssuanceCreateFlags,

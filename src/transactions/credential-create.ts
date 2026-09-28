@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isString, isNumber } from '../validation/helpers.js';
 
 export interface CredentialCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'CredentialCreate';
+  readonly TransactionType?: 'CredentialCreate';
   /** The account receiving the credential. */
   readonly Subject: string;
   /** Type of the credential. */

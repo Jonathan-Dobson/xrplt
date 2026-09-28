@@ -11,7 +11,7 @@ import { isAccount, isAmount, isString } from '../validation/helpers.js';
 import type { Amount } from '../types/amounts.js';
 
 export interface EscrowCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'EscrowCreate';
+  readonly TransactionType?: 'EscrowCreate';
   /** Amount of XRP to lock in the escrow. */
   readonly Amount: string;
   /** Address to receive the XRP when finished. */

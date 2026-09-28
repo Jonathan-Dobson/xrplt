@@ -11,7 +11,7 @@ import { ValidationError } from '../errors.js';
 import { isString, isAmount } from '../validation/helpers.js';
 
 export interface NFTokenAcceptOfferTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'NFTokenAcceptOffer';
+  readonly TransactionType?: 'NFTokenAcceptOffer';
   /** The unique identifier of the Sell offer to accept. */
   readonly NFTokenSellOffer?: string | undefined;
   /** The unique identifier of the Buy offer to accept. */

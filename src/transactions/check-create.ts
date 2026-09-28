@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isAmount, isNumber, isString } from '../validation/helpers.js';
 
 export interface CheckCreateTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'CheckCreate';
+  readonly TransactionType?: 'CheckCreate';
   /** The address that can cash the check. */
   readonly Destination: string;
   /** Maximum amount the check can be cashed for. */

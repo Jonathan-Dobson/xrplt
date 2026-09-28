@@ -9,7 +9,7 @@ import { ValidationError } from '../errors.js';
 import { isAccount, isNumber } from '../validation/helpers.js';
 
 export interface AccountDeleteTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'AccountDelete';
+  readonly TransactionType?: 'AccountDelete';
   /** The address to receive any remaining XRP from the deleted account. */
   readonly Destination: string;
   /** Arbitrary destination tag for the recipient. */

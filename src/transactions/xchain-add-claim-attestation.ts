@@ -7,7 +7,7 @@ import { ValidationError } from '../errors.js';
 import { isRecord, isNumber, isString } from '../validation/helpers.js';
 
 export interface XChainAddClaimAttestationTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'XChainAddClaimAttestation';
+  readonly TransactionType?: 'XChainAddClaimAttestation';
   /** Definition of the bridge. */
   readonly XChainBridge: Record<string, unknown>;
   /** The claim ID. */

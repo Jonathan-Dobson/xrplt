@@ -116,6 +116,11 @@ export enum NFTokenMintFlags {
   tfOnlyXRP = 0x00000002,
   tfTrustLine = 0x00000004,
   tfTransferable = 0x00000008,
+  /**
+   * If set, indicates that this NFT's URI can be modified via a future
+   * `NFTokenModify` transaction. Driven by the `DynamicNFT` amendment.
+   */
+  tfMutable = 0x00000010,
 }
 
 export interface NFTokenMintFlagsInterface extends GlobalFlagsInterface {
@@ -123,6 +128,7 @@ export interface NFTokenMintFlagsInterface extends GlobalFlagsInterface {
   tfOnlyXRP?: boolean;
   tfTrustLine?: boolean;
   tfTransferable?: boolean;
+  tfMutable?: boolean;
 }
 
 // ─── NFTokenCreateOffer ──────────────────────────────────────────────
@@ -199,6 +205,187 @@ export interface MPTokenAuthorizeFlagsInterface extends GlobalFlagsInterface {
   tfMPTUnauthorize?: boolean;
 }
 
+// ─── MPTokenIssuanceCreate ───────────────────────────────────────────
+// Capable-setting flags (set at issuance; once set, most cannot be disabled).
+// Required by the MPTokenIssuanceCreate spec; driven by the
+// `MPTokensV1` amendment (capable flags) plus `ConfidentialTransfer`
+// (tfMPTCanHoldConfidentialBalance).
+
+export enum MPTokenIssuanceCreateFlags {
+  tfMPTCanLock = 0x00000002,
+  tfMPTRequireAuth = 0x00000004,
+  tfMPTCanEscrow = 0x00000008,
+  tfMPTCanTrade = 0x00000010,
+  tfMPTCanTransfer = 0x00000020,
+  tfMPTCanClawback = 0x00000040,
+  tfMPTCanHoldConfidentialBalance = 0x00000080,
+}
+
+export interface MPTokenIssuanceCreateFlagsInterface
+  extends GlobalFlagsInterface {
+  tfMPTCanLock?: boolean;
+  tfMPTRequireAuth?: boolean;
+  tfMPTCanEscrow?: boolean;
+  tfMPTCanTrade?: boolean;
+  tfMPTCanTransfer?: boolean;
+  tfMPTCanClawback?: boolean;
+  tfMPTCanHoldConfidentialBalance?: boolean;
+}
+
+// ─── MPTokenIssuanceSet ──────────────────────────────────────────────
+// Capable-setting flags + lock/unlock. Spec'd in
+// `MPTokenIssuanceSet.md` and gated by `MPTokensV1`,
+// `DynamicMPT` (capable flags + immutable flags), and
+// `ConfidentialTransfer` (tfMPTCanHoldConfidentialBalance).
+
+export enum MPTokenIssuanceSetFlags {
+  tfMPTLock = 0x00000001,
+  tfMPTUnlock = 0x00000002,
+  tfMPTSetCanLock = 0x00000004,
+  tfMPTSetRequireAuth = 0x00000008,
+  tfMPTSetCanEscrow = 0x00000010,
+  tfMPTSetCanTrade = 0x00000020,
+  tfMPTSetCanTransfer = 0x00000040,
+  tfMPTSetCanClawback = 0x00000080,
+  tfMPTSetCanHoldConfidentialBalance = 0x00000100,
+}
+
+export interface MPTokenIssuanceSetFlagsInterface
+  extends GlobalFlagsInterface {
+  tfMPTLock?: boolean;
+  tfMPTUnlock?: boolean;
+  tfMPTSetCanLock?: boolean;
+  tfMPTSetRequireAuth?: boolean;
+  tfMPTSetCanEscrow?: boolean;
+  tfMPTSetCanTrade?: boolean;
+  tfMPTSetCanTransfer?: boolean;
+  tfMPTSetCanClawback?: boolean;
+  tfMPTSetCanHoldConfidentialBalance?: boolean;
+}
+
+// ─── MPTokenIssuance immutable flags ────────────────────────────────
+// Used on both MPTokenIssuanceCreate and MPTokenIssuanceSet to declare
+// which fields/capabilities become permanent. Driven by the `DynamicMPT`
+// amendment (XLS-94).
+
+export enum MPTokenImmutableFlags {
+  tifMPTCanLock = 0x00000002,
+  tifMPTRequireAuth = 0x00000004,
+  tifMPTCanEscrow = 0x00000008,
+  tifMPTCanTrade = 0x00000010,
+  tifMPTCanTransfer = 0x00000020,
+  tifMPTCanClawback = 0x00000040,
+  tifMPTCanHoldConfidentialBalance = 0x00000080,
+  tifMPTMetadata = 0x00010000,
+  tifMPTTransferFee = 0x00020000,
+}
+
+export interface MPTokenImmutableFlagsInterface {
+  tifMPTCanLock?: boolean;
+  tifMPTRequireAuth?: boolean;
+  tifMPTCanEscrow?: boolean;
+  tifMPTCanTrade?: boolean;
+  tifMPTCanTransfer?: boolean;
+  tifMPTCanClawback?: boolean;
+  tifMPTCanHoldConfidentialBalance?: boolean;
+  tifMPTMetadata?: boolean;
+  tifMPTTransferFee?: boolean;
+}
+
+// ─── VaultCreate ─────────────────────────────────────────────────────
+// Flags for the VaultCreate transaction. Both flags can ONLY be set at
+// vault-creation time — they're immutable thereafter. Driven by the
+// `SingleAssetVault` amendment.
+
+export enum VaultCreateFlags {
+  tfVaultPrivate = 0x00010000,
+  tfVaultShareNonTransferable = 0x00020000,
+}
+
+export interface VaultCreateFlagsInterface extends GlobalFlagsInterface {
+  tfVaultPrivate?: boolean;
+  tfVaultShareNonTransferable?: boolean;
+}
+
+// ─── Vault enums ──────────────────────────────────────────────────────
+// Driven by the `SingleAssetVault` + `LendingProtocolV1_1` amendments.
+// Numeric values are mirrored from the upstream xrpl.js reference impl.
+
+/** Withdrawal strategies for a Vault. Currently only FCFS is supported. */
+export enum VaultWithdrawalPolicy {
+  vaultStrategyFirstComeFirstServe = 0x0001,
+}
+
+/** Vault lifecycle kind (LendingProtocolV1_1). */
+export enum VaultKind {
+  /** Open-ended: shares can be redeemed at any time. */
+  vaultKindOpen = 0,
+  /** Closed-ended: lifecycle bounded by SubscriptionDate/RedemptionDate. */
+  vaultKindClosed = 1,
+}
+
+// ─── LoanSet ──────────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. The lone flag indicates
+// support for overpayments on the resulting loan.
+
+export enum LoanSetFlags {
+  tfLoanOverpayment = 0x00010000,
+}
+
+export interface LoanSetFlagsInterface extends GlobalFlagsInterface {
+  tfLoanOverpayment?: boolean;
+}
+
+// ─── LoanPay ──────────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. Three mutually-exclusive
+// payment-type flags: at most one can be set per transaction.
+
+export enum LoanPayFlags {
+  tfLoanOverpayment = 0x00010000,
+  tfLoanFullPayment = 0x00020000,
+  tfLoanLatePayment = 0x00040000,
+}
+
+export interface LoanPayFlagsInterface extends GlobalFlagsInterface {
+  tfLoanOverpayment?: boolean;
+  tfLoanFullPayment?: boolean;
+  tfLoanLatePayment?: boolean;
+}
+
+// ─── LoanManage ──────────────────────────────────────────────────────
+// Driven by the `LendingProtocol` amendment. Three action flags. Note
+// that tfLoanImpair and tfLoanUnimpair are mutually exclusive.
+
+export enum LoanManageFlags {
+  tfLoanDefault = 0x00010000,
+  tfLoanImpair = 0x00020000,
+  tfLoanUnimpair = 0x00040000,
+}
+
+export interface LoanManageFlagsInterface extends GlobalFlagsInterface {
+  tfLoanDefault?: boolean;
+  tfLoanImpair?: boolean;
+  tfLoanUnimpair?: boolean;
+}
+
+// ─── Batch ────────────────────────────────────────────────────────────
+// Driven by the `BatchV1_1` amendment. Four mutually-exclusive batch modes.
+// Per the spec, exactly one of these flags must be set per Batch tx.
+
+export enum BatchFlags {
+  tfAllOrNothing = 0x00010000,
+  tfOnlyOne = 0x00020000,
+  tfUntilFailure = 0x00040000,
+  tfIndependent = 0x00080000,
+}
+
+export interface BatchFlagsInterface extends GlobalFlagsInterface {
+  tfAllOrNothing?: boolean;
+  tfOnlyOne?: boolean;
+  tfUntilFailure?: boolean;
+  tfIndependent?: boolean;
+}
+
 // ─── Clawback ────────────────────────────────────────────────────────
 
 export enum ClawbackFlags {
@@ -217,20 +404,4 @@ export enum XChainModifyBridgeFlags {
 
 export interface XChainModifyBridgeFlagsInterface extends GlobalFlagsInterface {
   tfClearAccountCreateAmount?: boolean;
-}
-
-// ─── Batch ───────────────────────────────────────────────────────────
-
-export enum BatchFlags {
-  tfAllOrNothing = 0x00000001,
-  tfOnlyOne = 0x00000002,
-  tfUntilFailure = 0x00000004,
-  tfIndependent = 0x00000008,
-}
-
-export interface BatchFlagsInterface extends GlobalFlagsInterface {
-  tfAllOrNothing?: boolean;
-  tfOnlyOne?: boolean;
-  tfUntilFailure?: boolean;
-  tfIndependent?: boolean;
 }

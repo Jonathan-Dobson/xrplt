@@ -10,7 +10,7 @@ import { ValidationError } from '../errors.js';
 import { isString } from '../validation/helpers.js';
 
 export interface CheckCashTxFields extends BaseTransactionFields {
-  readonly TransactionType: 'CheckCash';
+  readonly TransactionType?: 'CheckCash';
   /** The ID of the check to cash. */
   readonly CheckID: string;
   /** Fixed amount to cash for. */
